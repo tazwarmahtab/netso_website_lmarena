@@ -72,3 +72,19 @@ background atmosphere, where a reader could still read the numbers.
 
 If that framing is wanted as a message, it needs the qualified wording already in use
 ("Netso funds the system. Qualifying projects only.") — not an image claim.
+
+---
+
+## 7. Why video uploads fail (diagnosed 24 Sep 2026)
+
+Part of the media checklist is now answered rather than pending. See `ANIMATION-AUDIT.md` §1 for
+the full evidence and workarounds. Summary:
+
+* **Zero video files have ever arrived** in 65 uploads. Largest file that *has* arrived: 6.5 MB.
+* Sending `/private/tmp/....MP4` sends the *path text*, not the file — my sandbox is a different
+  machine and that directory does not exist there.
+* Workarounds, best first: (1) send a single high-resolution **frame** grabbed from the clip —
+  enough for art direction at a fraction of the size; (2) re-encode small
+  (`ffmpeg -i in.mp4 -t 6 -vf scale=1280:-2 -an -crf 32 out.mp4`, typically 1–2 MB);
+  (3) put it behind a public link I can fetch; (4) describe it and I build the equivalent from
+  assets already in the workspace — which is how the intro curtain was made.

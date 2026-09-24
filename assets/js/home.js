@@ -130,6 +130,37 @@ function initHero() {
 
 }
 
+/* ===================== 0. intro curtain ==============================
+   The curtain is pure CSS and ends by itself at 1.7 s. JS only does the
+   two things CSS cannot: remember that it has been seen, and get out of
+   the way early if the visitor has already started interacting.
+   ==================================================================== */
+(function () {
+  'use strict';
+  const intro = document.getElementById('intro');
+  if (!intro) return;
+
+  let gone = false;
+  const dismiss = (remember) => {          // fade out and remove the node
+    if (gone) return;
+    gone = true;
+    try { if (remember) sessionStorage.setItem('netso:intro', '1'); } catch (e) {}
+    intro.classList.add('is-out');
+    setTimeout(() => { intro.remove(); }, 400);
+  };
+
+  // remember it for the rest of the session as soon as it has been seen once
+  setTimeout(() => { try { sessionStorage.setItem('netso:intro', '1'); } catch (e) {} }, 1500);
+  intro.addEventListener('animationend', (e) => {
+    if (e.target === intro && !intro.classList.contains('is-out')) intro.remove();
+  });
+
+  // any real interaction skips the rest of it
+  ['wheel', 'touchstart', 'keydown', 'pointerdown'].forEach((ev) =>
+    window.addEventListener(ev, () => dismiss(true), { passive: true, once: true }));
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) dismiss(false);
+})();
+
 /* hero runs as soon as it is parsed so the business model never waits on assets */
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initHero, { once: true });
 else initHero();

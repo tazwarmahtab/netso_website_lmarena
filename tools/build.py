@@ -94,10 +94,16 @@ HEAD = """<!DOCTYPE html>
 <script>/* opt-in intro animations; auto-failsafe so content is never hidden */
 document.documentElement.classList.add('anim');
 setTimeout(function () {{ document.documentElement.classList.remove('anim'); }}, 4500);</script>
+{intro_head}
 <link rel="stylesheet" href="/assets/css/fonts.css"/>
 <link rel="stylesheet" href="/assets/css/site.css"/>
 </head>
 <body data-page="{key}" class="{body_class}">"""
+
+INTRO_HEAD = """<script>/* skip the intro curtain on repeat views in the same session — set before
+first paint so there is never a flash of the curtain */
+try { if (sessionStorage.getItem('netso:intro') === '1')
+  document.documentElement.classList.add('no-intro'); } catch (e) {}</script>"""
 
 VENDOR = ["/assets/js/vendor/gsap.min.js", "/assets/js/vendor/ScrollTrigger.min.js",
           "/assets/js/vendor/SplitText.min.js", "/assets/js/vendor/lenis.min.js"]
@@ -137,8 +143,11 @@ def assert_clean(html, route):
 
 
 def build_page(key, page):
-    head = HEAD.format(hero_preload=HERO_PRELOAD if key == "home" else "",title=page["title"], desc=page["desc"], route=page["route"], og=page["og"],
+    intro_head = INTRO_HEAD if key == "home" else ""
+    head = HEAD.format(hero_preload=HERO_PRELOAD if key == "home" else "", intro_head=intro_head,
+                       title=page["title"], desc=page["desc"], route=page["route"], og=page["og"],
                        site=SITE, key=key, body_class=page.get("body_class", ""))
+    intro = read("src/partials/intro.html") if key == "home" else ""
     skip = read("src/partials/skip.html")
     header = read("src/partials/header.html").replace("{route}", page["route"])
     menu = read("src/partials/mobile-menu.html").replace("{route}", page["route"])
@@ -146,7 +155,7 @@ def build_page(key, page):
     main = read(f"src/pages/{key}.html")
     scripts = "".join(f'<script src="{s}"></script>' for s in VENDOR)
     scripts += "".join(f'<script src="/assets/js/{s}"></script>' for s in ["core.js"] + page.get("extra_js", []) + [page["script"]])
-    html = (head + skip + header + menu +
+    html = (head + intro + skip + header + menu +
             f'<main id="content" class="{page.get("main_class", "")}">' + main + "</main>" +
             footer + scripts + "</body></html>")
     html = strip_internal(html)

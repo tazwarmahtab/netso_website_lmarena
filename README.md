@@ -356,3 +356,18 @@ Both paths verified: scroll-driven advance and reverse, no-interaction fallback,
 control-to-scroll handoff, and reduced motion. Capture: `tools/shots/hero-compare-toggle.jpg`,
 `hero-compare-toggle-mobile.jpg`. First-viewport proof strip still fits at 1440×900 and 390×844;
 no horizontal overflow on either.
+
+## Intro curtain + animation audit (24 Sep 2026)
+
+* **`ANIMATION-AUDIT.md`** — every animation on the reference site (godaylight.com) inventoried from
+  our own clone's architecture notes, side by side with what Netso has, with a gap table and a
+  recommended order. 34 reference behaviours: 13 have equivalents, 9 are missing and worth building
+  in priority order, 12 are deliberately skipped with reasons.
+* **Intro curtain** — logo over a live brand gradient that dissolves into the hero. Built to the
+  standing constraints: pure CSS, ends by itself at 1.56 s, `display: none` under reduced motion,
+  skipped on repeat views via a pre-paint `sessionStorage` check, `pointer-events: none`, and any
+  scroll/key/click removes it instantly. Cost measured and minimised: **+56 ms FCP** on a throttled
+  mobile connection (from +160 ms in the first version). Profile in `ANIMATION-AUDIT.md` §8.
+* **One dead primitive:** `DL.parallax` is defined in `core.js` with zero call sites. Wire it or
+  delete it — dead code in a shared runtime is a trap.
+
