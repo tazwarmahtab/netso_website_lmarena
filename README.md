@@ -282,3 +282,33 @@ Unresolved** — and every claim on the site is labelled accordingly (chips in t
 Pipeline projects are never presented as installed or operational. Keep this convention
 when you add content: it is doing real work for credibility with facility owners *and*
 with capital partners.
+
+## Hero sub-line (changed 24 Sep 2026) — the comprehension lever
+
+The headline was never the problem. The **sub-line** was: "distributed energy infrastructure for
+Bangladesh's businesses" is a category phrase that names no roof, no ownership and no PPA — the
+three things the 10-second test measures. A visitor reading only that line has no path to
+"they develop and operate solar infrastructure on commercial rooftops."
+
+Four candidates were rendered in the live hero at 1440 and 390 (`tools/shots/subline-candidates.jpg`,
+`subline-mobile.jpg`) and measured for line count and first-viewport fit. All four fit; V2 was
+chosen on content:
+
+> **Netso develops, finances, owns and operates solar infrastructure on commercial and industrial
+> rooftops. The customer buys the power — not the system.**
+
+Why it wins:
+
+* **"commercial and industrial rooftops"** supplies the missing noun. The headline says *your roof*;
+  without this, "roof" could read residential, and "energy asset" is abstract.
+* **"The customer buys the power — not the system"** is the distinction the model rests on, stated
+  as a contrast the way the comparison table states it. It is what stops the answer being
+  "they install solar panels."
+* "develops, finances, owns and operates" is kept verbatim — it is the ownership signal.
+* V4 (adding "under a long-term PPA") was rejected as one word too many: 3 lines desktop and 4 on
+  mobile, and the PPA is already in the model line and the four-step strip below it.
+
+Note the deliberate non-change: the sub-line does **not** try to carry the headline idea as well.
+The four-step strip one line below already names the mechanism, and the model line carries
+financing and its qualification. Each element holds one job.
+
