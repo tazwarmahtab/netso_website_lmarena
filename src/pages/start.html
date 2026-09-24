@@ -1,0 +1,176 @@
+<section class="pagehero pagehero--dark" data-header="dark">
+<div class="shell">
+<span class="eyebrow" style="color:rgba(255,255,255,0.5)">Start a project</span>
+<h1 class="display pagehero__title" data-lines>Tell us about the facility.</h1>
+<p class="lead pagehero__sub" style="color:rgba(255,255,255,0.75)">We'll assess whether the roof can support a viable energy project — and come back with a view on what that project could look like, and what it would take to build it.</p>
+<div class="cluster mt-6">
+<span class="mono" style="color:rgba(255,255,255,0.4)">No capital outlay to assess · No obligation · Confidential</span>
+</div>
+</div>
+</section>
+
+<section class="section" id="form">
+<div class="shell">
+<div class="formwrap">
+
+<div class="formcard" data-reveal="up">
+<!--
+  ENDPOINT-READY: the UI does not need to change when the backend is added.
+  core.js validates the fields and reveals `.form-status` on submit, then
+  dispatches `netso:leadSubmitted` with the payload. To go live, either listen
+  for that event in a small script and POST it, or replace the setTimeout block
+  inside DL.initForm (core.js) with your API call. Field names in the payload:
+  name, company, email, phone, facility_location, facility_type, rooftop_area,
+  consumption, tariff, sanctioned_load, existing_solar, notes, consent.
+-->
+<form class="form" id="project-form" novalidate>
+<div class="grid-12" style="row-gap:1.25rem">
+<div class="field" style="grid-column:span 12">
+<span class="field__label">Contact</span>
+</div>
+<div class="field" style="grid-column:span 12" data-col="6">
+<label for="f-name">Name <span class="field__error">Required</span></label>
+<input id="f-name" name="name" type="text" autocomplete="name" placeholder="Your name" required/>
+</div>
+<div class="field" style="grid-column:span 12" data-col="6">
+<label for="f-company">Company <span class="field__error">Required</span></label>
+<input id="f-company" name="company" type="text" autocomplete="organization" placeholder="Company name" required/>
+</div>
+<div class="field" style="grid-column:span 12" data-col="6">
+<label for="f-email">Email <span class="field__error">Enter a valid email</span></label>
+<input id="f-email" name="email" type="email" autocomplete="email" placeholder="name@company.com" required/>
+</div>
+<div class="field" style="grid-column:span 12" data-col="6">
+<label for="f-phone">Phone <span class="field__error">Enter a phone number</span></label>
+<input id="f-phone" name="phone" type="tel" autocomplete="tel" placeholder="+880 1XXX XXXXXX" required/>
+</div>
+
+<div class="field" style="grid-column:span 12">
+<span class="field__label" style="margin-top:1rem">Facility</span>
+</div>
+<div class="field" style="grid-column:span 12" data-col="6">
+<label for="f-location">Facility location <span class="field__error">Required</span></label>
+<input id="f-location" name="facility_location" type="text" placeholder="Area, district" required/>
+</div>
+<div class="field" style="grid-column:span 12" data-col="6">
+<label for="f-type">Facility type <span class="field__error">Required</span></label>
+<select id="f-type" name="facility_type" required>
+<option value="">Select…</option>
+<option>Garment / textile manufacturing</option>
+<option>Other manufacturing / factory</option>
+<option>Warehouse / logistics</option>
+<option>Commercial building</option>
+<option>School / institution</option>
+<option>Industrial estate / multiple buildings</option>
+<option>Other</option>
+</select>
+</div>
+<div class="field" style="grid-column:span 12" data-col="6">
+<label for="f-area">Approximate rooftop area <span class="field__opt">(if known)</span></label>
+<input id="f-area" name="rooftop_area" type="text" placeholder="e.g. 20,000 sq ft / 1,800 m²"/>
+</div>
+<div class="field" style="grid-column:span 12" data-col="6">
+<label for="f-consumption">Electricity consumption <span class="field__opt">(if known)</span></label>
+<input id="f-consumption" name="consumption" type="text" placeholder="e.g. 250,000 kWh / month"/>
+</div>
+<div class="field" style="grid-column:span 12" data-col="6">
+<label for="f-tariff">Electricity tariff <span class="field__opt">(if known)</span></label>
+<input id="f-tariff" name="tariff" type="text" placeholder="e.g. BDT 12 / kWh"/>
+</div>
+<div class="field" style="grid-column:span 12" data-col="6">
+<label for="f-load">Sanctioned load <span class="field__opt">(if known)</span></label>
+<input id="f-load" name="sanctioned_load" type="text" placeholder="e.g. 1,000 kVA"/>
+</div>
+<div class="field" style="grid-column:span 12">
+<label for="f-existing">Existing solar system, if any <span class="field__opt">(if known)</span></label>
+<input id="f-existing" name="existing_solar" type="text" placeholder="None / capacity and year, if installed"/>
+</div>
+<div class="field" style="grid-column:span 12">
+<label for="f-notes">Additional project information</label>
+<textarea id="f-notes" name="notes" placeholder="Anything else relevant: roof condition and age, existing backup generation, expansion plans, ownership or lease horizon, timelines, who else needs to be involved."></textarea>
+</div>
+<div class="field" style="grid-column:span 12">
+<label style="display:flex;gap:0.75rem;align-items:flex-start;text-transform:none;letter-spacing:0;font-family:var(--font-sans);font-size:0.875rem;color:var(--ink-2)">
+<input type="checkbox" name="consent" required style="width:auto;margin-top:0.35rem"/>
+<span>I agree that Netso may use the information submitted here to assess this enquiry and to contact me about it, as described in the <a href="/legal/privacy" style="border-bottom:1px solid var(--line-strong)">Privacy Policy</a>. <span class="field__error">Required</span></span>
+</label>
+</div>
+</div>
+
+<button class="btn btn--block" type="submit" style="margin-top:1.5rem"><span data-label>Submit project enquiry</span>
+<svg width="11" height="9" viewBox="0 0 11 9" fill="none" aria-hidden="true"><path d="M0 4.5h9.5M6 .8l3.7 3.7L6 8.2" stroke="currentColor" stroke-width="1.2"/></svg></button>
+<p class="small" style="margin-top:0.875rem">Submitting this form does not commit you to anything. We use the information to assess the facility and respond.</p>
+</form>
+
+<div class="form-status" role="status" aria-live="polite">
+<span class="form-status__icon" aria-hidden="true">
+<svg width="14" height="11" viewBox="0 0 14 11" fill="none"><path d="M1 5.5 5 9.5 13 1.5" stroke="currentColor" stroke-width="1.6"/></svg>
+</span>
+<div>
+<h3 class="h3">Enquiry received</h3>
+<p class="body mt-2">Thank you — your facility details are with the Netso team. We'll review the roof and load information and come back with an initial view, usually within one working week.</p>
+<p class="small mt-3">If your enquiry is time-sensitive, write to <a href="mailto:hello@netso.energy" style="border-bottom:1px solid var(--line-strong)">hello@netso.energy</a>.</p>
+</div>
+</div>
+</div>
+
+<aside class="formaside">
+<div class="card">
+<h3 class="h3">What happens next</h3>
+<div class="nextsteps mt-4">
+<div class="nextsteps__item"><span class="nextsteps__idx mono">01</span><div><h4 class="h3" style="font-size:1rem">Initial review</h4><p class="body mt-1">We read the details and check whether the roof and the load could support a project.</p></div></div>
+<div class="nextsteps__item"><span class="nextsteps__idx mono">02</span><div><h4 class="h3" style="font-size:1rem">Site assessment</h4><p class="body mt-1">If it looks viable, we arrange a survey: roof structure, layout, access and consumption profile.</p></div></div>
+<div class="nextsteps__item"><span class="nextsteps__idx mono">03</span><div><h4 class="h3" style="font-size:1rem">Indicative proposal</h4><p class="body mt-1">We come back with a project concept, commercial structure and the terms we would want to discuss.</p></div></div>
+</div>
+</div>
+
+<div class="card mt-4">
+<h3 class="h3">What makes a strong candidate</h3>
+<ul class="checklist mt-3">
+<li>Large, flat or low-slope roof, structurally sound</li>
+<li>Meaningful daytime electricity consumption</li>
+<li>Commercial or industrial tariff</li>
+<li>Owner or long lease on the site</li>
+<li>Willingness to commit to a long-term supply agreement</li>
+</ul>
+<p class="small mt-3">Missing information is not a problem. Send what you have — roof area, a recent bill, or just the facility address — and we'll take it from there.</p>
+</div>
+
+<div class="card mt-4">
+<h3 class="h3">Confidentiality</h3>
+<p class="body mt-3">Project information shared with Netso is treated as confidential and used only to assess and develop the opportunity. We don't publish counterparties, capacities or commercial terms for projects that have not reached contract.</p>
+<p class="small mt-3">Prefer email? Write to <a href="mailto:hello@netso.energy" style="border-bottom:1px solid var(--line-strong)">hello@netso.energy</a>.</p>
+</div>
+</aside>
+
+</div>
+</div>
+</section>
+
+<!-- ============================ CAPITAL ANCHOR =========================== -->
+<section class="section bg-paper-2" id="capital">
+<div class="shell">
+<div class="split split--gap">
+<div class="split__aside">
+<span class="eyebrow">Capital &amp; strategic partners</span>
+<h2 class="display display-sm mt-4" data-lines>Not a facility owner? We still want to hear from you.</h2>
+<p class="body mt-4">Netso works with project-finance institutions, infrastructure and climate investors, technology suppliers and engineering partners. If you are looking at distributed energy assets in Bangladesh — or want to supply or build for them — start a conversation.</p>
+<div class="cluster mt-6">
+<a class="btn" href="mailto:hello@netso.energy?subject=Netso%20—%20capital%20or%20partnership%20enquiry"><span>Contact Netso</span>
+<svg width="11" height="9" viewBox="0 0 11 9" fill="none" aria-hidden="true"><path d="M0 4.5h9.5M6 .8l3.7 3.7L6 8.2" stroke="currentColor" stroke-width="1.2"/></svg></a>
+<a class="btn btn--ghost" href="/projects"><span>Review the pipeline</span></a>
+</div>
+</div>
+<div class="split__media">
+<dl class="spec">
+<div class="spec__row"><dt>Project finance</dt><dd>Debt and equity for individual assets as they reach contract</dd></div>
+<div class="spec__row"><dt>Platform capital</dt><dd>Portfolio-level conversations once the pipeline justifies them</dd></div>
+<div class="spec__row"><dt>Technology</dt><dd>Modules, inverters, mounting, storage and monitoring</dd></div>
+<div class="spec__row"><dt>Execution</dt><dd>Engineering, construction and commissioning capacity</dd></div>
+<div class="spec__row"><dt>Property</dt><dd>Facilities and estates with rooftop inventory</dd></div>
+</dl>
+<p class="small mt-4">Please include the nature of your interest and the stage you typically work at, and we'll route your enquiry to the right conversation.</p>
+</div>
+</div>
+</div>
+</section>

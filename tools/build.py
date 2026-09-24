@@ -1,0 +1,167 @@
+#!/usr/bin/env python3
+"""
+build.py — assembles the Netso Energy site from src/partials + src/pages.
+
+    python3 tools/build.py
+
+Each page in PAGES is rendered into <out> using head.html + the partials
+(skip, header, mobile menu, footer) around the page's own markup.
+NOTE: the fragments are concatenated WITHOUT whitespace between tags so the
+output stays free of stray line boxes.
+"""
+import os
+import re
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SRC = os.path.join(ROOT, "src")
+SITE = "https://netso.energy"
+
+PAGES = {
+    "home": dict(
+        out="index.html", route="/", script="home.js", extra_js=[],
+        title="Netso Energy — Your roof. Now an energy asset.",
+        desc="Netso Energy develops, finances, owns and operates distributed solar infrastructure for commercial and industrial customers in Bangladesh.",
+        og="/assets/img/og/home.jpg",
+    ),
+    "how-it-works": dict(
+        out="how-it-works/index.html", route="/how-it-works", script="how.js",
+        title="How It Works — Netso Energy",
+        desc="Develop, finance, build, own and operate: how Netso turns a commercial rooftop into a contracted energy asset, and how you buy the power through a long-term PPA.",
+        og="/assets/img/og/how-it-works.jpg",
+    ),
+    "projects": dict(
+        out="projects/index.html", route="/projects", script="projects.js",
+        title="Projects — Netso Energy",
+        desc="Validated and active Netso projects, beginning with the Chittagong Grammar School 80 kWp rooftop system under a 20-year PPA, plus our development pipeline.",
+        og="/assets/img/og/projects.jpg",
+    ),
+    "about": dict(
+        out="about/index.html", route="/about", script="about.js",
+        title="About — Netso Energy",
+        desc="Why Netso exists: the asset-owner thesis, why Bangladesh, why distributed C&I energy, and where the company is going.",
+        og="/assets/img/og/about.jpg",
+    ),
+    "start": dict(
+        out="start-a-project/index.html", route="/start-a-project", script="start.js",
+        title="Start a Project — Netso Energy",
+        desc="Tell us about your facility. We will assess whether the roof can support a viable energy project.",
+        og="/assets/img/og/start.jpg",
+    ),
+    "privacy": dict(
+        out="legal/privacy/index.html", route="/legal/privacy", script="legal.js",
+        title="Privacy Policy — Netso Energy", desc="How Netso Energy handles personal and project information.",
+        og="/assets/img/og/home.jpg", main_class="legal",
+    ),
+    "terms": dict(
+        out="legal/terms/index.html", route="/legal/terms", script="legal.js",
+        title="Terms of Service — Netso Energy", desc="Terms for using the Netso Energy website.",
+        og="/assets/img/og/home.jpg", main_class="legal",
+    ),
+    "404": dict(
+        out="404.html", route="/404", script="legal.js",
+        title="Page not found — Netso Energy", desc="The page you were looking for is not here.",
+        og="/assets/img/og/home.jpg", main_class="legal",
+    ),
+}
+
+HEAD = """<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>{title}</title>
+<meta name="description" content="{desc}"/>
+<link rel="canonical" href="{site}{route}"/>
+<meta property="og:type" content="website"/>
+<meta property="og:site_name" content="Netso Energy"/>
+<meta property="og:title" content="{title}"/>
+<meta property="og:description" content="{desc}"/>
+<meta property="og:url" content="{site}{route}"/>
+<meta property="og:image" content="{site}{og}"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta property="og:locale" content="en_GB"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="{site}{og}"/>
+<link rel="manifest" href="/manifest.webmanifest"/>
+<meta name="theme-color" content="#F5F3EF"/>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
+<link rel="icon" href="/assets/img/favicon-96.png" sizes="96x96" type="image/png"/>
+<link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png"/>
+<link rel="preload" href="/assets/fonts/Archivo-100-900-normal-latin.woff2" as="font" type="font/woff2" crossorigin/>
+<link rel="preload" href="/assets/fonts/InstrumentSerif-400-normal-latin.woff2" as="font" type="font/woff2" crossorigin/>
+{hero_preload}
+<script>/* opt-in intro animations; auto-failsafe so content is never hidden */
+document.documentElement.classList.add('anim');
+setTimeout(function () {{ document.documentElement.classList.remove('anim'); }}, 4500);</script>
+<link rel="stylesheet" href="/assets/css/fonts.css"/>
+<link rel="stylesheet" href="/assets/css/site.css"/>
+</head>
+<body data-page="{key}" class="{body_class}">"""
+
+VENDOR = ["/assets/js/vendor/gsap.min.js", "/assets/js/vendor/ScrollTrigger.min.js",
+          "/assets/js/vendor/SplitText.min.js", "/assets/js/vendor/lenis.min.js"]
+
+
+def read(path):
+    with open(os.path.join(ROOT, path), "r", encoding="utf-8") as f:
+        return f.read()
+
+
+HERO_PRELOAD = ('<link rel="preload" as="image" href="/assets/img/hero/roof-base.webp" '
+                'media="(min-width: 48rem)" fetchpriority="high"/>'
+                '<link rel="preload" as="image" href="/assets/img/hero/roof-base-m.webp" '
+                'media="(max-width: 47.999rem)" fetchpriority="high"/>')
+
+
+# ---------------------------------------------------------------------------
+# Internal notes live in the SOURCE so the company can find them; they must
+# never reach the built site. Anything marked INTERNAL is removed here, and
+# the build fails loudly if draft language survives into production output.
+# ---------------------------------------------------------------------------
+INTERNAL_COMMENT = re.compile(r"[ \t]*<!--\s*(?:INTERNAL|TO BE SUPPLIED)[\s\S]*?-->[ \t]*\n?")
+DRAFT_MARKERS = ("<!-- internal", "<!-- to be supplied", "todo:", "todo ", "fixme",
+                 "draft copy", "draft —", "lorem ipsum", "to be replaced with",
+                 "placeholder imagery")
+
+
+def strip_internal(html):
+    return INTERNAL_COMMENT.sub("", html)
+
+
+def assert_clean(html, route):
+    low = html.lower()
+    hits = [m for m in DRAFT_MARKERS if m.lower() in low]
+    if hits:
+        raise SystemExit(f"build aborted: {route} still contains {hits}")
+
+
+def build_page(key, page):
+    head = HEAD.format(hero_preload=HERO_PRELOAD if key == "home" else "",title=page["title"], desc=page["desc"], route=page["route"], og=page["og"],
+                       site=SITE, key=key, body_class=page.get("body_class", ""))
+    skip = read("src/partials/skip.html")
+    header = read("src/partials/header.html").replace("{route}", page["route"])
+    menu = read("src/partials/mobile-menu.html").replace("{route}", page["route"])
+    footer = read("src/partials/footer.html")
+    main = read(f"src/pages/{key}.html")
+    scripts = "".join(f'<script src="{s}"></script>' for s in VENDOR)
+    scripts += "".join(f'<script src="/assets/js/{s}"></script>' for s in ["core.js"] + page.get("extra_js", []) + [page["script"]])
+    html = (head + skip + header + menu +
+            f'<main id="content" class="{page.get("main_class", "")}">' + main + "</main>" +
+            footer + scripts + "</body></html>")
+    html = strip_internal(html)
+    assert_clean(html, page["route"])
+    out = os.path.join(ROOT, page["out"])
+    os.makedirs(os.path.dirname(out), exist_ok=True)
+    with open(out, "w", encoding="utf-8") as f:
+        f.write(html)
+    return page["out"], len(html)
+
+
+if __name__ == "__main__":
+    total = 0
+    for key, page in PAGES.items():
+        path, size = build_page(key, page)
+        total += size
+        print(f"{page['route']:<22} -> {path:<38} {size // 1024:>4} KB")
+    print(f"{'':<22}    total {total // 1024} KB")
