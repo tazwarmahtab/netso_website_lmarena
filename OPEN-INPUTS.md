@@ -41,3 +41,34 @@ Four of the five attached images arrived. This one did not.
 Both rooftop renders are good source material for the *energy asset* story (canopy structure,
 light strip under the panels) — not for the hero, and **never** in the Chittagong Grammar School
 slot (see README, "What is placeholder").
+
+---
+
+## 6. Image resolution requirements (added 24 Sep 2026)
+
+Measured from the live site at 2× device pixel ratio. Send files **at or above the "needs" figure**:
+
+| Slot | Renders | Needs (retina) |
+|---|---|---|
+| Hero photograph (full-bleed) | 1526 css px | **~3050 px wide** |
+| Split-column images (desktop) | 672 css px | **~1344 px wide** |
+| Split-column images (mobile) | 346 css px | **~692 px wide** |
+
+Minimum acceptable for any full-width slot is **1600 px wide**; 2400 px is comfortable.
+
+### `hero-poster-480.jpg` — received 480×268, cannot be used
+It would need a **2.8×** upscale in the smallest desktop slot and **6.4×** in the hero — visibly
+soft at both. It could not be matched to any earlier upload, so it is not a downscale of something
+already here: the larger original exists on the company side and has not been sent.
+
+It looks like an export from a generator tool, which typically caps poster frames at 480–720 px.
+**Ask the tool for a 2400 px export, or send the original file.**
+
+### ⚠ `ChatGPT Image Dec 17, 2025, 02_27_54 AM.PNG` — must never ship
+The image has **"Installation: BDT 0 / Upfront: BDT 0 / Maintenance: BDT 0"** baked into the
+pixels. This directly contradicts the standing instruction that Netso makes no zero-investment
+claim. It cannot be cropped out, and it cannot be used anywhere on the site — including as
+background atmosphere, where a reader could still read the numbers.
+
+If that framing is wanted as a message, it needs the qualified wording already in use
+("Netso funds the system. Qualifying projects only.") — not an image claim.
