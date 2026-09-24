@@ -312,3 +312,47 @@ Note the deliberate non-change: the sub-line does **not** try to carry the headl
 The four-step strip one line below already names the mechanism, and the model line carries
 financing and its qualification. Each element holds one job.
 
+
+## Hero state control + scroll-driven sequence (24 Sep 2026)
+
+Two additions to the hero, both reusing the layers already on the page — **no new media and no
+additional bytes**.
+
+### 1. "Today / With Netso" control
+
+A two-state toggle in the hero's top row, in the dead space opposite the eyebrow. It switches the
+same roof between **as it is today** and **developed and operating**.
+
+The mechanic is borrowed from a reference hero (`motionsites.ai` reposit) that toggles one building
+between Morning and Night. Two things from that reference were deliberately **not** copied:
+
+* **The dark, cinematic treatment.** It conflicts with the standing instruction for a clean, calm,
+  component-showcase feel rather than cinematic dark pages.
+* **The residential house.** Netso's hero must read as a large commercial/industrial building in
+  Bangladesh, not a house — that is the whole positioning.
+
+What was worth taking is the *structure*: one building, one control, one outcome line.
+
+Implementation notes:
+
+* Wired **outside** the `reduceMotion` branch on purpose. It is a static comparison, not motion, so
+  reduced-motion visitors get it too — under reduce the hero opens on the installed state and the
+  control switches between the two with no animation.
+* **Scrolling always wins.** A manual choice holds until the visitor scrolls; the next scroll event
+  clears it and the scroll sequence resumes, so the control and the sequence never fight.
+* At the middle stage (site assessed) neither button reads as selected, which is accurate — that
+  moment is between the two states.
+
+### 2. Scroll drives the rooftop sequence
+
+The rooftop → surveyed → solar → energy-flow sequence is now driven by scroll progress through the
+hero's dwell zone, and **reverses when you scroll back up**.
+
+A timed fallback (1.6 s delay) still advances the story for a visitor who never scrolls, and stands
+down the instant they do. Without it, anyone who only looks at the first screen — the majority —
+would never see the roof become an asset.
+
+Both paths verified: scroll-driven advance and reverse, no-interaction fallback, manual control,
+control-to-scroll handoff, and reduced motion. Capture: `tools/shots/hero-compare-toggle.jpg`,
+`hero-compare-toggle-mobile.jpg`. First-viewport proof strip still fits at 1440×900 and 390×844;
+no horizontal overflow on either.

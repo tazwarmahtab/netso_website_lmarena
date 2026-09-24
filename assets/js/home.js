@@ -54,26 +54,74 @@ function initHero() {
     if (steps.length) tl.fromTo(steps, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.55, stagger: 0.05 }, '-=0.45');
     if (proof) tl.fromTo(proof, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.6 }, '-=0.4');
 
-    // rooftop → survey → solar → energy flow
-    const toSolar = () => {
-      hero.classList.add('is-solar');
-      if (base) base.classList.remove('is-active');
-      if (solar) solar.classList.add('is-active');
+    // rooftop → site assessed → solar deployed → energy flowing.
+    // SCROLL DRIVES IT: progress through the hero's dwell zone advances the stage,
+    // and scrolling back up reverses it. A timed fallback advances the story for
+    // anyone who never scrolls, and yields the moment they do — so a reader who
+    // only looks at the first screen still sees the whole transformation.
+    // 0 = ordinary rooftop · 1 = site assessed · 2 = deployed + energy flowing
+    let stage = -1;
+    let manual = false;   // set by the Today / With Netso control, cleared by scrolling
+    let auto = null;
+    const killAuto = () => { if (auto) { auto.kill(); auto = null; } };
+
+    const stageTo = (next) => {
+      if (next === stage) return;            // act only on a real change (no flicker)
+      stage = next;
+      hero.classList.toggle('is-survey', next >= 1);
+      hero.classList.toggle('is-solar', next === 2);
+      if (base) base.classList.toggle('is-active', next === 0);
+      if (solar) solar.classList.toggle('is-active', next === 2);
+      syncControl(next);
     };
-    if (DL.reduceMotion) {
-      toSolar();
-      qa('.hero__layer').forEach((l) => { l.style.transition = 'none'; });
-    } else {
-      setTimeout(() => hero.classList.add('is-survey'), 1300);
-      setTimeout(toSolar, 3100);
-      // re-run the sequence when the hero scrolls back into view from above
-      ScrollTrigger.create({
-        trigger: hero, start: 'top 60%', end: 'bottom top',
-        onEnterBack: () => { hero.classList.remove('is-solar', 'is-survey'); if (base) base.classList.add('is-active'); if (solar) solar.classList.remove('is-active'); },
+    const apply = (p) => stageTo(p > 0.65 ? 2 : p > 0.30 ? 1 : 0);
+
+    /* The state control. Two states of the same roof — gives the visitor the
+       transformation without waiting on the scroll, and gives reduced-motion
+       users the same comparison with no animation at all. It is wired OUTSIDE
+       the motion branch on purpose: it is a static comparison, not motion, so
+       it must work for everyone. Manual choice holds until the visitor scrolls,
+       at which point the scroll sequence resumes. */
+    const ctrl = qa('[data-hero-state]');
+    function syncControl(next) {
+      const wantsNetso = next === 2;
+      const wantsToday = next === 0;
+      ctrl.forEach((b) => {
+        const isNetso = b.getAttribute('data-hero-state') === 'netso';
+        // stage 1 (site assessed) sits between the two, so neither reads as selected
+        const on = (isNetso && wantsNetso) || (!isNetso && wantsToday);
+        b.classList.toggle('is-on', on);
+        b.setAttribute('aria-pressed', on ? 'true' : 'false');
       });
+    }
+    ctrl.forEach((b) => {
+      b.addEventListener('click', () => {
+        killAuto();
+        manual = true;
+        stageTo(b.getAttribute('data-hero-state') === 'netso' ? 2 : 0);
+      });
+    });
+
+    if (DL.reduceMotion) {
+      // the story is shown as already installed, with no sequence and no motion
+      qa('.hero__layer').forEach((l) => { l.style.transition = 'none'; });
+      stageTo(2);
+    } else {
       ScrollTrigger.create({
-        trigger: hero, start: 'top top', end: 'bottom top',
-        onLeaveBack: () => { hero.classList.remove('is-solar', 'is-survey'); if (base) base.classList.add('is-active'); if (solar) solar.classList.remove('is-active'); },
+        trigger: hero, start: 'top top', end: 'bottom 70%',
+        onUpdate: (self) => {
+          killAuto();
+          // scrolling always wins: the scroll sequence and the control never fight
+          if (manual) manual = false;
+          apply(self.progress);
+        },
+        onLeaveBack: () => { killAuto(); manual = false; apply(0); },
+      });
+
+      // the fallback: only if no scroll has happened, and it stands down instantly
+      auto = gsap.to({ p: 0 }, {
+        p: 1, duration: 4.5, delay: 1.6, ease: 'power1.inOut',
+        onUpdate() { apply(this.targets()[0].p); },
       });
     }
 
