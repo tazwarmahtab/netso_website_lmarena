@@ -1273,3 +1273,31 @@ html.wipe-cover .pagewipe { opacity: 1; visibility: visible; }
   .gp [data-gp-caption] { opacity: 1 !important; }
   .gp [data-gp-hint] { display: none; }
 }
+
+/* ==========================================================================
+   Scroll-locked video hero — the clip is scrubbed by scroll (DL.scrollVideo).
+   Ported from the MIT "Scroll-Locked Video Hero" pattern (G. Giannattasio).
+   ========================================================================== */
+.svhero { position: relative; background: #05070a; }
+.svhero__track { height: calc(100svh * var(--sv-length, 2.4)); }
+.svhero__stage { position: sticky; top: 0; height: 100svh; overflow: hidden; background: #05070a; isolation: isolate; }
+.svhero__video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.svhero__scrim { position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: linear-gradient(180deg, rgba(5,7,10,.55) 0%, rgba(5,7,10,.15) 32%, rgba(5,7,10,.25) 64%, rgba(5,7,10,.78) 100%); }
+.svhero__overlay { position: absolute; z-index: 2; left: 0; right: 0; bottom: 12%;
+  padding: 0 var(--margin, 6vw); display: grid; gap: 1rem; max-width: 52rem;
+  color: #fff; transform: translateY(calc(var(--sv-progress, 0) * -40px)); }
+.svhero__eyebrow { color: rgba(255,255,255,.7); font-size: .6875rem; letter-spacing: .18em; text-transform: uppercase; }
+.svhero__title { margin: 0; color: #fff; font-size: clamp(2rem, 6vw, 4.25rem); line-height: 1.02; letter-spacing: -.01em; }
+.svhero__sub { margin: 0; max-width: 42ch; color: rgba(255,255,255,.82); font-size: clamp(1rem, 1.4vw, 1.1875rem); line-height: 1.55;
+  opacity: calc(1 - var(--sv-progress, 0) * 1.4); }
+.svhero__scroll { position: absolute; z-index: 2; left: 50%; bottom: 6%; transform: translateX(-50%);
+  color: rgba(255,255,255,.72); font-size: .625rem; letter-spacing: .2em; text-transform: uppercase;
+  opacity: calc(1 - var(--sv-progress, 0) * 6); }
+@media (prefers-reduced-motion: reduce) {
+  .svhero__track { height: auto; }
+  .svhero__stage { position: relative; height: min(72svh, 620px); }
+  .svhero__overlay { transform: none; }
+  .svhero__sub, .svhero__scroll { opacity: 1; }
+  .svhero__scroll { display: none; }
+}

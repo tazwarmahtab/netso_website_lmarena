@@ -291,6 +291,59 @@
     }
   };
 
+  /* ---------------------------------------------------------- scrollVideo --
+     Scroll-locked video hero (vanilla port of the MIT "Scroll-Locked Video
+     Hero" pattern by Guglielmo Giannattasio): the clip is pinned full-screen
+     and its playhead is scrubbed by scroll position, so scrolling "plays" the
+     video. The source is encoded all-keyframe so every seek is instant. A
+     single in-flight seek is enforced (re-seeking to the latest target on
+     'seeked') to keep scrubbing smooth. Progressive enhancement: the markup
+     ships as an ordinary muted autoplay loop, so with no JS it just plays; for
+     reduced motion the scrub is skipped and the clip holds on its poster. */
+  DL.scrollVideo = function (section) {
+    if (!section) return;
+    const video = section.querySelector('video');
+    if (!video) return;
+    // take the clip over from the no-JS autoplay-loop fallback
+    video.removeAttribute('autoplay'); video.loop = false; video.muted = true; video.playsInline = true;
+
+    if (DL.reduceMotion) { try { video.pause(); } catch (e) {} section.dataset.svReady = '1'; return; }
+
+    let dur = 0, ready = false, seeking = false, want = 0, st = null;
+
+    const setTime = (t) => {
+      want = t;
+      if (!ready || seeking) return;
+      seeking = true;
+      const onSeek = () => {
+        seeking = false; video.removeEventListener('seeked', onSeek);
+        if (Math.abs(video.currentTime - want) > 0.03) setTime(want);   // catch up to latest scroll
+      };
+      video.addEventListener('seeked', onSeek);
+      try { video.currentTime = t; } catch (e) { seeking = false; }
+    };
+    const apply = (p) => {
+      section.style.setProperty('--sv-progress', String(p));
+      if (ready && dur) setTime(Math.min(dur - 0.05, p * dur));
+    };
+    const prime = () => {
+      dur = video.duration || 0;
+      if (!dur || !isFinite(dur) || ready) return;
+      ready = true; section.dataset.svReady = '1';
+      const play = video.play();               // decode a frame, then hand control to scroll
+      if (play && play.then) play.then(() => video.pause()).catch(() => {});
+      apply(st ? st.progress : 0);
+    };
+    video.addEventListener('loadedmetadata', prime);
+    if (video.readyState >= 1) prime();
+
+    st = ScrollTrigger.create({
+      trigger: section, start: 'top top', end: 'bottom bottom', scrub: true,
+      onUpdate: (self) => apply(self.progress),
+    });
+    apply(0);
+  };
+
   /* ------------------------------------------------------------ marquee --- */
   DL.marquee = function (root) {
     const track = DL.q('.marquee__track', root || document);
@@ -513,6 +566,7 @@
   // godaylight-language enhancements, opt-in per element via data-attributes
   DL.wordReveal('[data-wordreveal]');
   DL.dither('[data-dither]');
+  DL.qa('[data-scroll-video]').forEach((el) => DL.scrollVideo(el));
 })();
 
 /* ==========================================================================
