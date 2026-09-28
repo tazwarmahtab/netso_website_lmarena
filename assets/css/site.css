@@ -1347,3 +1347,32 @@ html.wipe-cover .pagewipe { opacity: 1; visibility: visible; }
   .poster__bg img, .poster__fg { transform: none; }
   .poster__ch { opacity: 1 !important; }
 }
+
+/* ==========================================================================
+   Masked video hero (home) — the rooftop-night film seen THROUGH the
+   NETSO ENERGY wordmark, scroll-scrubbed, then zoom-dissolved open to full
+   frame. Motion driven by --mv-progress (set by DL.maskedVideoHero).
+   ========================================================================== */
+.mvhero { position: relative; background: var(--mv-surround, #0A0C10); }
+.mvhero__track { height: calc(100svh * var(--mv-length, 2.8)); }
+.mvhero__stage { position: sticky; top: 0; height: 100svh; overflow: hidden; background: #05070a; isolation: isolate; }
+.mvhero__video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; z-index: 0;
+  transform: scale(calc(1.05 + var(--mv-progress, 0) * 0.05)); transform-origin: 50% 50%; }
+/* the wordmark window: an SVG whose surround (rect + letterbox background) is
+   the brand dark; the letters are knocked out to reveal the video behind. On
+   open it scales up and dissolves, uncovering the full frame. */
+.mvhero__mask { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2; display: block;
+  background: var(--mv-surround, #0A0C10); transform-origin: 50% 50%; will-change: transform, opacity;
+  transform: scale(calc(1 + clamp(0, (var(--mv-progress, 0) - .5) * 2.5, 1) * 2.6));
+  opacity: clamp(0, calc(1 - (var(--mv-progress, 0) - .5) * 2.5), 1); }
+.mvhero__ui { position: absolute; z-index: 3; left: 0; right: 0; bottom: 6%; display: flex; justify-content: center;
+  pointer-events: none; opacity: clamp(0, calc(1 - var(--mv-progress, 0) * 3.4), 1); }
+.mvhero__hint { color: rgba(255,255,255,.72); font-size: .625rem; letter-spacing: .22em; text-transform: uppercase; }
+@media (max-width: 40rem) { .mvhero__hint { font-size: .5625rem; } }
+@media (prefers-reduced-motion: reduce) {
+  .mvhero__track { height: auto; }
+  .mvhero__stage { position: relative; height: min(82svh, 680px); }
+  .mvhero__video { transform: none; }
+  .mvhero__mask { transform: none; opacity: 1; }
+  .mvhero__ui { opacity: 1; }
+}

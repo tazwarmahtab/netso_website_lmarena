@@ -344,7 +344,61 @@
     apply(0);
   };
 
-  /* -------------------------------------------------------- editorialPoster --
+  /* ---------------------------------------------------- maskedVideoHero ----
+     The rooftop-at-night film plays THROUGH the NETSO ENERGY letterforms (an
+     SVG text mask acts as a window). Scroll scrubs the clip frame-by-frame,
+     while CSS (driven by --mv-progress) scales the wordmark open and dissolves
+     the surround away until the video fills the frame, then hands off to the
+     section below. Progressive enhancement: no-JS keeps the muted autoplay loop
+     shining through the static wordmark; reduced motion pins a single frame. */
+  DL.maskedVideoHero = function (section) {
+    if (!section) return;
+    const video = section.querySelector('video');
+    if (!video) return;
+    // take over from the no-JS autoplay-loop fallback
+    video.removeAttribute('autoplay'); video.loop = false; video.muted = true; video.playsInline = true;
+
+    const set = (p) => section.style.setProperty('--mv-progress', String(p));
+
+    if (DL.reduceMotion) { try { video.pause(); } catch (e) {} set(0); return; }
+
+    let dur = 0, ready = false, seeking = false, want = 0, st = null;
+    const SCRUB_END = 0.82;               // clip finishes before the wordmark fully opens
+
+    const seek = (t) => {
+      want = t;
+      if (!ready || seeking) return;
+      seeking = true;
+      const onSeek = () => {
+        seeking = false; video.removeEventListener('seeked', onSeek);
+        if (Math.abs(video.currentTime - want) > 0.03) seek(want);   // catch up to latest scroll
+      };
+      video.addEventListener('seeked', onSeek);
+      try { video.currentTime = t; } catch (e) { seeking = false; }
+    };
+    const apply = (p) => {
+      set(p);
+      if (ready && dur) seek(Math.min(dur - 0.05, (Math.min(p, SCRUB_END) / SCRUB_END) * dur));
+    };
+    const prime = () => {
+      dur = video.duration || 0;
+      if (!dur || !isFinite(dur) || ready) return;
+      ready = true;
+      const play = video.play();
+      if (play && play.then) play.then(() => video.pause()).catch(() => {});
+      apply(st ? st.progress : 0);
+    };
+    video.addEventListener('loadedmetadata', prime);
+    if (video.readyState >= 1) prime();
+
+    st = ScrollTrigger.create({
+      trigger: section, start: 'top top', end: 'bottom bottom', scrub: true,
+      onUpdate: (self) => apply(self.progress),
+    });
+    apply(0);
+  };
+
+  /* ---------------------------------------------------------- editorialPoster --
      Layered-depth editorial cover (vanilla adaptation of the MIT "Sakura
      Editorial Poster" by DesignLayer, reskinned to Netso's infrastructure
      aesthetic): a background scene, a huge title that reveals letter-by-letter
@@ -614,6 +668,7 @@
   DL.wordReveal('[data-wordreveal]');
   DL.dither('[data-dither]');
   DL.qa('[data-scroll-video]').forEach((el) => DL.scrollVideo(el));
+  DL.qa('[data-masked-video]').forEach((el) => DL.maskedVideoHero(el));
   DL.qa('[data-editorial-poster]').forEach((el) => DL.editorialPoster(el));
 })();
 
