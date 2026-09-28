@@ -36,7 +36,7 @@ FORM_ENDPOINT = ""                     # TODO: paste a form endpoint, or leave "
 # (no "+", spaces or dashes). Example for Bangladesh: "8801712345678".
 # When set, the enquiry form opens WhatsApp with every field prefilled; it also
 # powers the "Chat on WhatsApp" links. Leave "" to fall back to endpoint/mailto.
-WHATSAPP_NUMBER = ""                   # TODO: e.g. "8801XXXXXXXXX"
+WHATSAPP_NUMBER = "8801791222777"      # +880 179 122 2777 (wa.me needs digits only)
 
 PAGES = {
     "home": dict(
