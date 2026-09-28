@@ -1,8 +1,34 @@
-<section class="pagehero pagehero--dark" data-header="dark">
-<div class="shell">
-<span class="eyebrow" style="color:rgba(255,255,255,0.5)">About Netso</span>
-<h1 class="display pagehero__title" data-lines>Netso builds the <em style="font-style:italic;color:var(--solar-soft)">asset-owner layer</em> for distributed C&amp;I solar.</h1>
-<p class="lead pagehero__sub" style="color:rgba(255,255,255,0.75)">We develop, finance, own and operate distributed energy infrastructure for commercial and industrial customers in Bangladesh — and we hold it for the long term.</p>
+<!-- =========================== EDITORIAL POSTER COVER ====================
+     Layered-depth cover: golden-hour rooftop background, the word ROOFTOP
+     revealing from behind a foreground solar-panel cut-out, editorial masthead
+     and a bilingual (EN + বাংলা) caption. Motion in assets/js/core.js →
+     DL.editorialPoster. Adapted from the MIT "Sakura Editorial Poster"
+     (DesignLayer), reskinned to Netso's infrastructure aesthetic. -->
+<section class="poster" data-editorial-poster data-header="dark" aria-label="About Netso Energy">
+<div class="poster__layer poster__bg" data-poster-bg>
+<img src="/assets/img/poster/roof-golden-bg.webp" alt="Golden-hour view across a vast industrial rooftop covered in solar panels, with the Bangladesh city skyline beyond" width="1376" height="768" fetchpriority="high"/>
+</div>
+<div class="poster__scrim" aria-hidden="true"></div>
+<div class="poster__title" data-poster-title aria-hidden="true"><span class="poster__ch">R</span><span class="poster__ch">O</span><span class="poster__ch">O</span><span class="poster__ch">F</span><span class="poster__ch">T</span><span class="poster__ch">O</span><span class="poster__ch">P</span></div>
+<img class="poster__layer poster__fg" data-poster-fg src="/assets/img/poster/panels-foreground.webp" alt="" aria-hidden="true" width="1200" height="670"/>
+<div class="poster__ui">
+<div class="poster__masthead">
+<span>Netso Energy</span>
+<span>Vol. 01 · Chattogram · 2026</span>
+</div>
+<div class="poster__bottom">
+<div class="poster__caption" data-poster-caption>
+<span class="poster__kicker">The asset-owner thesis</span>
+<h1 class="poster__h1">Netso builds the <em>asset-owner layer</em> for distributed C&amp;I solar.</h1>
+<p class="poster__bn" lang="bn">ছাদই এখন সম্পদ।</p>
+<p class="poster__dek">We don’t sell solar. We own the infrastructure that makes the power — you buy the electricity, not the system.</p>
+</div>
+<div class="poster__foot">
+<span class="poster__no">No. 01</span>
+<button class="poster__replay" data-poster-replay type="button">Replay <span aria-hidden="true">↻</span></button>
+<span class="poster__scroll" aria-hidden="true">Scroll ↓</span>
+</div>
+</div>
 </div>
 </section>
 

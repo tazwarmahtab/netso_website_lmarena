@@ -1301,3 +1301,49 @@ html.wipe-cover .pagewipe { opacity: 1; visibility: visible; }
   .svhero__sub, .svhero__scroll { opacity: 1; }
   .svhero__scroll { display: none; }
 }
+
+/* ==========================================================================
+   Editorial poster cover (About) — layered depth, letter reveal, bilingual
+   masthead. DL.editorialPoster drives the parallax + reveal. Adapted from the
+   MIT "Sakura Editorial Poster" (DesignLayer), reskinned for infrastructure.
+   ========================================================================== */
+.poster { position: relative; height: 100svh; min-height: 620px; overflow: hidden; background: #0b0d10; color: #fff; isolation: isolate; }
+.poster__layer { position: absolute; inset: 0; }
+.poster__bg { z-index: 0; }
+.poster__bg img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.12); transform-origin: 50% 42%; }
+.poster__scrim { position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: linear-gradient(180deg, rgba(11,13,16,.5) 0%, rgba(11,13,16,.12) 38%, rgba(11,13,16,.34) 62%, rgba(11,13,16,.72) 100%); }
+.poster__title { position: absolute; z-index: 2; left: 0; right: 0; bottom: 21%; display: flex; justify-content: center;
+  font-family: var(--font-sans, Archivo, Arial, sans-serif); font-weight: 800; font-size: clamp(3.5rem, 17vw, 15rem);
+  line-height: .82; letter-spacing: -.03em; text-transform: uppercase; color: #fff; pointer-events: none; white-space: nowrap; }
+.poster__ch { display: inline-block; will-change: transform, opacity, filter; text-shadow: 0 2px 40px rgba(0,0,0,.35); }
+.poster__fg { z-index: 3; inset: auto 0 -2% 0; width: 100%; height: auto; object-fit: contain; pointer-events: none;
+  transform: scale(1.06); transform-origin: 50% 100%; filter: drop-shadow(0 -8px 40px rgba(0,0,0,.4)); }
+.poster__ui { position: absolute; inset: 0; z-index: 4; display: flex; flex-direction: column; justify-content: space-between;
+  padding: clamp(1.25rem, 4vw, 2.75rem); pointer-events: none; }
+.poster__ui button { pointer-events: auto; }
+.poster__masthead { display: flex; justify-content: space-between; gap: 1rem;
+  font-family: var(--font-mono, ui-monospace, monospace); font-size: .6875rem; letter-spacing: .16em; text-transform: uppercase; color: rgba(255,255,255,.74); }
+.poster__bottom { display: grid; gap: clamp(1rem, 2.5vw, 1.75rem); }
+.poster__caption { max-width: 44rem; display: grid; gap: .7rem; }
+.poster__kicker { font-family: var(--font-mono, ui-monospace, monospace); font-size: .6875rem; letter-spacing: .18em; text-transform: uppercase; color: var(--solar-soft, #F6DFC2); }
+.poster__h1 { margin: 0; font-family: var(--font-serif, "Instrument Serif", Georgia, serif); font-weight: 400;
+  font-size: clamp(1.6rem, 3.4vw, 3rem); line-height: 1.08; letter-spacing: -.01em; color: #fff; max-width: 22ch; }
+.poster__h1 em { font-style: italic; color: var(--solar-soft, #F6DFC2); }
+.poster__bn { margin: 0; font-family: "Hind Siliguri", "Noto Sans Bengali", system-ui, sans-serif;
+  font-size: clamp(1rem, 1.6vw, 1.3rem); color: rgba(255,255,255,.9); }
+.poster__dek { margin: 0; max-width: 46ch; font-size: clamp(.95rem, 1.15vw, 1.0625rem); line-height: 1.55; color: rgba(255,255,255,.8); }
+.poster__foot { display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  font-family: var(--font-mono, ui-monospace, monospace); font-size: .6875rem; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.66); }
+.poster__replay { background: transparent; border: 1px solid rgba(255,255,255,.28); border-radius: 999px; color: #fff;
+  font: inherit; letter-spacing: .12em; padding: .5rem .9rem; cursor: pointer; transition: background .25s ease, border-color .25s ease; }
+.poster__replay:hover { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.5); }
+.poster__replay:focus-visible { outline: 2px solid var(--solar, #E4572E); outline-offset: 3px; }
+@media (max-width: 40rem) {
+  .poster__foot .poster__scroll { display: none; }
+  .poster__title { bottom: 26%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .poster__bg img, .poster__fg { transform: none; }
+  .poster__ch { opacity: 1 !important; }
+}

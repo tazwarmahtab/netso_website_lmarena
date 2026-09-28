@@ -344,6 +344,53 @@
     apply(0);
   };
 
+  /* -------------------------------------------------------- editorialPoster --
+     Layered-depth editorial cover (vanilla adaptation of the MIT "Sakura
+     Editorial Poster" by DesignLayer, reskinned to Netso's infrastructure
+     aesthetic): a background scene, a huge title that reveals letter-by-letter
+     from BEHIND a foreground cut-out, an editorial masthead and bilingual
+     caption. Depth comes from three parallax planes on scroll, plus a gentle
+     pointer parallax on desktop. Progressive enhancement: with no JS the title
+     and art are fully visible; reduced motion pins everything and just shows it. */
+  DL.editorialPoster = function (section) {
+    if (!section) return;
+    const bg = DL.q('[data-poster-bg]', section);
+    const title = DL.q('[data-poster-title]', section);
+    const fg = DL.q('[data-poster-fg]', section);
+    const caption = DL.q('[data-poster-caption]', section);
+    const chars = DL.qa('.poster__ch', title);
+    const replay = DL.q('[data-poster-replay]', section);
+
+    const reveal = () => {
+      if (DL.reduceMotion) { gsap.set(chars, { opacity: 1, yPercent: 0, filter: 'none' }); return; }
+      gsap.killTweensOf(chars);
+      gsap.fromTo(chars,
+        { opacity: 0, yPercent: 70, filter: 'blur(12px)' },
+        { opacity: 1, yPercent: 0, filter: 'blur(0px)', duration: 1.0, ease: 'power3.out', stagger: 0.055 });
+    };
+    reveal();
+    if (replay) replay.addEventListener('click', reveal);
+    if (!DL.reduceMotion && caption) gsap.fromTo(caption, { opacity: 0, y: 22 }, { opacity: 1, y: 0, duration: 1.0, delay: 0.45, ease: 'power3.out' });
+    if (DL.reduceMotion) return;
+
+    // three parallax planes tied to scroll
+    const par = (el, y) => el && gsap.to(el, { yPercent: y, ease: 'none',
+      scrollTrigger: { trigger: section, start: 'top top', end: 'bottom top', scrub: true } });
+    par(bg, -8); par(title, -20); par(fg, 12);
+
+    // pointer parallax on desktop for tangible depth
+    if (DL.isDesktop() && window.matchMedia('(pointer:fine)').matches) {
+      const mk = (el) => ({ x: gsap.quickTo(el, 'x', { duration: 0.7, ease: 'power3' }), y: gsap.quickTo(el, 'y', { duration: 0.7, ease: 'power3' }) });
+      const b = mk(bg), t = mk(title), f = mk(fg);
+      section.addEventListener('pointermove', (e) => {
+        const r = section.getBoundingClientRect();
+        const nx = (e.clientX - r.left) / r.width - 0.5, ny = (e.clientY - r.top) / r.height - 0.5;
+        b.x(nx * -12); b.y(ny * -12); t.x(nx * -24); t.y(ny * -16); f.x(nx * 40); f.y(ny * 20);
+      });
+      section.addEventListener('pointerleave', () => { b.x(0); b.y(0); t.x(0); t.y(0); f.x(0); f.y(0); });
+    }
+  };
+
   /* ------------------------------------------------------------ marquee --- */
   DL.marquee = function (root) {
     const track = DL.q('.marquee__track', root || document);
@@ -567,6 +614,7 @@
   DL.wordReveal('[data-wordreveal]');
   DL.dither('[data-dither]');
   DL.qa('[data-scroll-video]').forEach((el) => DL.scrollVideo(el));
+  DL.qa('[data-editorial-poster]').forEach((el) => DL.editorialPoster(el));
 })();
 
 /* ==========================================================================
