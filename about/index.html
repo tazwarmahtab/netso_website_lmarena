@@ -30,13 +30,23 @@
    the main bundle fails to load */
 document.documentElement.classList.add('anim');
 setTimeout(function () { document.documentElement.classList.remove('anim'); }, 2000);</script>
+<script>/* page-transition curtain: if we arrived through an internal wipe, cover the
+   page before first paint so there is no flash, then uncover as a failsafe even
+   if the main bundle never loads. Disabled for reduced motion. */
+(function(){try{
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  if(sessionStorage.getItem('netso:wipe')==='1'){
+    document.documentElement.classList.add('wipe-cover');
+    setTimeout(function(){document.documentElement.classList.remove('wipe-cover');},1400);
+  }
+}catch(e){}})();</script>
 
 
 <link rel="stylesheet" href="/assets/css/fonts.css"/>
 <link rel="stylesheet" href="/assets/css/site.css"/>
 </head>
 <body data-page="about" class=""><a class="skip-link" href="#content">Skip to content</a>
-<header class="header">
+<div class="pagewipe" id="pagewipe" aria-hidden="true"><div class="pagewipe__field"></div><div class="pagewipe__mark"><svg viewBox="0 0 100 41.09" fill="none" focusable="false" aria-hidden="true"><path d="M0 40.59L22.77 40.84L34.86 20.48L48.22 20.36L48.85 40.71L73.54 40.71L85.5 20.48L99.87 20.1L99.87 0.25L74.55 0L62.34 20.48L48.98 20.48L48.47 0.13L23.41 0Z" fill="currentColor"/></svg></div></div><header class="header">
 <div class="shell header__inner">
 <a class="header__logo" href="/" aria-label="Netso Energy — home">
 <svg viewBox="0 0 100 41.09" fill="none" aria-hidden="true" style="height:15px;width:auto"><path d="M0 40.59L22.77 40.84L34.86 20.48L48.22 20.36L48.85 40.71L73.54 40.71L85.5 20.48L99.87 20.1L99.87 0.25L74.55 0L62.34 20.48L48.98 20.48L48.47 0.13L23.41 0Z" fill="currentColor"/></svg>
@@ -135,7 +145,7 @@ setTimeout(function () { document.documentElement.classList.remove('anim'); }, 2
 </div>
 <div class="split split--gap mt-8">
 <div class="split__aside">
-<p class="lead">Bangladesh’s manufacturing base is concentrated, energy-intensive and expanding — and most of it sits under large, flat, load-bearing roofs.</p>
+<p class="lead" data-wordreveal>Bangladesh’s manufacturing base is concentrated, energy-intensive and expanding — and most of it sits under large, flat, load-bearing roofs.</p>
 <p class="body mt-3">Industrial and commercial consumers carry the cost of a grid under strain. Electricity tariffs for business have risen consistently, fuel supply for captive generation is uncertain, and reliability matters more than ever to operations that cannot stop.</p>
 <p class="body mt-3">At the same time, an increasing share of export-facing industry has to report and reduce the carbon intensity of its production to stay competitive with buyers in Europe and North America. Onsite generation addresses both the cost line and the reporting line at once.</p>
 <p class="body mt-3">Bangladesh is also a market where the physical prerequisites for distributed infrastructure are unusually favourable: dense industrial clusters, a single national grid and regulatory framework, and facility owners who already operate their own generation and understand the economics of power.</p>
@@ -143,7 +153,7 @@ setTimeout(function () { document.documentElement.classList.remove('anim'); }, 2
 </div>
 <div class="split__media">
 <figure class="media media--4x3">
-<img src="/assets/img/grid-infrastructure.jpg" alt="Electrical distribution infrastructure beside commercial buildings" width="1400" height="764" loading="lazy"/>
+<img src="/assets/img/grid-infrastructure.jpg" alt="Electrical distribution infrastructure beside commercial buildings" width="1400" height="764" loading="lazy" data-dither/>
 <figcaption class="media__badge mono">Behind-the-meter economics</figcaption>
 </figure>
 <figure class="media media--3x2 mt-4">
@@ -197,7 +207,7 @@ setTimeout(function () { document.documentElement.classList.remove('anim'); }, 2
 <p class="body mt-4" style="color:rgba(255,255,255,0.72)">Netso is designed around that discipline from the first project rather than as an afterthought once a pipeline exists. Ownership forces it: we cannot originate a project, sell it, and walk away. We hold the consequence of how it performs.</p>
 <p class="body mt-4" style="color:rgba(255,255,255,0.72)">That is also why our roadmap moves from solar to storage, then to energy management, and eventually to a coordinated network of distributed assets. Each step increases the value of the same underlying position: ownership of generating capacity at the customer’s meter.</p>
 <figure class="media media--3x2 mt-6">
-<img src="/assets/img/how-operate.jpg" alt="Rooftop solar array on an industrial building" width="1408" height="768" loading="lazy"/>
+<img src="/assets/img/how-operate.jpg" alt="Rooftop solar array on an industrial building" width="1408" height="768" loading="lazy" data-dither/>
 <figcaption class="media__badge mono">Asset ownership</figcaption>
 </figure>
 </div>

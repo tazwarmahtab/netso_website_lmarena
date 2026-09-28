@@ -174,6 +174,123 @@
     });
   };
 
+  /* ---------------------------------------------------------- wordReveal --
+     Word-by-word scrubbed reveal (godaylight's signature long-statement move):
+     the words start faint and darken to full ink as the block is scrolled
+     through. Progressive enhancement — if JS or SplitText never runs, or the
+     visitor asked for reduced motion, the text is simply fully legible. */
+  DL.wordReveal = function (target, opts) {
+    const o = Object.assign({ start: 'top 82%', end: 'top 40%', from: 0.16, scrub: 0.7 }, opts || {});
+    const els = typeof target === 'string' ? DL.qa(target) : (Array.isArray(target) ? target : [target]);
+    els.forEach((el) => {
+      if (!el || el.dataset.wordreveal === 'done') return;
+      el.dataset.wordreveal = 'done';
+      if (DL.reduceMotion || typeof SplitText === 'undefined') return;   // stays fully visible
+      SplitText.create(el, {
+        type: 'words', autoSplit: true,
+        onSplit(self) {
+          return gsap.fromTo(self.words, { opacity: o.from }, {
+            opacity: 1, ease: 'none', stagger: 0.6,
+            scrollTrigger: { trigger: el, start: o.start, end: o.end, scrub: o.scrub },
+          });
+        },
+      });
+    });
+  };
+
+  /* -------------------------------------------------------------- dither ---
+     Ordered-dither (Bayer 8x8) DISSOLVE: a same-origin image "develops" from a
+     sparse field of chunky dots into the full photograph as it scrolls into
+     view — the dithering→dissolve effect requested. A canvas is laid over the
+     image and drawn on scroll; at completion it hands off to the real, crisp
+     <img> for fidelity and print/zoom quality. Progressive enhancement: if the
+     canvas cannot be built, or reduced motion is set, the real image just
+     shows normally (it is never hidden until the canvas is proven working). */
+  const BAYER8 = (function () {
+    const m = [0, 32, 8, 40, 2, 34, 10, 42, 48, 16, 56, 24, 50, 18, 58, 26,
+              12, 44, 4, 36, 14, 46, 6, 38, 60, 28, 52, 20, 62, 30, 54, 22,
+              3, 35, 11, 43, 1, 33, 9, 41, 51, 19, 59, 27, 49, 17, 57, 25,
+              15, 47, 7, 39, 13, 45, 5, 37, 63, 31, 55, 23, 61, 29, 53, 21];
+    return m.map((v) => (v + 0.5) / 64);
+  })();
+  DL.dither = function (target, opts) {
+    const o = Object.assign({ start: 'top 90%', end: 'top 45%', scrub: 0.55, px: 3, edge: 0.22 }, opts || {});
+    const els = typeof target === 'string' ? DL.qa(target) : (Array.isArray(target) ? target : [target]);
+    els.forEach((img) => {
+      if (!img || img.dataset.dither === 'init') return;
+      img.dataset.dither = 'init';
+      if (DL.reduceMotion) return;                       // real image shows as-is
+      const go = () => { try { setup(img); } catch (e) { img.style.opacity = '1'; console.warn('[netso] dither', e); } };
+      if (img.complete && img.naturalWidth) go();
+      else img.addEventListener('load', go, { once: true });
+    });
+
+    function setup(img) {
+      const wrap = img.parentElement;
+      if (!wrap) return;
+      if (getComputedStyle(wrap).position === 'static') wrap.style.position = 'relative';
+
+      const canvas = document.createElement('canvas');
+      canvas.className = 'dither-canvas';
+      canvas.setAttribute('aria-hidden', 'true');
+      const ctx = canvas.getContext('2d');
+      const small = document.createElement('canvas');
+      const sctx = small.getContext('2d', { willReadFrequently: true });
+      let sw = 0, sh = 0, src = null, thr = null, out = null, ready = false;
+
+      const build = () => {
+        const r = img.getBoundingClientRect();
+        const dw = Math.max(1, Math.round(r.width)), dh = Math.max(1, Math.round(r.height));
+        if (!dw || !dh) return;
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = Math.round(dw * dpr); canvas.height = Math.round(dh * dpr);
+        canvas.style.width = dw + 'px'; canvas.style.height = dh + 'px';
+        canvas.style.left = img.offsetLeft + 'px'; canvas.style.top = img.offsetTop + 'px';
+        sw = Math.max(8, Math.min(280, Math.round(dw / o.px)));
+        sh = Math.max(8, Math.round(sw * dh / dw));
+        small.width = sw; small.height = sh;
+        sctx.drawImage(img, 0, 0, sw, sh);
+        src = sctx.getImageData(0, 0, sw, sh);          // same-origin: never taints
+        out = sctx.createImageData(sw, sh);
+        thr = new Float32Array(sw * sh);
+        for (let y = 0; y < sh; y++) for (let x = 0; x < sw; x++) thr[y * sw + x] = BAYER8[(y & 7) * 8 + (x & 7)];
+        ready = true;
+      };
+
+      const draw = (p) => {
+        if (!ready) return;
+        const s = src.data, d = out.data, e = o.edge;
+        for (let i = 0, n = sw * sh; i < n; i++) {
+          let a = (p - thr[i]) / e + 0.5;
+          a = a < 0 ? 0 : a > 1 ? 1 : a;
+          const j = i * 4;
+          d[j] = s[j]; d[j + 1] = s[j + 1]; d[j + 2] = s[j + 2]; d[j + 3] = (s[j + 3] * a) | 0;
+        }
+        sctx.putImageData(out, 0, 0);
+        ctx.imageSmoothingEnabled = p > 0.86;            // chunky dots early, smooth as it resolves
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(small, 0, 0, canvas.width, canvas.height);
+      };
+
+      wrap.appendChild(canvas);
+      build();
+      if (!ready) { canvas.remove(); img.style.opacity = '1'; return; }
+      img.style.opacity = '0';
+
+      const apply = (p) => {
+        if (p >= 0.995) { canvas.classList.add('is-done'); img.style.opacity = '1'; }
+        else { canvas.classList.remove('is-done'); img.style.opacity = '0'; draw(p); }
+      };
+      apply(0);
+      const st = ScrollTrigger.create({
+        trigger: img, start: o.start, end: o.end, scrub: o.scrub,
+        onUpdate: (self) => apply(self.progress),
+        onLeaveBack: () => apply(0),
+      });
+      window.addEventListener('resize', DL.debounce(() => { build(); apply(st.progress); }, 200));
+    }
+  };
+
   /* ------------------------------------------------------------ marquee --- */
   DL.marquee = function (root) {
     const track = DL.q('.marquee__track', root || document);
@@ -392,4 +509,76 @@
   DL.reveal('[data-reveal="up"]', { y: 28 });
   DL.reveal('[data-reveal="fade"]', { y: 0 });
   DL.qa('[data-lines]').forEach((el) => DL.lines(el, { start: el.dataset.start || 'top 86%' }));
+
+  // godaylight-language enhancements, opt-in per element via data-attributes
+  DL.wordReveal('[data-wordreveal]');
+  DL.dither('[data-dither]');
+})();
+
+/* ==========================================================================
+   Page-transition curtain — a dither dissolve BETWEEN pages.
+   On an internal navigation the curtain wipes in (dots resolve to a field),
+   then the browser navigates; on arrival the curtain wipes back out to reveal
+   the new page. This is a multi-page site, so the effect is delivered with two
+   halves: an "out" on click, and an "in" on every page load (incl. bfcache).
+
+   Guardrails (must never trap the user or break navigation):
+     * reduced motion → disabled entirely, links behave normally.
+     * only same-origin, plain left-clicks on real navigations are intercepted
+       (modifier keys, new-tab, downloads, hashes, mailto/tel/wa.me all skip).
+     * a hard failsafe navigates even if the animation event never fires.
+     * the incoming curtain always clears itself, including on pageshow from
+       the back/forward cache, so a returning page is never left covered.
+   ========================================================================== */
+(function () {
+  'use strict';
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const root = document.documentElement;
+  const curtain = document.getElementById('pagewipe');
+  if (!curtain || reduce) { if (curtain) curtain.remove(); return; }
+  const clearFlag = () => { try { sessionStorage.removeItem('netso:wipe'); } catch (e) {} };
+
+  // wipe the incoming page open: the page painted already covered (html.wipe-cover
+  // set pre-paint), so removing the class transitions the curtain out. bfcache
+  // restores re-cover then clear so a returning page is never left covered.
+  const wipeIn = () => {
+    clearFlag();
+    requestAnimationFrame(() => root.classList.remove('wipe-cover'));
+  };
+  window.addEventListener('pageshow', (e) => {
+    if (e.persisted && root.classList.contains('wipe-cover')) wipeIn();
+    else clearFlag();
+  });
+  wipeIn();
+
+  let navigating = false;
+  const leave = (href) => {
+    if (navigating) return;
+    navigating = true;
+    try { sessionStorage.setItem('netso:wipe', '1'); } catch (e) {}
+    root.classList.remove('wipe-cover');
+    curtain.classList.add('is-out');               // cover the outgoing page
+    let done = false;
+    const go = () => { if (done) return; done = true; window.location.href = href; };
+    curtain.addEventListener('transitionend', go, { once: true });
+    setTimeout(go, 620);                           // failsafe — never strand a click
+  };
+
+  document.addEventListener('click', (e) => {
+    if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    const a = e.target.closest && e.target.closest('a[href]');
+    if (!a) return;
+    if (a.target && a.target !== '_self') return;
+    if (a.hasAttribute('download')) return;
+    const href = a.getAttribute('href') || '';
+    if (!href || href[0] === '#') return;
+    if (/^(mailto:|tel:|javascript:|whatsapp:|sms:)/i.test(href)) return;
+    let url;
+    try { url = new URL(a.href, window.location.href); } catch (_) { return; }
+    if (url.origin !== window.location.origin) return;       // external → normal nav
+    if (url.pathname === window.location.pathname && url.hash) return;  // in-page anchor
+    if (url.href === window.location.href) return;
+    e.preventDefault();
+    leave(url.href);
+  }, true);
 })();

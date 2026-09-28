@@ -124,6 +124,16 @@ HEAD = """<!DOCTYPE html>
    the main bundle fails to load */
 document.documentElement.classList.add('anim');
 setTimeout(function () {{ document.documentElement.classList.remove('anim'); }}, 2000);</script>
+<script>/* page-transition curtain: if we arrived through an internal wipe, cover the
+   page before first paint so there is no flash, then uncover as a failsafe even
+   if the main bundle never loads. Disabled for reduced motion. */
+(function(){{try{{
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  if(sessionStorage.getItem('netso:wipe')==='1'){{
+    document.documentElement.classList.add('wipe-cover');
+    setTimeout(function(){{document.documentElement.classList.remove('wipe-cover');}},1400);
+  }}
+}}catch(e){{}}}})();</script>
 {intro_head}
 {jsonld}
 <link rel="stylesheet" href="/assets/css/fonts.css"/>
@@ -153,6 +163,18 @@ INTRO_HEAD = """<script>/* skip the intro curtain on repeat views in the same se
 first paint so there is never a flash of the curtain */
 try { if (sessionStorage.getItem('netso:intro') === '1')
   document.documentElement.classList.add('no-intro'); } catch (e) {}</script>"""
+
+# Page-transition curtain — a dither dissolve played between pages. Inert until
+# core.js drives it (and removed outright for reduced-motion), so it never
+# affects layout, paint or accessibility on its own. aria-hidden, no focusable
+# content. The dither field is a pure-CSS dot texture (no image request).
+PAGEWIPE = ('<div class="pagewipe" id="pagewipe" aria-hidden="true">'
+            '<div class="pagewipe__field"></div>'
+            '<div class="pagewipe__mark">'
+            '<svg viewBox="0 0 100 41.09" fill="none" focusable="false" aria-hidden="true">'
+            '<path d="M0 40.59L22.77 40.84L34.86 20.48L48.22 20.36L48.85 40.71L73.54 40.71'
+            'L85.5 20.48L99.87 20.1L99.87 0.25L74.55 0L62.34 20.48L48.98 20.48L48.47 0.13L23.41 0Z" '
+            'fill="currentColor"/></svg></div></div>')
 
 VENDOR = ["/assets/js/vendor/gsap.min.js", "/assets/js/vendor/ScrollTrigger.min.js",
           "/assets/js/vendor/SplitText.min.js", "/assets/js/vendor/lenis.min.js"]
@@ -211,7 +233,7 @@ def build_page(key, page):
     main = read(f"src/pages/{key}.html")
     scripts = "".join(f'<script src="{s}"></script>' for s in VENDOR)
     scripts += "".join(f'<script src="/assets/js/{s}"></script>' for s in ["core.js"] + page.get("extra_js", []) + [page["script"]])
-    html = (head + intro + skip + header + menu +
+    html = (head + intro + skip + PAGEWIPE + header + menu +
             f'<main id="content" class="{page.get("main_class", "")}">' + main + "</main>" +
             footer + scripts + "</body></html>")
     # inject deploy config (single source of truth in this file)

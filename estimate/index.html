@@ -30,13 +30,23 @@
    the main bundle fails to load */
 document.documentElement.classList.add('anim');
 setTimeout(function () { document.documentElement.classList.remove('anim'); }, 2000);</script>
+<script>/* page-transition curtain: if we arrived through an internal wipe, cover the
+   page before first paint so there is no flash, then uncover as a failsafe even
+   if the main bundle never loads. Disabled for reduced motion. */
+(function(){try{
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  if(sessionStorage.getItem('netso:wipe')==='1'){
+    document.documentElement.classList.add('wipe-cover');
+    setTimeout(function(){document.documentElement.classList.remove('wipe-cover');},1400);
+  }
+}catch(e){}})();</script>
 
 
 <link rel="stylesheet" href="/assets/css/fonts.css"/>
 <link rel="stylesheet" href="/assets/css/site.css"/>
 </head>
 <body data-page="estimate" class=""><a class="skip-link" href="#content">Skip to content</a>
-<header class="header">
+<div class="pagewipe" id="pagewipe" aria-hidden="true"><div class="pagewipe__field"></div><div class="pagewipe__mark"><svg viewBox="0 0 100 41.09" fill="none" focusable="false" aria-hidden="true"><path d="M0 40.59L22.77 40.84L34.86 20.48L48.22 20.36L48.85 40.71L73.54 40.71L85.5 20.48L99.87 20.1L99.87 0.25L74.55 0L62.34 20.48L48.98 20.48L48.47 0.13L23.41 0Z" fill="currentColor"/></svg></div></div><header class="header">
 <div class="shell header__inner">
 <a class="header__logo" href="/" aria-label="Netso Energy — home">
 <svg viewBox="0 0 100 41.09" fill="none" aria-hidden="true" style="height:15px;width:auto"><path d="M0 40.59L22.77 40.84L34.86 20.48L48.22 20.36L48.85 40.71L73.54 40.71L85.5 20.48L99.87 20.1L99.87 0.25L74.55 0L62.34 20.48L48.98 20.48L48.47 0.13L23.41 0Z" fill="currentColor"/></svg>
