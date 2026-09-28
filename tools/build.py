@@ -69,6 +69,12 @@ PAGES = {
         desc="Tell us about your facility. We will assess whether the roof can support a viable energy project.",
         og="/assets/img/og/start.jpg",
     ),
+    "estimate": dict(
+        out="estimate/index.html", route="/estimate", script="estimate.js",
+        title="Estimate — Netso Energy",
+        desc="Move two sliders for an indicative rooftop plant size and monthly saving for your facility. No rate quoted, no commitment — the real numbers come from a site survey and the PPA.",
+        og="/assets/img/og/how-it-works.jpg",
+    ),
     "privacy": dict(
         out="legal/privacy/index.html", route="/legal/privacy", script="legal.js",
         title="Privacy Policy — Netso Energy", desc="How Netso Energy handles personal and project information.",
@@ -237,7 +243,7 @@ def write_sitemap_and_robots():
     routes = [p["route"] for k, p in PAGES.items() if k != "404"]
     # priority hints: home highest, then primary sections, then legal
     prio = {"/": "1.0", "/how-it-works": "0.9", "/projects": "0.9",
-            "/about": "0.8", "/start-a-project": "0.8"}
+            "/about": "0.8", "/start-a-project": "0.8", "/estimate": "0.8"}
     urls = "".join(
         f"<url><loc>{SITE}{r}</loc><lastmod>{today}</lastmod>"
         f"<changefreq>monthly</changefreq><priority>{prio.get(r, '0.4')}</priority></url>"
