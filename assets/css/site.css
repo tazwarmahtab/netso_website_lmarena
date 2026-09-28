@@ -402,6 +402,8 @@ input, select, textarea { font: inherit; color: inherit; }
 }
 .form-status.is-visible { display: grid; }
 .form-status__icon { width: 2rem; height: 2rem; border-radius: 50%; display: grid; place-items: center; background: rgba(31,122,90,0.12); color: var(--green); }
+.form-msg { margin-top: 0.875rem; font-size: 0.875rem; line-height: 1.5; color: var(--ink-2); padding: 0.75rem 0.875rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); }
+.form-msg--error { color: var(--solar-deep); border-color: rgba(184,95,10,0.35); background: rgba(184,95,10,0.06); }
 
 /* ------------------------------- misc ------------------------------------ */
 .marquee { overflow: hidden; border-block: 1px solid var(--line); }

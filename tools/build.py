@@ -16,6 +16,22 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(ROOT, "src")
 SITE = "https://netso.energy"
 
+# --------------------------------------------------------------- deploy config
+# Single source of truth for the two launch-blocking values. Set these before
+# going live; they are injected into every page at build time.
+#
+#   CONTACT_EMAIL — the real inbox. Replaces the placeholder everywhere
+#                   (footer, mailto links, privacy/terms, the form fallback).
+#   FORM_ENDPOINT — where the enquiry form POSTs. Leave "" to use the built-in
+#                   zero-backend mailto fallback (opens the visitor's mail
+#                   client with the enquiry prefilled — works on any host).
+#                   To use a hosted form service, paste its endpoint, e.g.
+#                   Formspree:  https://formspree.io/f/xxxxxxxx
+#                   (any service that accepts a multipart POST and returns 2xx
+#                   works — the client sends `Accept: application/json`).
+CONTACT_EMAIL = "hello@netso.energy"   # TODO: replace with the real inbox
+FORM_ENDPOINT = ""                     # TODO: paste a form endpoint, or leave "" for mailto
+
 PAGES = {
     "home": dict(
         out="index.html", route="/", script="home.js", extra_js=[],
@@ -186,6 +202,9 @@ def build_page(key, page):
     html = (head + intro + skip + header + menu +
             f'<main id="content" class="{page.get("main_class", "")}">' + main + "</main>" +
             footer + scripts + "</body></html>")
+    # inject deploy config (single source of truth in this file)
+    html = html.replace("{{FORM_ENDPOINT}}", FORM_ENDPOINT)
+    html = html.replace("hello@netso.energy", CONTACT_EMAIL)
     html = strip_internal(html)
     assert_clean(html, page["route"])
     out = os.path.join(ROOT, page["out"])

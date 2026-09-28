@@ -282,25 +282,83 @@
       }
     });
 
+    const endpoint = (form.getAttribute('data-endpoint') || '').trim();
+    const contact = (form.getAttribute('data-contact') || '').trim();
+    const msg = DL.q('.form-msg', form);
+    const setBusy = (b) => {
+      if (btn) btn.disabled = b;
+      if (btnLabel) btnLabel.textContent = b ? 'Submitting…' : original;
+    };
+    const showMsg = (text, isError) => {
+      if (!msg) return;
+      msg.textContent = text;
+      msg.classList.toggle('form-msg--error', !!isError);
+      msg.hidden = false;
+    };
+    const clearMsg = () => { if (msg) { msg.hidden = true; msg.textContent = ''; } };
+    const showSuccess = (data) => {
+      form.hidden = true;
+      if (status) status.classList.add('is-visible');
+      if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
+      document.dispatchEvent(new CustomEvent('netso:leadSubmitted', { detail: data }));
+      if (typeof onSubmit === 'function') onSubmit(data);
+    };
+    // zero-backend fallback: compose a prefilled email so the enquiry still
+    // reaches a human on any host, even before a form service is configured
+    const mailtoFallback = (data) => {
+      const to = contact || 'hello@netso.energy';
+      const subject = 'Project enquiry — ' + (data.company || data.name || 'Netso website');
+      const order = [
+        ['name', 'Name'], ['company', 'Company'], ['email', 'Email'], ['phone', 'Phone'],
+        ['facility_location', 'Facility location'], ['facility_type', 'Facility type'],
+        ['rooftop_area', 'Rooftop area'], ['consumption', 'Electricity consumption'],
+        ['tariff', 'Tariff'], ['sanctioned_load', 'Sanctioned load'],
+        ['existing_solar', 'Existing solar'], ['notes', 'Additional information'],
+      ];
+      const lines = order
+        .filter(([k]) => data[k] && String(data[k]).trim())
+        .map(([k, label]) => `${label}: ${data[k]}`);
+      const body = 'Project enquiry submitted via netso.energy\n\n' + lines.join('\n');
+      window.location.href = 'mailto:' + to +
+        '?subject=' + encodeURIComponent(subject) +
+        '&body=' + encodeURIComponent(body);
+    };
+
     form.addEventListener('submit', (e) => {
       e.preventDefault();
+      clearMsg();
       if (!validate()) {
         const first = DL.q('.field.is-invalid input, .field.is-invalid select, .field.is-invalid textarea', form);
         if (first && first.focus) first.focus({ preventScroll: false });
         return;
       }
       const data = Object.fromEntries(new FormData(form).entries());
-      if (btn) btn.disabled = true;
-      if (btnLabel) btnLabel.textContent = 'Submitting…';
-      setTimeout(() => {
-        if (btn) btn.disabled = false;
-        if (btnLabel) btnLabel.textContent = original;
-        form.hidden = true;
-        if (status) status.classList.add('is-visible');
-        ScrollTrigger.refresh();
-        document.dispatchEvent(new CustomEvent('netso:leadSubmitted', { detail: data }));
-        if (typeof onSubmit === 'function') onSubmit(data);
-      }, 900);
+      delete data._gotcha; delete data._subject;
+
+      // no endpoint configured yet → hand off to the visitor's mail client
+      if (!endpoint) {
+        mailtoFallback(data);
+        showMsg('We\u2019ve opened your email client with the enquiry prefilled \u2014 press send to reach us. If nothing opened, write to ' + (contact || 'hello@netso.energy') + '.', false);
+        return;
+      }
+
+      setBusy(true);
+      fetch(endpoint, {
+        method: 'POST',
+        headers: { Accept: 'application/json' },
+        body: new FormData(form),
+      })
+        .then((res) => {
+          if (res.ok) { setBusy(false); showSuccess(data); return; }
+          return res.json().then((j) => {
+            const m = j && j.errors && j.errors[0] && j.errors[0].message;
+            throw new Error(m || 'Submission failed');
+          }).catch(() => { throw new Error('Submission failed'); });
+        })
+        .catch(() => {
+          setBusy(false);
+          showMsg('Sorry \u2014 we couldn\u2019t submit your enquiry. Please try again, or email us directly at ' + (contact || 'hello@netso.energy') + '.', true);
+        });
     });
   };
 

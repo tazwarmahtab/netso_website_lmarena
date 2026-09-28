@@ -22,8 +22,9 @@ window.DL.ready(function () {
   }
 
   DL.initForm(form, (data) => {
-    // integration point — POST `data` to your CRM / API here
-    console.info('[netso] project enquiry (not sent — no backend configured)', data);
+    // fires after a confirmed successful submission to FORM_ENDPOINT.
+    // optional integration point — e.g. fire an analytics/conversion event here.
+    console.info('[netso] project enquiry submitted', data);
   });
 
   // prefill facility type from ?type=… links elsewhere on the site
