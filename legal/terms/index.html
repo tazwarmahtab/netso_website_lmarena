@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -18,16 +18,19 @@
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://netso.energy/assets/img/og/home.jpg"/>
 <link rel="manifest" href="/manifest.webmanifest"/>
-<meta name="theme-color" content="#F5F3EF"/>
+<meta name="theme-color" content="#F5F3EF" media="(prefers-color-scheme: light)"/>
+<meta name="theme-color" content="#0C0E11" media="(prefers-color-scheme: dark)"/>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
 <link rel="icon" href="/assets/img/favicon-96.png" sizes="96x96" type="image/png"/>
 <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png"/>
 <link rel="preload" href="/assets/fonts/Archivo-100-900-normal-latin.woff2" as="font" type="font/woff2" crossorigin/>
 <link rel="preload" href="/assets/fonts/InstrumentSerif-400-normal-latin.woff2" as="font" type="font/woff2" crossorigin/>
 
-<script>/* opt-in intro animations; auto-failsafe so content is never hidden */
+<script>/* opt-in intro animations; auto-failsafe so content is never hidden even if
+   the main bundle fails to load */
 document.documentElement.classList.add('anim');
-setTimeout(function () { document.documentElement.classList.remove('anim'); }, 4500);</script>
+setTimeout(function () { document.documentElement.classList.remove('anim'); }, 2000);</script>
+
 
 <link rel="stylesheet" href="/assets/css/fonts.css"/>
 <link rel="stylesheet" href="/assets/css/site.css"/>
@@ -82,7 +85,7 @@ setTimeout(function () { document.documentElement.classList.remove('anim'); }, 4
 <span class="eyebrow" style="color:rgba(255,255,255,0.5)">Legal</span>
 <h1 class="display display-sm pagehero__title" data-lines>Terms of Service</h1>
 <p class="lead pagehero__sub" style="color:rgba(255,255,255,0.7)">Terms for using this website.</p>
-<span class="mono mt-6" style="display:block;color:rgba(255,255,255,0.4)">Last updated — <span data-year>2026</span></span>
+<span class="mono mt-6" style="display:block;color:rgba(255,255,255,0.6)">Last updated — <span data-year>2026</span></span>
 </div>
 </section>
 
@@ -92,7 +95,7 @@ setTimeout(function () { document.documentElement.classList.remove('anim'); }, 4
 <p>These terms govern your use of the Netso Energy website. By using the site you accept them.</p>
 
 <h2>Purpose of this site</h2>
-<p>This website describes Netso's business — the development, financing, ownership and operation of distributed energy assets — and provides a way to contact us about a facility, a project or a partnership. Nothing on this site is an offer, a quotation, a commitment to supply electricity, or a binding description of commercial terms.</p>
+<p>This website describes Netso’s business — the development, financing, ownership and operation of distributed energy assets — and provides a way to contact us about a facility, a project or a partnership. Nothing on this site is an offer, a quotation, a commitment to supply electricity, or a binding description of commercial terms.</p>
 
 <h2>Project information</h2>
 <p>Descriptions of projects, pipeline activity, capacity figures and roadmap items are provided for information. Projects described as in development, assessment, origination or screening are not built, not commissioned and not generating, and a Letter of Intent or Memorandum of Understanding is not a completed contract, a commitment to build, or a commitment to supply electricity. Capacities described as approximate are screening estimates subject to survey. Any commercial arrangement is established only through a signed agreement between Netso and the relevant counterparty; a project may be described as contracted before construction begins, and contracting is not a statement that a system has been built, commissioned or is generating.</p>
@@ -107,7 +110,7 @@ setTimeout(function () { document.documentElement.classList.remove('anim'); }, 4
 <p>The site, its text, layout, graphics, diagrams and brand are owned by Netso Energy or used with permission, and may not be copied or reused without our written consent.</p>
 
 <h2>Availability and liability</h2>
-<p>We aim to keep the site accurate and available but do not warrant that it is free of errors or interruptions. To the extent permitted by law, Netso is not liable for loss arising from reliance on the site's content or from inability to use it.</p>
+<p>We aim to keep the site accurate and available but do not warrant that it is free of errors or interruptions. To the extent permitted by law, Netso is not liable for loss arising from reliance on the site’s content or from inability to use it.</p>
 
 <h2>Contact</h2>
 <p>Netso Energy — <a href="mailto:hello@netso.energy">hello@netso.energy</a></p>
@@ -119,24 +122,24 @@ setTimeout(function () { document.documentElement.classList.remove('anim'); }, 4
 <div class="shell">
 <div class="footer__top">
 <div class="stack" style="--stack-gap:1.5rem">
-<span class="eyebrow eyebrow--plain" style="color:rgba(255,255,255,0.46)">Netso Energy</span>
+<span class="eyebrow eyebrow--plain" style="color:rgba(255,255,255,0.6)">Netso Energy</span>
 <p class="footer__line">Your roof.<br/>Now an energy asset.</p>
 </div>
 <div class="footer__cols">
 <div class="footer__col">
-<h4>Company</h4>
+<h2 class="footer__coltitle">Company</h2>
 <a href="/how-it-works">How it works</a>
 <a href="/projects">Projects</a>
 <a href="/about">About</a>
 </div>
 <div class="footer__col">
-<h4>Work with us</h4>
+<h2 class="footer__coltitle">Work with us</h2>
 <a href="/start-a-project">Start a project</a>
 <a href="mailto:hello@netso.energy">hello@netso.energy</a>
 <a href="/start-a-project#capital">Project finance &amp; partners</a>
 </div>
 <div class="footer__col">
-<h4>Legal</h4>
+<h2 class="footer__coltitle">Legal</h2>
 <a href="/legal/privacy">Privacy policy</a>
 <a href="/legal/terms">Terms of service</a>
 <a href="/start-a-project">Project enquiries</a>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -18,38 +18,27 @@
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://netso.energy/assets/img/og/home.jpg"/>
 <link rel="manifest" href="/manifest.webmanifest"/>
-<meta name="theme-color" content="#F5F3EF"/>
+<meta name="theme-color" content="#F5F3EF" media="(prefers-color-scheme: light)"/>
+<meta name="theme-color" content="#0C0E11" media="(prefers-color-scheme: dark)"/>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
 <link rel="icon" href="/assets/img/favicon-96.png" sizes="96x96" type="image/png"/>
 <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png"/>
 <link rel="preload" href="/assets/fonts/Archivo-100-900-normal-latin.woff2" as="font" type="font/woff2" crossorigin/>
 <link rel="preload" href="/assets/fonts/InstrumentSerif-400-normal-latin.woff2" as="font" type="font/woff2" crossorigin/>
 <link rel="preload" as="image" href="/assets/img/hero/roof-base.webp" media="(min-width: 48rem)" fetchpriority="high"/><link rel="preload" as="image" href="/assets/img/hero/roof-base-m.webp" media="(max-width: 47.999rem)" fetchpriority="high"/>
-<script>/* opt-in intro animations; auto-failsafe so content is never hidden */
+<script>/* opt-in intro animations; auto-failsafe so content is never hidden even if
+   the main bundle fails to load */
 document.documentElement.classList.add('anim');
-setTimeout(function () { document.documentElement.classList.remove('anim'); }, 4500);</script>
+setTimeout(function () { document.documentElement.classList.remove('anim'); }, 2000);</script>
 <script>/* skip the intro curtain on repeat views in the same session — set before
 first paint so there is never a flash of the curtain */
 try { if (sessionStorage.getItem('netso:intro') === '1')
   document.documentElement.classList.add('no-intro'); } catch (e) {}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://netso.energy/#org","name":"Netso Energy","url":"https://netso.energy/","logo":"https://netso.energy/assets/img/icon-512.png","description":"Netso Energy develops, finances, owns and operates distributed solar infrastructure on commercial and industrial rooftops in Bangladesh.","areaServed":{"@type":"Country","name":"Bangladesh"}},{"@type":"WebSite","@id":"https://netso.energy/#site","url":"https://netso.energy/","name":"Netso Energy","publisher":{"@id":"https://netso.energy/#org"},"inLanguage":"en-GB"}]}</script>
 <link rel="stylesheet" href="/assets/css/fonts.css"/>
 <link rel="stylesheet" href="/assets/css/site.css"/>
 </head>
-<body data-page="home" class=""><!-- ============================ INTRO CURTAIN ============================
-     Logo over a live brand gradient that dissolves into the hero.
-
-     Rules this follows (all standing constraints):
-     * It never delays understanding — it is a CSS animation that ends by
-       itself at 1.7 s whether or not JavaScript ever runs. No JS gate.
-     * prefers-reduced-motion: never rendered at all (CSS hides it).
-     * Repeat views in the same session: skipped via a class set in <head>
-       before first paint, so there is no flash.
-     * pointer-events: none throughout, so a visitor can always interact
-       with the page beneath, and any scroll/click/key just removes it.
-     * aria-hidden + no focusable content: nothing here reaches a screen
-       reader or the tab order.
-     ====================================================================== -->
-<div class="intro" id="intro" aria-hidden="true">
+<body data-page="home" class=""><div class="intro" id="intro" aria-hidden="true">
   <div class="intro__grad"></div>
   <div class="intro__grid"></div>
   <div class="intro__logo">
@@ -106,14 +95,7 @@ try { if (sessionStorage.getItem('netso:intro') === '1')
 </div>
 </div>
 </div>
-<main id="content" class=""><!-- ============================== HERO ==============================
-     Business-model clarity block. Within the first viewport the visitor
-     should get: they have a roof → Netso develops the infrastructure →
-     Netso finances/owns/operates it → the customer buys the electricity
-     under a long-term PPA.
-     Headline direction A — locked. Copy lives here, not in home.js.
-     ================================================================ -->
-<section class="hero" id="hero" data-header="dark">
+<main id="content" class=""><section class="hero" id="hero" data-header="dark">
 <div class="hero__stage" aria-hidden="true">
 <picture class="hero__layer hero__layer--base is-active" data-stage="base">
 <source media="(max-width: 47.999rem)" srcset="/assets/img/hero/roof-base-m.webp"/>
@@ -125,18 +107,14 @@ try { if (sessionStorage.getItem('netso:intro') === '1')
 <img src="/assets/img/hero/roof-solar.webp" alt="Solar modules installed across the roof of an industrial facility in Bangladesh" width="1440" height="786" decoding="async" fetchpriority="low"/>
 </picture>
 
-<!-- survey overlay: drawn over the ordinary roof before the system appears -->
 <svg class="hero__survey" viewBox="0 0 1440 786" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
 <g class="hs" fill="none" stroke="#FF7A00" stroke-width="1.4" vector-effect="non-scaling-stroke">
-<!-- usable roof plane boundary -->
 <path class="hs-path" d="M392 205 L1078 187 L1180 452 L352 512 Z"/>
-<!-- array sub-divisions -->
 <path class="hs-path" d="M520 201 L560 486"/>
 <path class="hs-path" d="M650 197 L700 476"/>
 <path class="hs-path" d="M780 193 L840 462"/>
 <path class="hs-path" d="M910 189 L980 448"/>
 <path class="hs-path" d="M404 340 L1124 316"/>
-<!-- dimension line -->
 <path class="hs-dim" d="M392 560 L1180 500"/>
 <path class="hs-dim" d="M392 550 L392 570"/>
 <path class="hs-dim" d="M1180 490 L1180 510"/>
@@ -152,7 +130,6 @@ try { if (sessionStorage.getItem('netso:intro') === '1')
 </g>
 </svg>
 
-<!-- energy flow: surfaced after the system is installed -->
 <svg class="hero__flow" viewBox="0 0 1440 786" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
 <g class="hf" fill="none" stroke="#FFC53D" stroke-width="1.6" vector-effect="non-scaling-stroke">
 <path class="hf-line" d="M470 300 L700 400 L980 470 L1120 512"/>
@@ -205,7 +182,6 @@ try { if (sessionStorage.getItem('netso:intro') === '1')
 </div>
 </section>
 
-<!-- ====================== 01 THE ROOFTOP OPPORTUNITY ====================== -->
 <section class="section" id="opportunity">
 <div class="shell">
 <div class="sec-head">
@@ -218,7 +194,7 @@ try { if (sessionStorage.getItem('netso:intro') === '1')
 
 <div class="split split--gap mt-8">
 <div class="split__aside">
-<p class="lead">Bangladesh's industrial economy runs on large, flat, structurally simple roofs. Almost all of that surface does nothing.</p>
+<p class="lead">Bangladesh’s industrial economy runs on large, flat, structurally simple roofs. Almost all of that surface does nothing.</p>
 <p class="body mt-3">Meanwhile the businesses underneath it pay for electricity that keeps getting more expensive, more carbon-intensive than it needs to be, and less reliable than their operations can afford.</p>
 <p class="body mt-3">Netso treats the roof as an infrastructure site: a place where an energy asset can be built, owned and operated for decades, producing electricity for the facility below it.</p>
 <p class="body mt-3">The facility keeps running exactly as it does today. What changes is who owns the equipment on the roof, who pays for it, and who carries the performance risk.</p>
@@ -234,7 +210,7 @@ try { if (sessionStorage.getItem('netso:intro') === '1')
 <div class="sourced__cell"><span class="sourced__v num">5,500 MW</span><span class="sourced__l">National solar capacity target for 2030 — public announcement, as reported September 2026.</span></div>
 <div class="sourced__cell"><span class="sourced__v num">~213 MW</span><span class="sourced__l">Installed nationally — 3.9% of target. Public announcement, as reported September 2026.</span></div>
 </div>
-<p class="small mt-3">Published figures, cited as such. Everything else on this page is Netso's reading of the market, not a statistic.</p>
+<p class="small mt-3">Published figures, cited as such. Everything else on this page is Netso’s reading of the market, not a statistic.</p>
 
 <div class="statgrid mt-8">
 <article class="statcard">
@@ -261,7 +237,6 @@ try { if (sessionStorage.getItem('netso:intro') === '1')
 </div>
 </section>
 
-<!-- ========================== 02 DEVELOP. FINANCE. OWN. OPERATE. ========= -->
 <section class="section bg-paper-2" id="model-phases">
 <div class="shell">
 <div class="sec-head">
@@ -290,7 +265,7 @@ try { if (sessionStorage.getItem('netso:intro') === '1')
 <p class="body mt-2">The system sits with its owner. Monitoring, maintenance and insurance stay with Netso for the life of the agreement.</p>
 </div>
 <div class="flowmap__cell flowmap__cell--accent">
-<span class="mono" style="color:rgba(255,255,255,0.46)">04 · You buy the power</span>
+<span class="mono" style="color:rgba(255,255,255,0.6)">04 · You buy the power</span>
 <h3 class="h3" style="color:#fff">Pay per kWh</h3>
 <p class="body mt-2" style="color:rgba(255,255,255,0.7)">Your facility buys the generated electricity under a long-term PPA — an operating cost, not a capital project.</p>
 </div>
@@ -317,7 +292,6 @@ try { if (sessionStorage.getItem('netso:intro') === '1')
 </div>
 </section>
 
-<!-- ================== 03 YOU USE THE POWER. WE BUILD AND OPERATE. ======== -->
 <section class="section" id="model">
 <div class="shell">
 <div class="sec-head">
@@ -363,7 +337,6 @@ try { if (sessionStorage.getItem('netso:intro') === '1')
 </div>
 </section>
 
-<!-- ====================== 04 SEE IT IN PRACTICE (PROOF) ================== -->
 <section class="section" id="proof" data-header="dark" style="background:var(--void);color:var(--void-text)">
 <div class="shell">
 <div class="sec-head">
@@ -376,7 +349,7 @@ try { if (sessionStorage.getItem('netso:intro') === '1')
 
 <div class="split split--gap mt-8">
 <div class="split__aside">
-<p class="lead" style="color:rgba(255,255,255,0.78)">An 80 kWp rooftop system contracted with Chittagong Grammar School under a signed Power Purchase Agreement. Netso originated the project, surveyed the roof and structured the commercial case against the school's own electricity bill: the contracted tariff sits roughly a third below the BERC grid benchmark. The system is not yet built — construction follows the agreement.</p>
+<p class="lead" style="color:rgba(255,255,255,0.78)">An 80 kWp rooftop system contracted with Chittagong Grammar School under a signed Power Purchase Agreement. Netso originated the project, surveyed the roof and structured the commercial case against the school’s own electricity bill: the contracted tariff sits roughly a third below the BERC grid benchmark. The system is not yet built — construction follows the agreement.</p>
 <div class="proofbar mt-6">
 <div class="proofbar__cell"><span class="proofbar__v num" data-count data-value="80">80</span><span class="proofbar__l mono">kWp contracted capacity</span></div>
 <div class="proofbar__cell"><span class="proofbar__v mono" style="font-size:1.0625rem;letter-spacing:0.04em">Below grid</span><span class="proofbar__l mono">PPA tariff vs BERC benchmark</span></div>
@@ -393,10 +366,10 @@ try { if (sessionStorage.getItem('netso:intro') === '1')
 <span class="tag tag--contracted"><span class="dot"></span>PPA signed · pre-construction</span>
 </div>
 <ol class="record__ladder">
-<li class="record__step is-done"><span class="record__idx mono">01</span><div><h4>Letter of Intent executed</h4><p class="small">September 2026 — commercial terms agreed with the school.</p></div></li>
-<li class="record__step is-done"><span class="record__idx mono">02</span><div><h4>Power Purchase Agreement signed</h4><p class="small">Contract in place. Nothing has been built under it yet.</p></div></li>
-<li class="record__step"><span class="record__idx mono">03</span><div><h4>Construction</h4><p class="small">Not started — follows the agreement.</p></div></li>
-<li class="record__step"><span class="record__idx mono">04</span><div><h4>Commissioning</h4><p class="small">Not started — first metered billing follows commissioning.</p></div></li>
+<li class="record__step is-done"><span class="record__idx mono">01</span><div><h3>Letter of Intent executed</h3><p class="small">September 2026 — commercial terms agreed with the school.</p></div></li>
+<li class="record__step is-done"><span class="record__idx mono">02</span><div><h3>Power Purchase Agreement signed</h3><p class="small">Contract in place. Nothing has been built under it yet.</p></div></li>
+<li class="record__step"><span class="record__idx mono">03</span><div><h3>Construction</h3><p class="small">Not started — follows the agreement.</p></div></li>
+<li class="record__step"><span class="record__idx mono">04</span><div><h3>Commissioning</h3><p class="small">Not started — first metered billing follows commissioning.</p></div></li>
 </ol>
 <p class="record__note small">This record stands where a project photograph will go, because there is no installed system to photograph yet. When there is, the photograph replaces it — not before.</p>
 </div>
@@ -405,7 +378,6 @@ try { if (sessionStorage.getItem('netso:intro') === '1')
 </div>
 </section>
 
-<!-- ================== 05 INFRASTRUCTURE, NOT INSTALLATION =============== -->
 <section class="section" id="difference">
 <div class="shell">
 <div class="sec-head">
@@ -431,7 +403,7 @@ try { if (sessionStorage.getItem('netso:intro') === '1')
 </ul>
 </div>
 <div class="compare__col compare__col--ours">
-<span class="mono" style="color:rgba(255,255,255,0.46)">Netso</span>
+<span class="mono" style="color:rgba(255,255,255,0.6)">Netso</span>
 <h3 class="h3" style="color:#fff">The customer buys the power</h3>
 <ul class="compare__list mt-4">
 <li>Netso develops the asset</li>
@@ -448,7 +420,6 @@ try { if (sessionStorage.getItem('netso:intro') === '1')
 </div>
 </section>
 
-<!-- ====================== 06 WHO WE BUILD FOR ====================== -->
 <section class="section bg-paper-2" id="who">
 <div class="shell">
 <div class="sec-head">
@@ -490,7 +461,6 @@ try { if (sessionStorage.getItem('netso:intro') === '1')
 </div>
 </section>
 
-<!-- ====================== 07 DEVELOPMENT PORTFOLIO ====================== -->
 <section class="section" id="portfolio">
 <div class="shell">
 <div class="sec-head">
@@ -503,7 +473,7 @@ try { if (sessionStorage.getItem('netso:intro') === '1')
 
 <div class="split split--gap mt-8">
 <div class="split__aside">
-<p class="lead">Netso's model only works if it repeats. Each project adds contracted revenue, operational data and a repeatable development process — the three things that let a portfolio of distributed assets be financed and scaled.</p>
+<p class="lead">Netso’s model only works if it repeats. Each project adds contracted revenue, operational data and a repeatable development process — the three things that let a portfolio of distributed assets be financed and scaled.</p>
 <p class="body mt-3">We publish the stage and the capacity of every project we are developing. Counterparties are named only where an agreement is in place. No project is described as built, commissioned or generating until it is.</p>
 <a class="link-arrow mt-6" href="/projects">Projects and pipeline
 <svg width="11" height="9" viewBox="0 0 11 9" fill="none" aria-hidden="true"><path d="M0 4.5h9.5M6 .8l3.7 3.7L6 8.2" stroke="currentColor" stroke-width="1.2"/></svg></a>
@@ -531,7 +501,6 @@ try { if (sessionStorage.getItem('netso:intro') === '1')
 </div>
 </section>
 
-<!-- ====================== 08 LONG-TERM VISION ====================== -->
 <section class="section blueprint--dark" id="vision" data-header="dark">
 <div class="shell">
 <div class="sec-head">
@@ -544,22 +513,22 @@ try { if (sessionStorage.getItem('netso:intro') === '1')
 
 <div class="visiongrid mt-8">
 <div class="visiongrid__item" data-reveal="up">
-<span class="mono" style="color:rgba(255,255,255,0.45)">Today</span>
+<span class="mono" style="color:rgba(255,255,255,0.6)">Today</span>
 <h3 class="h3" style="color:#fff">Rooftop solar, contracted</h3>
 <p class="body mt-2" style="color:rgba(255,255,255,0.7)">Generate, own and operate behind-the-meter solar under long-term PPAs.</p>
 </div>
 <div class="visiongrid__item" data-reveal="up">
-<span class="mono" style="color:rgba(255,255,255,0.45)">Next</span>
+<span class="mono" style="color:rgba(255,255,255,0.6)">Next</span>
 <h3 class="h3" style="color:#fff">Storage</h3>
 <p class="body mt-2" style="color:rgba(255,255,255,0.7)">Add battery capacity to shift generation into peak hours and support facilities through outages.</p>
 </div>
 <div class="visiongrid__item" data-reveal="up">
-<span class="mono" style="color:rgba(255,255,255,0.45)">Then</span>
+<span class="mono" style="color:rgba(255,255,255,0.6)">Then</span>
 <h3 class="h3" style="color:#fff">Intelligent energy management</h3>
 <p class="body mt-2" style="color:rgba(255,255,255,0.7)">Metering, analytics and active control of generation, storage and load across each site.</p>
 </div>
 <div class="visiongrid__item" data-reveal="up">
-<span class="mono" style="color:rgba(255,255,255,0.45)">Eventually</span>
+<span class="mono" style="color:rgba(255,255,255,0.6)">Eventually</span>
 <h3 class="h3" style="color:#fff">A connected network</h3>
 <p class="body mt-2" style="color:rgba(255,255,255,0.7)">Hundreds of distributed assets coordinated as one energy platform rather than isolated installations.</p>
 </div>
@@ -576,7 +545,6 @@ try { if (sessionStorage.getItem('netso:intro') === '1')
 </div>
 </section>
 
-<!-- ====================== 09 ABOUT NETSO ====================== -->
 <section class="section bg-paper-2" id="about-teaser">
 <div class="shell">
 <div class="split split--gap">
@@ -587,7 +555,7 @@ try { if (sessionStorage.getItem('netso:intro') === '1')
 <span class="eyebrow">09 — About Netso</span>
 <h2 class="display display-sm mt-4" data-lines>We are building the asset-owner layer for distributed C&amp;I solar in Bangladesh.</h2>
 <p class="body mt-4">Netso Energy is a project developer and asset owner, not an EPC contractor, equipment retailer or sustainability consultancy. We find commercial rooftops with viable energy economics, develop the project, arrange the capital, build the system, and hold it for the term of the agreement.</p>
-<p class="body mt-3">The company was founded on a specific conviction: the constraint on distributed energy in Bangladesh is not technology and not demand — it is ownership. Someone has to be willing to put capital into an asset on someone else's roof and be accountable for it for twenty years. That is the job Netso does.</p>
+<p class="body mt-3">The company was founded on a specific conviction: the constraint on distributed energy in Bangladesh is not technology and not demand — it is ownership. Someone has to be willing to put capital into an asset on someone else’s roof and be accountable for it for twenty years. That is the job Netso does.</p>
 <a class="link-arrow mt-6" href="/about">More about Netso
 <svg width="11" height="9" viewBox="0 0 11 9" fill="none" aria-hidden="true"><path d="M0 4.5h9.5M6 .8l3.7 3.7L6 8.2" stroke="currentColor" stroke-width="1.2"/></svg></a>
 </div>
@@ -595,21 +563,20 @@ try { if (sessionStorage.getItem('netso:intro') === '1')
 </div>
 </section>
 
-<!-- ====================== 10 CTA ====================== -->
 <section class="section cta" id="cta" data-header="dark">
 <div class="shell">
 <div class="cta__inner">
 <span class="eyebrow" style="color:rgba(255,255,255,0.5)">10 — Start a project</span>
 <h2 class="display mt-4" data-lines>What can your roof do?</h2>
-<p class="lead mt-4" style="color:rgba(255,255,255,0.75);max-width:38rem">Tell us about the facility. We'll assess whether the roof can support a viable energy project — and come back with a view on what that project could look like.</p>
+<p class="lead mt-4" style="color:rgba(255,255,255,0.75);max-width:38rem">Tell us about the facility. We’ll assess whether the roof can support a viable energy project — and come back with a view on what that project could look like.</p>
 <div class="cluster mt-6">
 <a class="btn btn--light" href="/start-a-project"><span>Start a project</span>
 <svg width="11" height="9" viewBox="0 0 11 9" fill="none" aria-hidden="true"><path d="M0 4.5h9.5M6 .8l3.7 3.7L6 8.2" stroke="currentColor" stroke-width="1.2"/></svg></a>
 <a class="btn btn--outline-light" href="mailto:hello@netso.energy"><span>hello@netso.energy</span></a>
 </div>
 <div class="cta__meta">
-<span class="mono" style="color:rgba(255,255,255,0.4)">First response — typically within one working week</span>
-<span class="mono" style="color:rgba(255,255,255,0.4)">Initial assessment at no cost · No obligation</span>
+<span class="mono" style="color:rgba(255,255,255,0.6)">First response — typically within one working week</span>
+<span class="mono" style="color:rgba(255,255,255,0.6)">Initial assessment at no cost · No obligation</span>
 </div>
 </div>
 </div>
@@ -618,24 +585,24 @@ try { if (sessionStorage.getItem('netso:intro') === '1')
 <div class="shell">
 <div class="footer__top">
 <div class="stack" style="--stack-gap:1.5rem">
-<span class="eyebrow eyebrow--plain" style="color:rgba(255,255,255,0.46)">Netso Energy</span>
+<span class="eyebrow eyebrow--plain" style="color:rgba(255,255,255,0.6)">Netso Energy</span>
 <p class="footer__line">Your roof.<br/>Now an energy asset.</p>
 </div>
 <div class="footer__cols">
 <div class="footer__col">
-<h4>Company</h4>
+<h2 class="footer__coltitle">Company</h2>
 <a href="/how-it-works">How it works</a>
 <a href="/projects">Projects</a>
 <a href="/about">About</a>
 </div>
 <div class="footer__col">
-<h4>Work with us</h4>
+<h2 class="footer__coltitle">Work with us</h2>
 <a href="/start-a-project">Start a project</a>
 <a href="mailto:hello@netso.energy">hello@netso.energy</a>
 <a href="/start-a-project#capital">Project finance &amp; partners</a>
 </div>
 <div class="footer__col">
-<h4>Legal</h4>
+<h2 class="footer__coltitle">Legal</h2>
 <a href="/legal/privacy">Privacy policy</a>
 <a href="/legal/terms">Terms of service</a>
 <a href="/start-a-project">Project enquiries</a>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -18,16 +18,19 @@
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://netso.energy/assets/img/og/home.jpg"/>
 <link rel="manifest" href="/manifest.webmanifest"/>
-<meta name="theme-color" content="#F5F3EF"/>
+<meta name="theme-color" content="#F5F3EF" media="(prefers-color-scheme: light)"/>
+<meta name="theme-color" content="#0C0E11" media="(prefers-color-scheme: dark)"/>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
 <link rel="icon" href="/assets/img/favicon-96.png" sizes="96x96" type="image/png"/>
 <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png"/>
 <link rel="preload" href="/assets/fonts/Archivo-100-900-normal-latin.woff2" as="font" type="font/woff2" crossorigin/>
 <link rel="preload" href="/assets/fonts/InstrumentSerif-400-normal-latin.woff2" as="font" type="font/woff2" crossorigin/>
 
-<script>/* opt-in intro animations; auto-failsafe so content is never hidden */
+<script>/* opt-in intro animations; auto-failsafe so content is never hidden even if
+   the main bundle fails to load */
 document.documentElement.classList.add('anim');
-setTimeout(function () { document.documentElement.classList.remove('anim'); }, 4500);</script>
+setTimeout(function () { document.documentElement.classList.remove('anim'); }, 2000);</script>
+
 
 <link rel="stylesheet" href="/assets/css/fonts.css"/>
 <link rel="stylesheet" href="/assets/css/site.css"/>
@@ -82,7 +85,7 @@ setTimeout(function () { document.documentElement.classList.remove('anim'); }, 4
 <span class="eyebrow" style="color:rgba(255,255,255,0.5)">Legal</span>
 <h1 class="display display-sm pagehero__title" data-lines>Privacy Policy</h1>
 <p class="lead pagehero__sub" style="color:rgba(255,255,255,0.7)">How Netso Energy handles information you share with us.</p>
-<span class="mono mt-6" style="display:block;color:rgba(255,255,255,0.4)">Last updated — <span data-year>2026</span></span>
+<span class="mono mt-6" style="display:block;color:rgba(255,255,255,0.6)">Last updated — <span data-year>2026</span></span>
 </div>
 </section>
 
@@ -117,7 +120,7 @@ setTimeout(function () { document.documentElement.classList.remove('anim'); }, 4
 <p>Information may be shared with professional advisers, contractors, equipment suppliers and financing parties strictly as required to assess, develop, build or operate a project, and only on a confidential basis. We may disclose information where we are legally required to do so.</p>
 
 <h2>Retention</h2>
-<p>Enquiry and project information is kept while it is needed for the purposes described above, and for as long as any agreement that results from it requires. Specific retention periods, storage locations and the company's data-protection point of contact are being finalised and will be published on this page.</p>
+<p>Enquiry and project information is kept while it is needed for the purposes described above, and for as long as any agreement that results from it requires. Specific retention periods, storage locations and the company’s data-protection point of contact are being finalised and will be published on this page.</p>
 
 <h2>Your choices</h2>
 <p>You can ask us to correct or delete the information we hold about you, or to stop contacting you. Write to <a href="mailto:hello@netso.energy">hello@netso.energy</a> and we will respond within a reasonable period.</p>
@@ -138,24 +141,24 @@ setTimeout(function () { document.documentElement.classList.remove('anim'); }, 4
 <div class="shell">
 <div class="footer__top">
 <div class="stack" style="--stack-gap:1.5rem">
-<span class="eyebrow eyebrow--plain" style="color:rgba(255,255,255,0.46)">Netso Energy</span>
+<span class="eyebrow eyebrow--plain" style="color:rgba(255,255,255,0.6)">Netso Energy</span>
 <p class="footer__line">Your roof.<br/>Now an energy asset.</p>
 </div>
 <div class="footer__cols">
 <div class="footer__col">
-<h4>Company</h4>
+<h2 class="footer__coltitle">Company</h2>
 <a href="/how-it-works">How it works</a>
 <a href="/projects">Projects</a>
 <a href="/about">About</a>
 </div>
 <div class="footer__col">
-<h4>Work with us</h4>
+<h2 class="footer__coltitle">Work with us</h2>
 <a href="/start-a-project">Start a project</a>
 <a href="mailto:hello@netso.energy">hello@netso.energy</a>
 <a href="/start-a-project#capital">Project finance &amp; partners</a>
 </div>
 <div class="footer__col">
-<h4>Legal</h4>
+<h2 class="footer__coltitle">Legal</h2>
 <a href="/legal/privacy">Privacy policy</a>
 <a href="/legal/terms">Terms of service</a>
 <a href="/start-a-project">Project enquiries</a>

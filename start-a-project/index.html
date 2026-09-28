@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -18,16 +18,19 @@
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://netso.energy/assets/img/og/start.jpg"/>
 <link rel="manifest" href="/manifest.webmanifest"/>
-<meta name="theme-color" content="#F5F3EF"/>
+<meta name="theme-color" content="#F5F3EF" media="(prefers-color-scheme: light)"/>
+<meta name="theme-color" content="#0C0E11" media="(prefers-color-scheme: dark)"/>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
 <link rel="icon" href="/assets/img/favicon-96.png" sizes="96x96" type="image/png"/>
 <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png"/>
 <link rel="preload" href="/assets/fonts/Archivo-100-900-normal-latin.woff2" as="font" type="font/woff2" crossorigin/>
 <link rel="preload" href="/assets/fonts/InstrumentSerif-400-normal-latin.woff2" as="font" type="font/woff2" crossorigin/>
 
-<script>/* opt-in intro animations; auto-failsafe so content is never hidden */
+<script>/* opt-in intro animations; auto-failsafe so content is never hidden even if
+   the main bundle fails to load */
 document.documentElement.classList.add('anim');
-setTimeout(function () { document.documentElement.classList.remove('anim'); }, 4500);</script>
+setTimeout(function () { document.documentElement.classList.remove('anim'); }, 2000);</script>
+
 
 <link rel="stylesheet" href="/assets/css/fonts.css"/>
 <link rel="stylesheet" href="/assets/css/site.css"/>
@@ -81,27 +84,19 @@ setTimeout(function () { document.documentElement.classList.remove('anim'); }, 4
 <div class="shell">
 <span class="eyebrow" style="color:rgba(255,255,255,0.5)">Start a project</span>
 <h1 class="display pagehero__title" data-lines>Tell us about the facility.</h1>
-<p class="lead pagehero__sub" style="color:rgba(255,255,255,0.75)">We'll assess whether the roof can support a viable energy project — and come back with a view on what that project could look like, and what it would take to build it.</p>
+<p class="lead pagehero__sub" style="color:rgba(255,255,255,0.75)">We’ll assess whether the roof can support a viable energy project — and come back with a view on what that project could look like, and what it would take to build it.</p>
 <div class="cluster mt-6">
-<span class="mono" style="color:rgba(255,255,255,0.4)">No capital outlay to assess · No obligation · Confidential</span>
+<span class="mono" style="color:rgba(255,255,255,0.6)">No capital outlay to assess · No obligation · Confidential</span>
 </div>
 </div>
 </section>
 
-<section class="section" id="form">
+<section class="section" id="form" aria-labelledby="form-heading">
 <div class="shell">
+<h2 id="form-heading" class="sr-only">Project enquiry form</h2>
 <div class="formwrap">
 
 <div class="formcard" data-reveal="up">
-<!--
-  ENDPOINT-READY: the UI does not need to change when the backend is added.
-  core.js validates the fields and reveals `.form-status` on submit, then
-  dispatches `netso:leadSubmitted` with the payload. To go live, either listen
-  for that event in a small script and POST it, or replace the setTimeout block
-  inside DL.initForm (core.js) with your API call. Field names in the payload:
-  name, company, email, phone, facility_location, facility_type, rooftop_area,
-  consumption, tariff, sanctioned_load, existing_solar, notes, consent.
--->
 <form class="form" id="project-form" novalidate>
 <div class="grid-12" style="row-gap:1.25rem">
 <div class="field" style="grid-column:span 12">
@@ -187,7 +182,7 @@ setTimeout(function () { document.documentElement.classList.remove('anim'); }, 4
 </span>
 <div>
 <h3 class="h3">Enquiry received</h3>
-<p class="body mt-2">Thank you — your facility details are with the Netso team. We'll review the roof and load information and come back with an initial view, usually within one working week.</p>
+<p class="body mt-2">Thank you — your facility details are with the Netso team. We’ll review the roof and load information and come back with an initial view, usually within one working week.</p>
 <p class="small mt-3">If your enquiry is time-sensitive, write to <a href="mailto:hello@netso.energy" style="border-bottom:1px solid var(--line-strong)">hello@netso.energy</a>.</p>
 </div>
 </div>
@@ -212,12 +207,12 @@ setTimeout(function () { document.documentElement.classList.remove('anim'); }, 4
 <li>Owner or long lease on the site</li>
 <li>Willingness to commit to a long-term supply agreement</li>
 </ul>
-<p class="small mt-3">Missing information is not a problem. Send what you have — roof area, a recent bill, or just the facility address — and we'll take it from there.</p>
+<p class="small mt-3">Missing information is not a problem. Send what you have — roof area, a recent bill, or just the facility address — and we’ll take it from there.</p>
 </div>
 
 <div class="card mt-4">
 <h3 class="h3">Confidentiality</h3>
-<p class="body mt-3">Project information shared with Netso is treated as confidential and used only to assess and develop the opportunity. We don't publish counterparties, capacities or commercial terms for projects that have not reached contract.</p>
+<p class="body mt-3">Project information shared with Netso is treated as confidential and used only to assess and develop the opportunity. We don’t publish counterparties, capacities or commercial terms for projects that have not reached contract.</p>
 <p class="small mt-3">Prefer email? Write to <a href="mailto:hello@netso.energy" style="border-bottom:1px solid var(--line-strong)">hello@netso.energy</a>.</p>
 </div>
 </aside>
@@ -226,7 +221,6 @@ setTimeout(function () { document.documentElement.classList.remove('anim'); }, 4
 </div>
 </section>
 
-<!-- ============================ CAPITAL ANCHOR =========================== -->
 <section class="section bg-paper-2" id="capital">
 <div class="shell">
 <div class="split split--gap">
@@ -248,7 +242,7 @@ setTimeout(function () { document.documentElement.classList.remove('anim'); }, 4
 <div class="spec__row"><dt>Execution</dt><dd>Engineering, construction and commissioning capacity</dd></div>
 <div class="spec__row"><dt>Property</dt><dd>Facilities and estates with rooftop inventory</dd></div>
 </dl>
-<p class="small mt-4">Please include the nature of your interest and the stage you typically work at, and we'll route your enquiry to the right conversation.</p>
+<p class="small mt-4">Please include the nature of your interest and the stage you typically work at, and we’ll route your enquiry to the right conversation.</p>
 </div>
 </div>
 </div>
@@ -257,24 +251,24 @@ setTimeout(function () { document.documentElement.classList.remove('anim'); }, 4
 <div class="shell">
 <div class="footer__top">
 <div class="stack" style="--stack-gap:1.5rem">
-<span class="eyebrow eyebrow--plain" style="color:rgba(255,255,255,0.46)">Netso Energy</span>
+<span class="eyebrow eyebrow--plain" style="color:rgba(255,255,255,0.6)">Netso Energy</span>
 <p class="footer__line">Your roof.<br/>Now an energy asset.</p>
 </div>
 <div class="footer__cols">
 <div class="footer__col">
-<h4>Company</h4>
+<h2 class="footer__coltitle">Company</h2>
 <a href="/how-it-works">How it works</a>
 <a href="/projects">Projects</a>
 <a href="/about">About</a>
 </div>
 <div class="footer__col">
-<h4>Work with us</h4>
+<h2 class="footer__coltitle">Work with us</h2>
 <a href="/start-a-project">Start a project</a>
 <a href="mailto:hello@netso.energy">hello@netso.energy</a>
 <a href="/start-a-project#capital">Project finance &amp; partners</a>
 </div>
 <div class="footer__col">
-<h4>Legal</h4>
+<h2 class="footer__coltitle">Legal</h2>
 <a href="/legal/privacy">Privacy policy</a>
 <a href="/legal/terms">Terms of service</a>
 <a href="/start-a-project">Project enquiries</a>

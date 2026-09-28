@@ -6,7 +6,10 @@
 (function () {
   'use strict';
 
-  gsap.registerPlugin(ScrollTrigger, SplitText);
+  // register only the plugins that actually loaded, so one failed vendor
+  // request degrades gracefully instead of throwing and killing the page
+  gsap.registerPlugin(...[typeof ScrollTrigger !== 'undefined' && ScrollTrigger,
+                          typeof SplitText !== 'undefined' && SplitText].filter(Boolean));
   gsap.config({ nullTargetWarn: false });
   gsap.defaults({ ease: 'power3.out', duration: 0.8 });
 
@@ -37,7 +40,7 @@
 
   /* ------------------------------------------------------------- smooth --- */
   let lenis = null;
-  if (!DL.reduceMotion) {
+  if (!DL.reduceMotion && typeof Lenis !== 'undefined') {
     lenis = new Lenis({ lerp: 0.11, wheelMultiplier: 1, touchMultiplier: 1.4 });
     lenis.on('scroll', ScrollTrigger.update);
     gsap.ticker.add((time) => lenis.raf(time * 1000));
@@ -61,13 +64,10 @@
     const el = DL.q('.header');
     if (!el) return;
     const dark = DL.q('.mobile-menu.is-dark');
+    // reveal the header chrome shortly after load; on the home page the intro
+    // curtain covers the viewport for ~1.5 s, so this happens behind it
     const onReady = () => el.classList.add('is-in');
-    if (DL.page === 'home' && DL.q('canvas[data-logo-intro]')) {
-      window.addEventListener('dl:introPlayed', onReady, { once: true });
-      setTimeout(onReady, 3200); // safety net
-    } else {
-      setTimeout(onReady, 260);
-    }
+    setTimeout(onReady, 260);
 
     // dark header over dark sections
     const darkSections = DL.qa('[data-header="dark"]');
@@ -157,16 +157,6 @@
         { opacity: 1, y: 0, x: 0, scale: 1, ease: 'power2.out', stagger: o.stagger });
   };
 
-  /** Parallax an element inside its section. */
-  DL.parallax = function (el, opts) {
-    const o = Object.assign({ distance: 60, start: 'top bottom', end: 'bottom top', scrub: 0.6 }, opts || {});
-    if (!el) return;
-    gsap.fromTo(el, { y: o.distance * -0.5 }, {
-      y: o.distance * 0.5, ease: 'none',
-      scrollTrigger: { trigger: el, start: o.start, end: o.end, scrub: o.scrub },
-    });
-  };
-
   /** Animated number counter. */
   DL.countUp = function (el, opts) {
     if (!el) return;
@@ -253,6 +243,24 @@
     const original = btnLabel ? btnLabel.textContent : '';
     const status = DL.q('.form-status', form.parentElement || form);
 
+    // give every error message a stable id so it can be announced via
+    // aria-describedby when its field is invalid
+    let errSeq = 0;
+    DL.qa('.field', form).forEach((field) => {
+      const err = DL.q('.field__error', field);
+      if (err && !err.id) err.id = `field-err-${++errSeq}`;
+    });
+
+    const setInvalid = (el, field, invalid) => {
+      if (field) field.classList.toggle('is-invalid', invalid);
+      el.setAttribute('aria-invalid', invalid ? 'true' : 'false');
+      const err = field && DL.q('.field__error', field);
+      if (err) {
+        if (invalid) el.setAttribute('aria-describedby', err.id);
+        else el.removeAttribute('aria-describedby');
+      }
+    };
+
     const validate = () => {
       let ok = true;
       DL.qa('[required]', form).forEach((el) => {
@@ -260,7 +268,7 @@
         let valid = el.type === 'checkbox' ? el.checked : String(el.value || '').trim().length > 0;
         if (valid && el.type === 'email') valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value.trim());
         if (valid && el.type === 'tel') valid = el.value.replace(/\D/g, '').length >= 7;
-        if (field) field.classList.toggle('is-invalid', !valid);
+        setInvalid(el, field, !valid);
         if (!valid) ok = false;
       });
       return ok;
@@ -270,7 +278,7 @@
       const field = e.target.closest && e.target.closest('.field');
       if (field && field.classList.contains('is-invalid')) {
         const stillEmpty = e.target.type === 'checkbox' ? !e.target.checked : !String(e.target.value).trim();
-        if (!stillEmpty) field.classList.remove('is-invalid');
+        if (!stillEmpty) setInvalid(e.target, field, false);
       }
     });
 

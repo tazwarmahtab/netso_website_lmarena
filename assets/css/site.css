@@ -13,8 +13,8 @@
   --ink: #101215;
   --ink-2: #22262B;
   --ink-3: #3A4046;
-  --muted: #6E7276;
-  --muted-2: #8E9297;
+  --muted: #63676B;
+  --muted-2: #676B6F;
   --line: rgba(16, 18, 21, 0.12);
   --line-strong: rgba(16, 18, 21, 0.22);
   --line-soft: rgba(16, 18, 21, 0.07);
@@ -34,7 +34,7 @@
   --void-line: rgba(255, 255, 255, 0.10);
   --void-line-soft: rgba(255, 255, 255, 0.055);
   --void-text: rgba(255, 255, 255, 0.86);
-  --void-muted: rgba(255, 255, 255, 0.46);
+  --void-muted: rgba(255, 255, 255, 0.6);
 
   /* type */
   --font-sans: "Archivo", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -265,7 +265,7 @@ input, select, textarea { font: inherit; color: inherit; }
 .footer__line { font-family: var(--font-display); font-size: clamp(2.5rem, 7vw, 6rem); line-height: 0.95; letter-spacing: -0.03em; color: #fff; }
 .footer__cols { display: grid; gap: 2rem; grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .footer__col { display: grid; gap: 0.75rem; align-content: start; }
-.footer__col h4 { font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; color: var(--void-muted); }
+.footer__col .footer__coltitle { margin: 0; font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 400; line-height: 1.2; letter-spacing: 0.1em; text-transform: uppercase; color: var(--void-muted); }
 .footer__col a { font-size: 0.9375rem; color: var(--void-text); }
 .footer__col a:hover { color: #fff; }
 .footer__base {
@@ -383,6 +383,8 @@ input, select, textarea { font: inherit; color: inherit; }
 .field textarea { min-height: 7rem; resize: vertical; line-height: 1.5; }
 .field input:hover, .field select:hover, .field textarea:hover { border-color: var(--line-strong); }
 .field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--ink); }
+.field input:focus-visible, .field select:focus-visible, .field textarea:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; border-color: var(--ink); }
+.field.is-invalid input:focus-visible, .field.is-invalid select:focus-visible, .field.is-invalid textarea:focus-visible { outline-color: var(--solar-deep); }
 .field select {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7' fill='none'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%236E7276' stroke-width='1.2'/%3E%3C/svg%3E");
   background-repeat: no-repeat; background-position: right 0.875rem center; padding-right: 2.25rem;
@@ -431,7 +433,7 @@ input, select, textarea { font: inherit; color: inherit; }
 .tabs button {
   padding: 0.5rem 0.75rem; border: 1px solid var(--line); border-radius: 100px;
   font-family: var(--font-mono); font-size: 0.625rem; letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted);
-  transition: all 0.35s var(--ease-out);
+  transition: color 0.35s var(--ease-out), border-color 0.35s var(--ease-out), background-color 0.35s var(--ease-out);
 }
 .tabs button:hover { color: var(--ink); border-color: var(--line-strong); }
 .tabs button[aria-selected="true"] { background: var(--ink); border-color: var(--ink); color: var(--paper); }
@@ -850,7 +852,7 @@ html.anim .header { transform: translateY(-100%); }
 .record__step.is-done { opacity: 1; }
 .record__idx { color: var(--muted-2); }
 .record__step.is-done .record__idx { color: var(--solar-deep); }
-.record__step h4 { font-family: var(--font-sans); font-weight: 500; font-size: 0.9375rem; letter-spacing: -0.01em; }
+.record__step h3 { font-family: var(--font-sans); font-weight: 500; font-size: 0.9375rem; letter-spacing: -0.01em; }
 .record__step p { margin-top: 0.25rem; color: var(--muted); }
 .record__note { color: var(--muted); border-top: 1px solid var(--line); padding-top: 1rem; }
 .record--dark { background: var(--void); border-color: var(--void-line); }
@@ -858,7 +860,7 @@ html.anim .header { transform: translateY(-100%); }
 .record--dark .record__label { color: var(--void-muted); }
 .record--dark .record__ladder, .record--dark .record__note { border-color: var(--void-line); }
 .record--dark .record__step { border-color: var(--void-line); }
-.record--dark .record__step h4 { color: #fff; }
+.record--dark .record__step h3 { color: #fff; }
 .record--dark .record__step p, .record--dark .record__note { color: rgba(255,255,255,0.62); }
 .record--dark .record__idx { color: rgba(255,255,255,0.4); }
 .record--dark .record__step.is-done .record__idx { color: #FFA45C; }

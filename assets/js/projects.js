@@ -37,6 +37,7 @@ window.DL.ready(function () {
   const go = () => {
     const t = document.querySelector('.pagehero__title'), s = document.querySelector('.pagehero__sub');
     if (!t) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { window.dispatchEvent(new CustomEvent('dl:introPlayed')); return; }
     const tl = gsap.timeline({ delay: 0.15, defaults: { ease: 'expo.out' } });
     tl.fromTo(t, { y: 22 }, { y: 0, duration: 0.9 });
     if (s) tl.fromTo(s, { y: 14 }, { y: 0, duration: 0.8 }, '-=0.6');

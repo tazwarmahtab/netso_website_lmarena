@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -18,16 +18,19 @@
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://netso.energy/assets/img/og/projects.jpg"/>
 <link rel="manifest" href="/manifest.webmanifest"/>
-<meta name="theme-color" content="#F5F3EF"/>
+<meta name="theme-color" content="#F5F3EF" media="(prefers-color-scheme: light)"/>
+<meta name="theme-color" content="#0C0E11" media="(prefers-color-scheme: dark)"/>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
 <link rel="icon" href="/assets/img/favicon-96.png" sizes="96x96" type="image/png"/>
 <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png"/>
 <link rel="preload" href="/assets/fonts/Archivo-100-900-normal-latin.woff2" as="font" type="font/woff2" crossorigin/>
 <link rel="preload" href="/assets/fonts/InstrumentSerif-400-normal-latin.woff2" as="font" type="font/woff2" crossorigin/>
 
-<script>/* opt-in intro animations; auto-failsafe so content is never hidden */
+<script>/* opt-in intro animations; auto-failsafe so content is never hidden even if
+   the main bundle fails to load */
 document.documentElement.classList.add('anim');
-setTimeout(function () { document.documentElement.classList.remove('anim'); }, 4500);</script>
+setTimeout(function () { document.documentElement.classList.remove('anim'); }, 2000);</script>
+
 
 <link rel="stylesheet" href="/assets/css/fonts.css"/>
 <link rel="stylesheet" href="/assets/css/site.css"/>
@@ -86,7 +89,6 @@ setTimeout(function () { document.documentElement.classList.remove('anim'); }, 4
 </div>
 </section>
 
-<!-- ============================ HOW TO READ ============================ -->
 <section class="section section--tight" id="evidence">
 <div class="shell">
 <div class="sec-head">
@@ -118,7 +120,6 @@ setTimeout(function () { document.documentElement.classList.remove('anim'); }, 4
 </div>
 </section>
 
-<!-- ============================ ACTIVE PROJECTS ========================== -->
 <section class="section bg-paper-2" id="active">
 <div class="shell">
 <div class="sec-head">
@@ -136,17 +137,17 @@ setTimeout(function () { document.documentElement.classList.remove('anim'); }, 4
 <span class="tag tag--contracted"><span class="dot"></span>PPA signed · pre-construction</span>
 </div>
 <ol class="record__ladder">
-<li class="record__step is-done"><span class="record__idx mono">01</span><div><h4>Letter of Intent executed</h4><p class="small">September 2026 — commercial terms agreed with the school.</p></div></li>
-<li class="record__step is-done"><span class="record__idx mono">02</span><div><h4>Power Purchase Agreement signed</h4><p class="small">Contract in place. Nothing has been built under it yet.</p></div></li>
-<li class="record__step"><span class="record__idx mono">03</span><div><h4>Construction</h4><p class="small">Not started — follows the agreement.</p></div></li>
-<li class="record__step"><span class="record__idx mono">04</span><div><h4>Commissioning</h4><p class="small">Not started — first metered billing follows commissioning.</p></div></li>
+<li class="record__step is-done"><span class="record__idx mono">01</span><div><h3>Letter of Intent executed</h3><p class="small">September 2026 — commercial terms agreed with the school.</p></div></li>
+<li class="record__step is-done"><span class="record__idx mono">02</span><div><h3>Power Purchase Agreement signed</h3><p class="small">Contract in place. Nothing has been built under it yet.</p></div></li>
+<li class="record__step"><span class="record__idx mono">03</span><div><h3>Construction</h3><p class="small">Not started — follows the agreement.</p></div></li>
+<li class="record__step"><span class="record__idx mono">04</span><div><h3>Commissioning</h3><p class="small">Not started — first metered billing follows commissioning.</p></div></li>
 </ol>
 <p class="record__note small">This record stands where a project photograph will go, because there is no installed system to photograph yet. When there is, the photograph replaces it — not before.</p>
 </div>
 <div>
 <span class="tag tag--contracted"><span class="dot"></span>PPA signed · pre-construction</span>
 <h3 class="h3 mt-4">An 80 kWp rooftop system contracted with Chittagong Grammar School under a signed Power Purchase Agreement.</h3>
-<p class="body mt-4">Netso originated the project, surveyed the roof and structured the commercial case against the school's own electricity bill: the contracted tariff sits roughly a third below the BERC grid benchmark. Under the agreement Netso finances, owns and operates the system, and the school buys the electricity it produces. Construction has not yet started.</p>
+<p class="body mt-4">Netso originated the project, surveyed the roof and structured the commercial case against the school’s own electricity bill: the contracted tariff sits roughly a third below the BERC grid benchmark. Under the agreement Netso finances, owns and operates the system, and the school buys the electricity it produces. Construction has not yet started.</p>
 <dl class="spec mt-6">
 <div class="spec__row"><dt>Customer</dt><dd>Chittagong Grammar School</dd></div>
 <div class="spec__row"><dt>Capacity</dt><dd>80 kWp</dd></div>
@@ -172,7 +173,6 @@ setTimeout(function () { document.documentElement.classList.remove('anim'); }, 4
 </div>
 </section>
 
-<!-- ============================ PIPELINE ================================ -->
 <section class="section" id="pipeline">
 <div class="shell">
 <div class="sec-head">
@@ -183,7 +183,7 @@ setTimeout(function () { document.documentElement.classList.remove('anim'); }, 4
 <h2 class="display display-sm maxw-48" data-lines>Projects we are developing now.</h2>
 </div>
 
-<div class="note mt-6"><span class="mono" style="color:var(--solar-deep)">Read this first</span><p>Every entry below has been checked against Netso's current internal project records — stage, capacity and evidence state. Nothing in this section is installed, commissioned or generating, and nothing here is written as though it were.</p></div>
+<div class="note mt-6"><span class="mono" style="color:var(--solar-deep)">Read this first</span><p>Every entry below has been checked against Netso’s current internal project records — stage, capacity and evidence state. Nothing in this section is installed, commissioned or generating, and nothing here is written as though it were.</p></div>
 
 <div class="plist plist--split mt-8" data-reveal="up">
 <article class="plist__item">
@@ -231,7 +231,7 @@ setTimeout(function () { document.documentElement.classList.remove('anim'); }, 4
 <div class="split__aside">
 <span class="mono text-muted">First close</span>
 <h3 class="h3 mt-3">≈480 kWp across the two nearest-term assets</h3>
-<p class="body mt-3">The 80 kWp school system and the ~400 kWp Four H Group programme are the two assets targeted in Netso's first close. A third project is under MOU.</p>
+<p class="body mt-3">The 80 kWp school system and the ~400 kWp Four H Group programme are the two assets targeted in Netso’s first close. A third project is under MOU.</p>
 <p class="body mt-3">Financing is arranged project by project, in a project company that owns the asset. Published programme terms from lenders such as IDCOL cover up to 80% of project cost, and apply subject to credit approval — never assumed.</p>
 </div>
 <div class="split__media">
@@ -282,24 +282,24 @@ setTimeout(function () { document.documentElement.classList.remove('anim'); }, 4
 <div class="shell">
 <div class="footer__top">
 <div class="stack" style="--stack-gap:1.5rem">
-<span class="eyebrow eyebrow--plain" style="color:rgba(255,255,255,0.46)">Netso Energy</span>
+<span class="eyebrow eyebrow--plain" style="color:rgba(255,255,255,0.6)">Netso Energy</span>
 <p class="footer__line">Your roof.<br/>Now an energy asset.</p>
 </div>
 <div class="footer__cols">
 <div class="footer__col">
-<h4>Company</h4>
+<h2 class="footer__coltitle">Company</h2>
 <a href="/how-it-works">How it works</a>
 <a href="/projects">Projects</a>
 <a href="/about">About</a>
 </div>
 <div class="footer__col">
-<h4>Work with us</h4>
+<h2 class="footer__coltitle">Work with us</h2>
 <a href="/start-a-project">Start a project</a>
 <a href="mailto:hello@netso.energy">hello@netso.energy</a>
 <a href="/start-a-project#capital">Project finance &amp; partners</a>
 </div>
 <div class="footer__col">
-<h4>Legal</h4>
+<h2 class="footer__coltitle">Legal</h2>
 <a href="/legal/privacy">Privacy policy</a>
 <a href="/legal/terms">Terms of service</a>
 <a href="/start-a-project">Project enquiries</a>

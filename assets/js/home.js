@@ -30,29 +30,34 @@ function initHero() {
     // the stage is sticky now, so translating it would expose an edge. The stage
     // clips its overflow, so the images can drift within it safely. Scale keeps
     // enough headroom (1.12 -> 1.06) that a 3% drift never reveals a border.
-    if (solar) gsap.set(solar, { yPercent: 0 });
-    const layers = qa('.hero__layer img');
-    if (layers.length) {
-      gsap.to(layers, {
-        yPercent: 3, ease: 'none',
-        scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: true },
+    // All hero motion below is decorative and is skipped entirely for visitors
+    // who asked for reduced motion — CSS (@media prefers-reduced-motion) forces
+    // the copy visible, and the stage is shown already-installed further down.
+    if (!DL.reduceMotion) {
+      if (solar) gsap.set(solar, { yPercent: 0 });
+      const layers = qa('.hero__layer img');
+      if (layers.length) {
+        gsap.to(layers, {
+          yPercent: 3, ease: 'none',
+          scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: true },
+        });
+      }
+      [base, solar].forEach((layer) => {
+        const l = q('img', layer);
+        if (l) gsap.fromTo(l, { scale: 1.12 }, { scale: 1.06, duration: 2.4, ease: 'power3.out' });
       });
-    }
-    [base, solar].forEach((layer) => {
-      const l = q('img', layer);
-      if (l) gsap.fromTo(l, { scale: 1.12 }, { scale: 1.06, duration: 2.4, ease: 'power3.out' });
-    });
 
-    // headline/copy sequence — fast, so the model lands immediately
-    const tl = gsap.timeline({ delay: 0.25, defaults: { ease: 'expo.out' } });
-    if (top) tl.fromTo(top, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.7 }, 0);
-    // transform-only: the headline is legible from first paint on any connection
-    if (title) tl.fromTo(title, { y: 22 }, { y: 0, duration: 0.95 }, 0);
-    if (sub) tl.fromTo(sub, { y: 16 }, { y: 0, duration: 0.85 }, '-=0.7');
-    if (model) tl.fromTo(model, { y: 12 }, { y: 0, duration: 0.7 }, '-=0.62');
-    if (cta) tl.fromTo(cta, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.7 }, '-=0.5');
-    if (steps.length) tl.fromTo(steps, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.55, stagger: 0.05 }, '-=0.45');
-    if (proof) tl.fromTo(proof, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.6 }, '-=0.4');
+      // headline/copy sequence — fast, so the model lands immediately
+      const tl = gsap.timeline({ delay: 0.25, defaults: { ease: 'expo.out' } });
+      if (top) tl.fromTo(top, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.7 }, 0);
+      // transform-only: the headline is legible from first paint on any connection
+      if (title) tl.fromTo(title, { y: 22 }, { y: 0, duration: 0.95 }, 0);
+      if (sub) tl.fromTo(sub, { y: 16 }, { y: 0, duration: 0.85 }, '-=0.7');
+      if (model) tl.fromTo(model, { y: 12 }, { y: 0, duration: 0.7 }, '-=0.62');
+      if (cta) tl.fromTo(cta, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.7 }, '-=0.5');
+      if (steps.length) tl.fromTo(steps, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.55, stagger: 0.05 }, '-=0.45');
+      if (proof) tl.fromTo(proof, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.6 }, '-=0.4');
+    }
 
     // rooftop → site assessed → solar deployed → energy flowing.
     // SCROLL DRIVES IT: progress through the hero's dwell zone advances the stage,

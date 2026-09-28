@@ -65,7 +65,7 @@ PAGES = {
 }
 
 HEAD = """<!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -84,21 +84,42 @@ HEAD = """<!DOCTYPE html>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="{site}{og}"/>
 <link rel="manifest" href="/manifest.webmanifest"/>
-<meta name="theme-color" content="#F5F3EF"/>
+<meta name="theme-color" content="#F5F3EF" media="(prefers-color-scheme: light)"/>
+<meta name="theme-color" content="#0C0E11" media="(prefers-color-scheme: dark)"/>
 <link rel="icon" href="/favicon.svg" type="image/svg+xml"/>
 <link rel="icon" href="/assets/img/favicon-96.png" sizes="96x96" type="image/png"/>
 <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png"/>
 <link rel="preload" href="/assets/fonts/Archivo-100-900-normal-latin.woff2" as="font" type="font/woff2" crossorigin/>
 <link rel="preload" href="/assets/fonts/InstrumentSerif-400-normal-latin.woff2" as="font" type="font/woff2" crossorigin/>
 {hero_preload}
-<script>/* opt-in intro animations; auto-failsafe so content is never hidden */
+<script>/* opt-in intro animations; auto-failsafe so content is never hidden even if
+   the main bundle fails to load */
 document.documentElement.classList.add('anim');
-setTimeout(function () {{ document.documentElement.classList.remove('anim'); }}, 4500);</script>
+setTimeout(function () {{ document.documentElement.classList.remove('anim'); }}, 2000);</script>
 {intro_head}
+{jsonld}
 <link rel="stylesheet" href="/assets/css/fonts.css"/>
 <link rel="stylesheet" href="/assets/css/site.css"/>
 </head>
 <body data-page="{key}" class="{body_class}">"""
+
+# Organization + WebSite structured data. Only facts already stated on the
+# site are included — no invented address, phone, registration or founding
+# claim. Emitted once, on the home page.
+JSONLD = ('<script type="application/ld+json">'
+          '{"@context":"https://schema.org","@graph":['
+          '{"@type":"Organization","@id":"' + SITE + '/#org",'
+          '"name":"Netso Energy","url":"' + SITE + '/",'
+          '"logo":"' + SITE + '/assets/img/icon-512.png",'
+          '"description":"Netso Energy develops, finances, owns and operates '
+          'distributed solar infrastructure on commercial and industrial '
+          'rooftops in Bangladesh.",'
+          '"areaServed":{"@type":"Country","name":"Bangladesh"}},'
+          '{"@type":"WebSite","@id":"' + SITE + '/#site",'
+          '"url":"' + SITE + '/","name":"Netso Energy",'
+          '"publisher":{"@id":"' + SITE + '/#org"},'
+          '"inLanguage":"en-GB"}]}'
+          '</script>')
 
 INTRO_HEAD = """<script>/* skip the intro curtain on repeat views in the same session — set before
 first paint so there is never a flash of the curtain */
@@ -122,17 +143,23 @@ HERO_PRELOAD = ('<link rel="preload" as="image" href="/assets/img/hero/roof-base
 
 # ---------------------------------------------------------------------------
 # Internal notes live in the SOURCE so the company can find them; they must
-# never reach the built site. Anything marked INTERNAL is removed here, and
-# the build fails loudly if draft language survives into production output.
+# never reach the built site. Production output strips *every* HTML comment,
+# which removes internal notes, editorial scaffolding and structural dividers
+# alike — no comment can leak regardless of how it is written. The build then
+# fails loudly if any draft language somehow survives.
+#
+# Safe because none of the inline <script>/<style> blocks contain HTML-comment
+# syntax (they use /* */ and //). Verified by assert_clean below.
 # ---------------------------------------------------------------------------
-INTERNAL_COMMENT = re.compile(r"[ \t]*<!--\s*(?:INTERNAL|TO BE SUPPLIED)[\s\S]*?-->[ \t]*\n?")
-DRAFT_MARKERS = ("<!-- internal", "<!-- to be supplied", "todo:", "todo ", "fixme",
-                 "draft copy", "draft —", "lorem ipsum", "to be replaced with",
-                 "placeholder imagery")
+HTML_COMMENT = re.compile(r"[ \t]*<!--[\s\S]*?-->[ \t]*\n?")
+DRAFT_MARKERS = ("todo:", "todo ", "fixme", "draft copy", "draft —",
+                 "lorem ipsum", "to be replaced with", "placeholder imagery",
+                 "must be supplied", "before launch")
 
 
 def strip_internal(html):
-    return INTERNAL_COMMENT.sub("", html)
+    """Remove all HTML comments from production output."""
+    return HTML_COMMENT.sub("", html)
 
 
 def assert_clean(html, route):
@@ -145,6 +172,7 @@ def assert_clean(html, route):
 def build_page(key, page):
     intro_head = INTRO_HEAD if key == "home" else ""
     head = HEAD.format(hero_preload=HERO_PRELOAD if key == "home" else "", intro_head=intro_head,
+                       jsonld=JSONLD if key == "home" else "",
                        title=page["title"], desc=page["desc"], route=page["route"], og=page["og"],
                        site=SITE, key=key, body_class=page.get("body_class", ""))
     intro = read("src/partials/intro.html") if key == "home" else ""
@@ -167,6 +195,32 @@ def build_page(key, page):
     return page["out"], len(html)
 
 
+def write_sitemap_and_robots():
+    """Generate sitemap.xml (public routes only) and robots.txt."""
+    import datetime
+    today = datetime.date.today().isoformat()
+    # 404 is not a public URL; everything else in PAGES is indexable
+    routes = [p["route"] for k, p in PAGES.items() if k != "404"]
+    # priority hints: home highest, then primary sections, then legal
+    prio = {"/": "1.0", "/how-it-works": "0.9", "/projects": "0.9",
+            "/about": "0.8", "/start-a-project": "0.8"}
+    urls = "".join(
+        f"<url><loc>{SITE}{r}</loc><lastmod>{today}</lastmod>"
+        f"<changefreq>monthly</changefreq><priority>{prio.get(r, '0.4')}</priority></url>"
+        for r in routes)
+    sitemap = ('<?xml version="1.0" encoding="UTF-8"?>'
+               '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+               f'{urls}</urlset>\n')
+    with open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8") as f:
+        f.write(sitemap)
+    robots = ("User-agent: *\n"
+              "Allow: /\n"
+              f"Sitemap: {SITE}/sitemap.xml\n")
+    with open(os.path.join(ROOT, "robots.txt"), "w", encoding="utf-8") as f:
+        f.write(robots)
+    return len(routes)
+
+
 if __name__ == "__main__":
     total = 0
     for key, page in PAGES.items():
@@ -174,3 +228,5 @@ if __name__ == "__main__":
         total += size
         print(f"{page['route']:<22} -> {path:<38} {size // 1024:>4} KB")
     print(f"{'':<22}    total {total // 1024} KB")
+    n = write_sitemap_and_robots()
+    print(f"sitemap.xml ({n} urls) + robots.txt written")
