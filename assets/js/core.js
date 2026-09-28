@@ -309,6 +309,18 @@
 
     if (DL.reduceMotion) { try { video.pause(); } catch (e) {} section.dataset.svReady = '1'; return; }
 
+    // lazy download: the clip is below the fold, so with preload="none" we only
+    // pull it as the section approaches (~1.5 screens ahead) instead of on load
+    if (video.readyState < 1) {
+      const kickLoad = () => { try { video.preload = 'auto'; video.load(); } catch (e) {} };
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver((ents) => {
+          if (ents.some((e) => e.isIntersecting)) { io.disconnect(); kickLoad(); }
+        }, { rootMargin: '150% 0px' });
+        io.observe(section);
+      } else { kickLoad(); }
+    }
+
     let dur = 0, ready = false, seeking = false, want = 0, st = null;
 
     const setTime = (t) => {

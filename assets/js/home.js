@@ -1,148 +1,9 @@
 /* ==========================================================================
    home.js — Netso Energy homepage
-   Hero: rooftop → survey → solar sequence (fixed), then section reveals for
-   the opening argument. Headline copy lives in the markup, not here.
+   The hero is the glyph portal (see glyph-portal.js): one sticky rooftop video
+   scrubbed by scroll, with the hero copy sliding up over it. This file now only
+   owns the intro curtain and the section reveals for the opening argument.
    ========================================================================== */
-function initHero() {
-  'use strict';
-  const DL = window.DL;
-  const q = DL.q, qa = DL.qa;
-
-  /* ===== 1. hero copy is fixed in markup (direction A, locked) =====
-     The ?hero= switching and the review badge were removed when the headline
-     was frozen. To revisit, edit the markup in src/pages/home.html directly. */
-  const hero = q('.hero');
-
-  /* ===================== 2. hero rooftop sequence ====================== */
-  if (hero) {
-    const base = q('.hero__layer--base', hero);
-    const solar = q('.hero__layer--solar', hero);
-    const img = base ? q('img', base) : null;
-    const heroVideo = q('.hero__video', hero);
-    // ambient backdrop video; reduced motion holds a single frame (poster)
-    if (heroVideo && DL.reduceMotion) { heroVideo.removeAttribute('autoplay'); try { heroVideo.pause(); } catch (e) {} }
-    const title = q('.hero__title');
-    const sub = q('.hero__sub');
-    const model = q('.hero__model');
-    const cta = q('.hero__cta');
-    const steps = qa('.hero__model-steps li');
-    const proof = q('.hero__proof');
-    const top = q('.hero__top');
-
-    // Parallax runs on the photographs inside the stage, not on the stage itself:
-    // the stage is sticky now, so translating it would expose an edge. The stage
-    // clips its overflow, so the images can drift within it safely. Scale keeps
-    // enough headroom (1.12 -> 1.06) that a 3% drift never reveals a border.
-    // All hero motion below is decorative and is skipped entirely for visitors
-    // who asked for reduced motion — CSS (@media prefers-reduced-motion) forces
-    // the copy visible, and the stage is shown already-installed further down.
-    if (!DL.reduceMotion) {
-      if (solar) gsap.set(solar, { yPercent: 0 });
-      const layers = qa('.hero__layer img');
-      if (layers.length) {
-        gsap.to(layers, {
-          yPercent: 3, ease: 'none',
-          scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: true },
-        });
-      }
-      [base, solar].filter(Boolean).forEach((layer) => {
-        const l = q('img', layer);
-        if (l) gsap.fromTo(l, { scale: 1.12 }, { scale: 1.06, duration: 2.4, ease: 'power3.out' });
-      });
-
-      // headline/copy sequence — the copy lives at the BOTTOM of the hero's first
-      // screen, so trigger when the hero is most of the way in (copy about to enter
-      // from the bottom), letting the parts animate onto the screen as you arrive.
-      const tl = gsap.timeline({
-        defaults: { ease: 'expo.out' },
-        scrollTrigger: { trigger: hero, start: 'top 20%', once: true },
-      });
-      if (top) tl.fromTo(top, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.7 }, 0);
-      // transform-only: the headline is legible from first paint on any connection
-      if (title) tl.fromTo(title, { y: 22 }, { y: 0, duration: 0.95 }, 0);
-      if (sub) tl.fromTo(sub, { y: 16 }, { y: 0, duration: 0.85 }, '-=0.7');
-      if (model) tl.fromTo(model, { y: 12 }, { y: 0, duration: 0.7 }, '-=0.62');
-      if (cta) tl.fromTo(cta, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.7 }, '-=0.5');
-      if (steps.length) tl.fromTo(steps, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.55, stagger: 0.05 }, '-=0.45');
-      if (proof) tl.fromTo(proof, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.6 }, '-=0.4');
-    }
-
-    // rooftop → site assessed → solar deployed → energy flowing.
-    // SCROLL DRIVES IT: progress through the hero's dwell zone advances the stage,
-    // and scrolling back up reverses it. A timed fallback advances the story for
-    // anyone who never scrolls, and yields the moment they do — so a reader who
-    // only looks at the first screen still sees the whole transformation.
-    // 0 = ordinary rooftop · 1 = site assessed · 2 = deployed + energy flowing
-    let stage = -1;
-    let manual = false;   // set by the Today / With Netso control, cleared by scrolling
-    let auto = null;
-    const killAuto = () => { if (auto) { auto.kill(); auto = null; } };
-
-    const stageTo = (next) => {
-      if (next === stage) return;            // act only on a real change (no flicker)
-      stage = next;
-      hero.classList.toggle('is-survey', next >= 1);
-      hero.classList.toggle('is-solar', next === 2);
-      if (base) base.classList.toggle('is-active', next === 0);
-      if (solar) solar.classList.toggle('is-active', next === 2);
-      syncControl(next);
-    };
-    const apply = (p) => stageTo(p > 0.65 ? 2 : p > 0.30 ? 1 : 0);
-
-    /* The state control. Two states of the same roof — gives the visitor the
-       transformation without waiting on the scroll, and gives reduced-motion
-       users the same comparison with no animation at all. It is wired OUTSIDE
-       the motion branch on purpose: it is a static comparison, not motion, so
-       it must work for everyone. Manual choice holds until the visitor scrolls,
-       at which point the scroll sequence resumes. */
-    const ctrl = qa('[data-hero-state]');
-    function syncControl(next) {
-      const wantsNetso = next === 2;
-      const wantsToday = next === 0;
-      ctrl.forEach((b) => {
-        const isNetso = b.getAttribute('data-hero-state') === 'netso';
-        // stage 1 (site assessed) sits between the two, so neither reads as selected
-        const on = (isNetso && wantsNetso) || (!isNetso && wantsToday);
-        b.classList.toggle('is-on', on);
-        b.setAttribute('aria-pressed', on ? 'true' : 'false');
-      });
-    }
-    ctrl.forEach((b) => {
-      b.addEventListener('click', () => {
-        killAuto();
-        manual = true;
-        stageTo(b.getAttribute('data-hero-state') === 'netso' ? 2 : 0);
-      });
-    });
-
-    if (DL.reduceMotion) {
-      // the story is shown as already installed, with no sequence and no motion
-      qa('.hero__layer').forEach((l) => { l.style.transition = 'none'; });
-      stageTo(2);
-    } else {
-      ScrollTrigger.create({
-        trigger: hero, start: 'top top', end: 'bottom 70%',
-        onUpdate: (self) => {
-          killAuto();
-          // scrolling always wins: the scroll sequence and the control never fight
-          if (manual) manual = false;
-          apply(self.progress);
-        },
-        onLeaveBack: () => { killAuto(); manual = false; apply(0); },
-      });
-
-      // the fallback: only if no scroll has happened, and it stands down instantly
-      auto = gsap.to({ p: 0 }, {
-        p: 1, duration: 4.5, delay: 1.6, ease: 'power1.inOut',
-        onUpdate() { apply(this.targets()[0].p); },
-      });
-    }
-
-    window.dispatchEvent(new CustomEvent('dl:introPlayed'));
-  }
-
-}
-
 /* ===================== 0. intro curtain ==============================
    The curtain is pure CSS and ends by itself at 1.7 s. JS only does the
    two things CSS cannot: remember that it has been seen, and get out of
@@ -174,9 +35,6 @@ function initHero() {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) dismiss(false);
 })();
 
-/* hero runs as soon as it is parsed so the business model never waits on assets */
-if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initHero, { once: true });
-else initHero();
 
 window.DL.ready(function () {
   'use strict';
