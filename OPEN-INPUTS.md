@@ -2,17 +2,25 @@
 
 Recorded so these don't get lost between passes. None of them block the site as it stands.
 
-## 1. Logo file — NEEDED
-Requested, not received. `IMG_4853.PNG` is a **photograph of a cap** (white NETSO on navy); a logo
-cannot be traced from a photograph of embroidered fabric without producing a subtly wrong mark.
+## 1. Logo file — ✅ DELIVERED (28 Sep 2026)
+Received `netso_logo_black_transparent.png` / `netso_logo_transparent.png` /
+`netso_logo_yellow_on_black.png` (1600×1600, transparent). The real mark is a bold geometric
+"N" built from two slanted strokes — **not** the old rooftop glyph placeholder.
 
-The site currently ships a rooftop glyph + "NETSO" set in Archivo 600, 0.9375rem, 0.16em
-tracking (`src/partials/header.html`, `.header__logo`, plus `favicon.svg` and the PNG icon set).
-That is consistent with the cap in the photo, so nothing looks wrong today.
+Because it is pure straight-edged geometry it was traced to a true vector (not an embedded
+bitmap): `tools/trace_logo.py` → `assets/img/logo-mark.svg`, a single 14-point path, 303 bytes,
+verified at **IoU 0.988** against the source (residual is anti-alias only). Installed across:
+- `src/partials/header.html` — `.header__logo` glyph (15px, `currentColor`)
+- `src/partials/intro.html` — intro-curtain mark (sun-circle removed; `introSun` keyframe deleted)
+- `favicon.svg` — mark on a rounded brand-dark tile
+- `assets/svg/logo-dark.svg` / `logo-light.svg` — mark + NETSO wordmark lockups
+- PNG app icons regenerated from the mark: `favicon-96.png`, `apple-touch-icon.png`, `icon-512.png`
 
-**To replace it:** drop an SVG into `assets/img/`, then update the inline `<svg>` in
-`src/partials/header.html`, `favicon.svg`, and regenerate the PNG icons
-(`assets/img/favicon-96.png`, `apple-touch-icon.png`, `icon-512.png`).
+Committed at `ecd15e8`. To re-trace after a new logo file: `python3 tools/trace_logo.py <png>
+--out assets/img/logo-mark.svg --eps 3.0`, then re-run the icon generation block.
+
+Open sub-item: the wordmark still reads **NETSO** (not "NETSO ENERGY") to keep the header compact;
+flip in `header.html` + the two lockup SVGs if the full name is preferred.
 
 ## 2. The video — NOT RECEIVED
 No `.mp4`, `.mov` or `.webm` exists anywhere in the workspace. The file did not upload.
