@@ -1248,7 +1248,11 @@ html.wipe-cover .pagewipe { opacity: 1; visibility: visible; }
 .gp [data-gp-content] { box-sizing: border-box; position: relative; min-height: var(--gp-height, 100svh); padding: clamp(2rem, 7%, 6.25rem); display: grid; align-content: center; color: var(--gp-foreground); background: var(--gp-field); overflow-wrap: anywhere; }
 .gp[data-gp-motion="on"] [data-gp-pin] { position: sticky; top: 0; }
 .gp[data-gp-motion="off"] [data-gp-hint] { display: none; }
-.gp[data-gp-motion="on"] [data-gp-content] { margin-top: calc((var(--gp-length) - 1) * var(--gp-height)); background: linear-gradient(180deg, rgba(12,14,17,.5), rgba(12,14,17,.74)); opacity: var(--gp-reveal, 0); pointer-events: none; }
+/* the content block is now an empty "dip to dark" bridge: it fades in over the
+   opened video and carries the eye into #hero (which owns the live backdrop),
+   hiding the cut between the two video sections. Solid fill so no paper flashes
+   through once the pin releases. */
+.gp[data-gp-motion="on"] [data-gp-content] { margin-top: calc((var(--gp-length) - 1) * var(--gp-height)); background: #0A0C10; opacity: var(--gp-reveal, 0); pointer-events: none; }
 .gp[data-gp-motion="on"][data-gp-entered="true"] [data-gp-content] { pointer-events: auto; }
 .gp[data-gp-motion="on"]:has([data-gp-content]:focus-within) [data-gp-field] { clip-path: none !important; }
 .gp[data-gp-motion="on"] [data-gp-content]:focus-within { opacity: 1; pointer-events: auto; }
