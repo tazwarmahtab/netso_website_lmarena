@@ -14,15 +14,24 @@ window.DL.ready(function () {
   DL.lines('[data-lines]');
   DL.reveal('[data-reveal="up"]', { y: 28 });
 
-  /* ---- indicative planning assumptions (internal; never shown) --------- */
-  const M2_PER_KWP = 9;        // usable roof area per installed kWp
-  const YIELD_MO   = 117;      // kWh generated per kWp per month (~3.85/day, BD)
-  const GRID_TARIFF = 15;      // ৳/kWh, indicative industrial daytime (internal only)
-  const DAYTIME_SHARE = 0.72;  // share of consumption solar can serve behind the meter
-  const CO2_PER_KWH = 0.68;    // kg CO2 per grid kWh displaced (BD grid factor)
+  /* ---- indicative planning assumptions (internal; never shown) ---------
+     Grounded in Bangladesh sources, Sept 2026:
+     · Yield 1,400–1,700 kWh/kWp/yr (SREDA national review; PVKnowHow 3.3–4.9/day)
+       → 120 kWh/kWp/mo (~1,440/yr), the conservative end.
+     · Roof density ~10 m²/kWp for rooftop incl. tilt/spacing (ground ~12 m²/kWp).
+     · MT 11kV industrial tariff ৳12.52–16.36/kWh (BERC, 3 Jun 2025 revision);
+       14.5 used only to convert a bill into kWh — never displayed.
+     · Grid emission factor 0.635 tCO₂/MWh for solar projects (ADB, Bangladesh).
+     · Net Metering Guidelines 2025 allow up to 100% of sanctioned load (was 70%),
+       so a plant is bounded by usable roof and daytime self-consumption. */
+  const M2_PER_KWP = 10;       // usable roof area per installed kWp
+  const YIELD_MO   = 120;      // kWh generated per kWp per month (~1,440/yr, BD)
+  const GRID_TARIFF = 14.5;    // ৳/kWh, mid of MT industrial band (internal only)
+  const DAYTIME_SHARE = 0.55;  // share of consumption solar serves behind the meter
+  const CO2_PER_KWH = 0.635;   // kg CO2 per grid kWh displaced (ADB, solar projects)
   // solar lands this fraction below the grid tariff — a range, so no single rate
-  const SAVE = { lo: 0.12, hi: 0.22 };
-  const SAVE_BATT = { lo: 0.06, hi: 0.15 }; // battery trades saving for reliability
+  const SAVE = { lo: 0.12, hi: 0.25 };
+  const SAVE_BATT = { lo: 0.06, hi: 0.16 }; // battery trades saving for reliability
 
   const els = {
     bill: q('#in-bill'), roof: q('#in-roof'), batt: q('#in-battery'),
