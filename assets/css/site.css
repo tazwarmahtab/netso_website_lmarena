@@ -1158,6 +1158,17 @@ html.no-intro .intro { display: none; }
   .split__media.is-sticky { position: sticky; top: 96px; align-self: start; }
 }
 
+/* --- sticky phase heading (How It Works): the phase number + title hold in
+   view while that phase's detail, checklist and photograph scroll past — the
+   godaylight sticky-heading pattern, done with position:sticky so it can never
+   trap the scroll. Top offset clears the fixed header and the sticky sub-nav. */
+@media (min-width: 60rem) {
+  .phase__grid > .phase__idx,
+  .phase__grid > .phase__body:first-of-type {
+    position: sticky; top: calc(var(--header-h) + 4.5rem); align-self: start;
+  }
+}
+
 /* --- word-by-word reveal: words start faint and darken through scroll ------
    Only a hook for JS; SplitText sets the animatable opacity at runtime, so if
    JS never runs the text keeps its normal, fully-legible colour. */
