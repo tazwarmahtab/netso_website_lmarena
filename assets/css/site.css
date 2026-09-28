@@ -1208,3 +1208,68 @@ html.wipe-cover .pagewipe { opacity: 1; visibility: visible; }
   .intro__logo svg path { stroke-dashoffset: 0; fill-opacity: 1; animation: none; }
   .header__logo svg { transition: none; }
 }
+
+/* ==========================================================================
+   Glyph Portal — scroll-driven camera through the NETSO wordmark.
+   Ported to vanilla; styles scoped to .gp. See assets/js/glyph-portal.js for
+   the MIT authorship notice (Christian Katzmann).
+   ========================================================================== */
+.gp { --gp-paper:#F5F3EF; --gp-ink:#0C0E11; --gp-field:#0C0E11; --gp-foreground:#fff;
+  position: relative; isolation: isolate; background: var(--gp-paper); color: var(--gp-ink);
+  font-family: var(--font-sans, Archivo, Arial, sans-serif); }
+.gp > [data-gp-viewport] { position: absolute; inset: 0 auto auto 0; height: 100vh; height: 100svh; width: 0; pointer-events: none; visibility: hidden; }
+.gp [data-gp-pin] { position: relative; height: var(--gp-height, 100svh); overflow: clip; isolation: isolate; container-type: size; }
+.gp [data-gp-field] { position: absolute; inset: 0; background: var(--gp-field); opacity: 0; pointer-events: none; }
+.gp[data-gp-ready] [data-gp-field] { opacity: 1; }
+.gp__bg { background: #0C0E11 url("/assets/img/hero/roof-solar.webp") center 40% / cover no-repeat; }
+.gp [data-gp-art] { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.gp [data-gp-marks] { fill: none; stroke: var(--gp-ink); opacity: .6; }
+.gp [data-gp-choices] { position: absolute; inset: 0; visibility: hidden; pointer-events: none; }
+.gp[data-gp-choosing="true"] [data-gp-choices] { visibility: visible; }
+.gp [data-gp-letter] { box-sizing: border-box; position: absolute; border: 0; padding: 0; margin: 0; background: transparent; cursor: pointer; pointer-events: auto; touch-action: pan-y; border-radius: 4px; }
+.gp [data-gp-letter]:disabled { pointer-events: none; }
+.gp [data-gp-letter]:focus-visible { outline: 2px solid var(--solar, #E4572E); outline-offset: 5px; }
+.gp [data-gp-touch-picker] { display: none; position: absolute; top: calc(var(--gp-word-bottom, 50%) + 42px); left: 50%; transform: translateX(-50%); align-items: center; gap: 12px; visibility: hidden; }
+.gp[data-gp-choosing="true"] [data-gp-touch-picker] { visibility: visible; }
+.gp [data-gp-select] { min-height: 44px; min-width: 90px; border: 1px solid rgba(12,14,17,.18); border-radius: 6px; background: var(--gp-paper); color: var(--gp-ink); padding: 0 10px; font: inherit; }
+.gp [data-gp-select]:focus-visible { outline: 2px solid var(--solar, #E4572E); outline-offset: 4px; }
+@media (any-pointer: coarse) { .gp [data-gp-touch-picker] { display: flex; } }
+.gp [data-gp-fallback] { position: absolute; inset: 0; display: grid; place-items: center; font-size: min(calc(100cqw / var(--gp-characters, 5)), 38cqh); line-height: 1; color: var(--gp-ink); }
+.gp[data-gp-ready] [data-gp-fallback] { visibility: hidden; }
+.gp [data-gp-caption] { position: absolute; inset: auto 8% 9%; display: flex; align-items: center; justify-content: space-between; gap: 1rem; font-family: var(--font-mono, ui-monospace, monospace); font-size: .6875rem; letter-spacing: .12em; text-transform: uppercase; opacity: var(--gp-caption, 1); pointer-events: var(--gp-caption-hit, auto); }
+.gp [data-gp-front] { position: absolute; inset: 0; opacity: var(--gp-caption, 1); pointer-events: none; }
+.gp [data-gp-front] a, .gp [data-gp-front] button { pointer-events: var(--gp-caption-hit, auto); }
+.gp [data-gp-front]:focus-within { opacity: 1; }
+.gp [data-gp-hint] { color: var(--gp-ink); }
+.gp [data-gp-enter] { display: inline-flex; align-items: center; gap: 12px; min-height: 44px; color: inherit; font: inherit; text-decoration: none; letter-spacing: inherit; }
+.gp [data-gp-enter]:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
+.gp [data-gp-caption]:focus-within { opacity: 1; pointer-events: auto; }
+.gp [data-gp-content] { box-sizing: border-box; position: relative; min-height: var(--gp-height, 100svh); padding: clamp(2rem, 7%, 6.25rem); display: grid; align-content: center; color: var(--gp-foreground); background: var(--gp-field); overflow-wrap: anywhere; }
+.gp[data-gp-motion="on"] [data-gp-pin] { position: sticky; top: 0; }
+.gp[data-gp-motion="off"] [data-gp-hint] { display: none; }
+.gp[data-gp-motion="on"] [data-gp-content] { margin-top: calc((var(--gp-length) - 1) * var(--gp-height)); background: linear-gradient(180deg, rgba(12,14,17,.5), rgba(12,14,17,.74)); opacity: var(--gp-reveal, 0); pointer-events: none; }
+.gp[data-gp-motion="on"][data-gp-entered="true"] [data-gp-content] { pointer-events: auto; }
+.gp[data-gp-motion="on"]:has([data-gp-content]:focus-within) [data-gp-field] { clip-path: none !important; }
+.gp[data-gp-motion="on"] [data-gp-content]:focus-within { opacity: 1; pointer-events: auto; }
+.gp:has([data-gp-content]:focus-within) [data-gp-caption],
+.gp:has([data-gp-content]:focus-within) [data-gp-marks] { opacity: 0; }
+.gp__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+
+/* Netso front + content dressing */
+.gp__header { position: absolute; inset: clamp(1.5rem,4.5cqw,3rem) clamp(1.5rem,5cqw,4rem) auto; display: flex; align-items: center; justify-content: space-between; gap: 1.25rem; }
+.gp__logo { font-size: 1.1rem; font-weight: 700; letter-spacing: -.02em; color: var(--gp-ink); }
+.gp__cat { font-family: var(--font-mono, ui-monospace, monospace); font-size: .625rem; letter-spacing: .16em; text-transform: uppercase; color: var(--muted, #6b7178); }
+.gp__eyebrow { position: absolute; inset: auto 1.5rem calc(100% - var(--gp-word-top, 35%) + 2rem); margin: 0; text-align: center; font-family: var(--font-mono, ui-monospace, monospace); font-size: .6875rem; letter-spacing: .16em; text-transform: uppercase; color: var(--muted, #6b7178); }
+.gp__support { position: absolute; inset: calc(var(--gp-word-bottom, 50%) + 2rem) 1.5rem auto; margin: 0; text-align: center; font-size: 1.05rem; color: var(--gp-ink); }
+.gp__scroll { position: absolute; inset: auto 1.5rem 7%; text-align: center; width: calc(100% - 3rem); font-family: var(--font-mono, ui-monospace, monospace); font-size: .625rem; letter-spacing: .16em; text-transform: uppercase; color: var(--muted, #6b7178); }
+@media (any-pointer: coarse) { .gp__scroll { bottom: 13%; } }
+.gp__copy { width: min(100%, 60rem); margin: 0 auto; display: grid; gap: clamp(1rem, 3vh, 1.75rem); justify-items: start; }
+.gp__title { margin: 0; font-family: var(--font-serif, "Instrument Serif", Georgia, serif); font-weight: 400; font-size: clamp(2.25rem, 6vw, 4.5rem); line-height: 1.02; letter-spacing: -.01em; color: #fff; }
+.gp__lead { margin: 0; max-width: 40ch; font-size: clamp(1rem, 1.2vw, 1.1875rem); line-height: 1.55; color: rgba(255,255,255,.82); }
+.gp__cta { --btn-bg: var(--solar, #E4572E); }
+@media (prefers-reduced-motion: reduce) {
+  .gp [data-gp-pin] { position: relative !important; }
+  .gp [data-gp-content] { margin-top: 0 !important; opacity: 1 !important; background: var(--gp-field) !important; min-height: 0; padding-block: 4rem; }
+  .gp [data-gp-caption] { opacity: 1 !important; }
+  .gp [data-gp-hint] { display: none; }
+}

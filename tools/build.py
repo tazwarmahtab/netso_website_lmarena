@@ -40,7 +40,7 @@ WHATSAPP_NUMBER = ""                   # TODO: e.g. "8801XXXXXXXXX"
 
 PAGES = {
     "home": dict(
-        out="index.html", route="/", script="home.js", extra_js=[],
+        out="index.html", route="/", script="home.js", extra_js=["glyph-portal.js"],
         title="Netso Energy — Your roof. Now an energy asset.",
         desc="Netso Energy develops, finances, owns and operates distributed solar infrastructure for commercial and industrial customers in Bangladesh.",
         og="/assets/img/og/home.jpg",
@@ -220,12 +220,15 @@ def assert_clean(html, route):
 
 
 def build_page(key, page):
-    intro_head = INTRO_HEAD if key == "home" else ""
+    # The home page opens with the Glyph Portal (a scroll camera through the
+    # NETSO wordmark), which supersedes the old CSS intro curtain, so intro_head
+    # (its session-skip class) is no longer emitted for home.
+    intro_head = ""
     head = HEAD.format(hero_preload=HERO_PRELOAD if key == "home" else "", intro_head=intro_head,
                        jsonld=JSONLD if key == "home" else "",
                        title=page["title"], desc=page["desc"], route=page["route"], og=page["og"],
                        site=SITE, key=key, body_class=page.get("body_class", ""))
-    intro = read("src/partials/intro.html") if key == "home" else ""
+    portal = read("src/partials/glyph-portal.html") if key == "home" else ""
     skip = read("src/partials/skip.html")
     header = read("src/partials/header.html").replace("{route}", page["route"])
     menu = read("src/partials/mobile-menu.html").replace("{route}", page["route"])
@@ -233,8 +236,8 @@ def build_page(key, page):
     main = read(f"src/pages/{key}.html")
     scripts = "".join(f'<script src="{s}"></script>' for s in VENDOR)
     scripts += "".join(f'<script src="/assets/js/{s}"></script>' for s in ["core.js"] + page.get("extra_js", []) + [page["script"]])
-    html = (head + intro + skip + PAGEWIPE + header + menu +
-            f'<main id="content" class="{page.get("main_class", "")}">' + main + "</main>" +
+    html = (head + skip + PAGEWIPE + header + menu +
+            f'<main id="content" class="{page.get("main_class", "")}">' + portal + main + "</main>" +
             footer + scripts + "</body></html>")
     # inject deploy config (single source of truth in this file)
     if WHATSAPP_NUMBER:
