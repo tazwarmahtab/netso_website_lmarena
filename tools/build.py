@@ -11,6 +11,7 @@ output stays free of stray line boxes.
 """
 import os
 import re
+import urllib.parse
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(ROOT, "src")
@@ -31,6 +32,11 @@ SITE = "https://netso.energy"
 #                   works — the client sends `Accept: application/json`).
 CONTACT_EMAIL = "hello@netso.energy"   # TODO: replace with the real inbox
 FORM_ENDPOINT = ""                     # TODO: paste a form endpoint, or leave "" for mailto
+# WhatsApp number for the enquiry CTA — country code + number, DIGITS ONLY
+# (no "+", spaces or dashes). Example for Bangladesh: "8801712345678".
+# When set, the enquiry form opens WhatsApp with every field prefilled; it also
+# powers the "Chat on WhatsApp" links. Leave "" to fall back to endpoint/mailto.
+WHATSAPP_NUMBER = ""                   # TODO: e.g. "8801XXXXXXXXX"
 
 PAGES = {
     "home": dict(
@@ -203,7 +209,16 @@ def build_page(key, page):
             f'<main id="content" class="{page.get("main_class", "")}">' + main + "</main>" +
             footer + scripts + "</body></html>")
     # inject deploy config (single source of truth in this file)
+    if WHATSAPP_NUMBER:
+        wa_url = "https://wa.me/%s?text=%s" % (
+            WHATSAPP_NUMBER,
+            urllib.parse.quote("Hello Netso — I'd like to talk about a rooftop solar project."),
+        )
+    else:
+        wa_url = "mailto:%s" % CONTACT_EMAIL  # safe fallback until the number is set
     html = html.replace("{{FORM_ENDPOINT}}", FORM_ENDPOINT)
+    html = html.replace("{{WHATSAPP_NUMBER}}", WHATSAPP_NUMBER)
+    html = html.replace("{{WHATSAPP_URL}}", wa_url)
     html = html.replace("hello@netso.energy", CONTACT_EMAIL)
     html = strip_internal(html)
     assert_clean(html, page["route"])

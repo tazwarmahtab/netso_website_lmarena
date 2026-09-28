@@ -283,6 +283,7 @@
     });
 
     const endpoint = (form.getAttribute('data-endpoint') || '').trim();
+    const whatsapp = (form.getAttribute('data-whatsapp') || '').replace(/[^\d]/g, '');
     const contact = (form.getAttribute('data-contact') || '').trim();
     const msg = DL.q('.form-msg', form);
     const setBusy = (b) => {
@@ -303,11 +304,8 @@
       document.dispatchEvent(new CustomEvent('netso:leadSubmitted', { detail: data }));
       if (typeof onSubmit === 'function') onSubmit(data);
     };
-    // zero-backend fallback: compose a prefilled email so the enquiry still
-    // reaches a human on any host, even before a form service is configured
-    const mailtoFallback = (data) => {
-      const to = contact || 'hello@netso.energy';
-      const subject = 'Project enquiry — ' + (data.company || data.name || 'Netso website');
+    // build a labelled, ordered summary of the enquiry as plain text
+    const summarise = (data) => {
       const order = [
         ['name', 'Name'], ['company', 'Company'], ['email', 'Email'], ['phone', 'Phone'],
         ['facility_location', 'Facility location'], ['facility_type', 'Facility type'],
@@ -315,10 +313,22 @@
         ['tariff', 'Tariff'], ['sanctioned_load', 'Sanctioned load'],
         ['existing_solar', 'Existing solar'], ['notes', 'Additional information'],
       ];
-      const lines = order
+      return order
         .filter(([k]) => data[k] && String(data[k]).trim())
-        .map(([k, label]) => `${label}: ${data[k]}`);
-      const body = 'Project enquiry submitted via netso.energy\n\n' + lines.join('\n');
+        .map(([k, label]) => `${label}: ${data[k]}`)
+        .join('\n');
+    };
+    // free, zero-backend path: open WhatsApp with the enquiry prefilled
+    const whatsappSubmit = (data) => {
+      const text = '*New project enquiry — Netso*\n\n' + summarise(data);
+      const url = 'https://wa.me/' + whatsapp + '?text=' + encodeURIComponent(text);
+      window.open(url, '_blank', 'noopener');
+    };
+    // fallback: compose a prefilled email so the enquiry still reaches a human
+    const mailtoFallback = (data) => {
+      const to = contact || 'hello@netso.energy';
+      const subject = 'Project enquiry — ' + (data.company || data.name || 'Netso website');
+      const body = 'Project enquiry submitted via netso.energy\n\n' + summarise(data);
       window.location.href = 'mailto:' + to +
         '?subject=' + encodeURIComponent(subject) +
         '&body=' + encodeURIComponent(body);
@@ -335,7 +345,14 @@
       const data = Object.fromEntries(new FormData(form).entries());
       delete data._gotcha; delete data._subject;
 
-      // no endpoint configured yet → hand off to the visitor's mail client
+      // primary path: hand off to WhatsApp with the enquiry prefilled
+      if (whatsapp) {
+        whatsappSubmit(data);
+        showMsg('We\u2019ve opened WhatsApp with your enquiry prefilled \u2014 just press send to reach us. If nothing opened, message us on WhatsApp directly.', false);
+        return;
+      }
+
+      // no endpoint configured → hand off to the visitor's mail client
       if (!endpoint) {
         mailtoFallback(data);
         showMsg('We\u2019ve opened your email client with the enquiry prefilled \u2014 press send to reach us. If nothing opened, write to ' + (contact || 'hello@netso.energy') + '.', false);
