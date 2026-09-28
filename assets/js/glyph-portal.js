@@ -83,6 +83,37 @@
     var picker = section.querySelector('[data-gp-select]');
     if (!pin || !field || !art || !clip || !glyph || !marks) return function () {};
 
+    /* Optional video living under the mask (inside the clipped field). Its
+       playback is mapped to the portal's scroll progress, so the footage plays
+       as the camera flies through the type and finishes as the portal opens.
+       Single in-flight seek keeps it locked to the latest scroll position. */
+    var video = section.querySelector('[data-gp-video]');
+    var vDur = 0, vReady = false, vSeeking = false, vWant = 0;
+    function vSeek(tt) {
+      vWant = tt;
+      if (!video || !vReady || vSeeking) return;
+      vSeeking = true;
+      var on = function () {
+        vSeeking = false; video.removeEventListener('seeked', on);
+        if (Math.abs(video.currentTime - vWant) > 0.03) vSeek(vWant);
+      };
+      video.addEventListener('seeked', on);
+      try { video.currentTime = tt; } catch (e) { vSeeking = false; }
+    }
+    function vPrime() {
+      if (!video) return;
+      vDur = video.duration || 0;
+      if (!vDur || !isFinite(vDur) || vReady) return;
+      vReady = true;
+      var pl = video.play();                 // decode a frame, then hand control to scroll
+      if (pl && pl.then) pl.then(function () { video.pause(); }).catch(function () {});
+    }
+    if (video) {
+      video.removeAttribute('autoplay'); video.loop = false; video.muted = true; video.playsInline = true;
+      video.addEventListener('loadedmetadata', vPrime);
+      if (video.readyState >= 1) vPrime();
+    }
+
     var root = scrollParent(section);
     var motion = window.matchMedia('(prefers-reduced-motion: reduce)');
     var canvas = document.createElement('canvas');
@@ -185,6 +216,7 @@
     function paint(progress) {
       var isStatic = motion.matches || !browserFrameSeen || stalled || !target;
       var p = isStatic ? 0 : progress;
+      if (video && vReady && vDur) vSeek(Math.min(vDur - 0.05, clamp(p / 0.82) * vDur));
       var t = clamp(p / 0.78);
       var eased = t < 0.5 ? 4 * Math.pow(t, 3) : 1 - Math.pow(-2 * t + 2, 3) / 2;
       var scale = Math.exp(Math.log(startScale) + Math.log(endScale / startScale) * eased);

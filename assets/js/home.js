@@ -50,8 +50,12 @@ function initHero() {
         if (l) gsap.fromTo(l, { scale: 1.12 }, { scale: 1.06, duration: 2.4, ease: 'power3.out' });
       });
 
-      // headline/copy sequence — fast, so the model lands immediately
-      const tl = gsap.timeline({ delay: 0.25, defaults: { ease: 'expo.out' } });
+      // headline/copy sequence — plays when the hero scrolls into view (after the
+      // portal opens), so the text animates onto the screen on arrival
+      const tl = gsap.timeline({
+        defaults: { ease: 'expo.out' },
+        scrollTrigger: { trigger: hero, start: 'top 80%', once: true },
+      });
       if (top) tl.fromTo(top, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.7 }, 0);
       // transform-only: the headline is legible from first paint on any connection
       if (title) tl.fromTo(title, { y: 22 }, { y: 0, duration: 0.95 }, 0);
