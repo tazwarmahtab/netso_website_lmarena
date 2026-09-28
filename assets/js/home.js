@@ -50,11 +50,12 @@ function initHero() {
         if (l) gsap.fromTo(l, { scale: 1.12 }, { scale: 1.06, duration: 2.4, ease: 'power3.out' });
       });
 
-      // headline/copy sequence — plays when the hero scrolls into view (after the
-      // portal opens), so the text animates onto the screen on arrival
+      // headline/copy sequence — the copy lives at the BOTTOM of the hero's first
+      // screen, so trigger when the hero is most of the way in (copy about to enter
+      // from the bottom), letting the parts animate onto the screen as you arrive.
       const tl = gsap.timeline({
         defaults: { ease: 'expo.out' },
-        scrollTrigger: { trigger: hero, start: 'top 80%', once: true },
+        scrollTrigger: { trigger: hero, start: 'top 20%', once: true },
       });
       if (top) tl.fromTo(top, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.7 }, 0);
       // transform-only: the headline is legible from first paint on any connection

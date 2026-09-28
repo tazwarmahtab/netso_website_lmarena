@@ -216,7 +216,17 @@
     function paint(progress) {
       var isStatic = motion.matches || !browserFrameSeen || stalled || !target;
       var p = isStatic ? 0 : progress;
-      if (video && vReady && vDur) vSeek(Math.min(vDur - 0.05, clamp(p / 0.82) * vDur));
+      if (video && vReady && vDur) {
+        if (p >= 0.985) {
+          // portal is open: let the clip run live so the handoff to the hero's
+          // (also live) backdrop is motion-to-motion, not a frozen-frame cut
+          if (video.paused) { video.loop = true; var pl2 = video.play(); if (pl2 && pl2.catch) pl2.catch(function () {}); }
+        } else {
+          if (!video.paused) { video.pause(); }
+          video.loop = false;
+          vSeek(Math.min(vDur - 0.05, clamp(p / 0.82) * vDur));
+        }
+      }
       var t = clamp(p / 0.78);
       var eased = t < 0.5 ? 4 * Math.pow(t, 3) : 1 - Math.pow(-2 * t + 2, 3) / 2;
       var scale = Math.exp(Math.log(startScale) + Math.log(endScale / startScale) * eased);
