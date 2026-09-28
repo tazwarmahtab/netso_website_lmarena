@@ -1376,3 +1376,9 @@ html.wipe-cover .pagewipe { opacity: 1; visibility: visible; }
   .mvhero__mask { transform: none; opacity: 1; }
   .mvhero__ui { opacity: 1; }
 }
+
+/* Hero backdrop video (home) — the rooftop-night film behind the value prop.
+   Replaces the former image layers + Today/With Netso toggle. */
+.hero__video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+  object-position: 50% 45%; display: block; }
+@media (max-width: 47.999rem) { .hero__video { object-position: 55% 50%; } }

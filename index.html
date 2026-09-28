@@ -25,7 +25,7 @@
 <link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png"/>
 <link rel="preload" href="/assets/fonts/Archivo-100-900-normal-latin.woff2" as="font" type="font/woff2" crossorigin/>
 <link rel="preload" href="/assets/fonts/InstrumentSerif-400-normal-latin.woff2" as="font" type="font/woff2" crossorigin/>
-<link rel="preload" as="image" href="/assets/img/hero/roof-base.webp" media="(min-width: 48rem)" fetchpriority="high"/><link rel="preload" as="image" href="/assets/img/hero/roof-base-m.webp" media="(max-width: 47.999rem)" fetchpriority="high"/>
+<link rel="preload" as="image" href="/assets/img/rooftop-night-poster.webp" fetchpriority="high"/>
 <script>/* opt-in intro animations; auto-failsafe so content is never hidden even if
    the main bundle fails to load */
 document.documentElement.classList.add('anim');
@@ -177,48 +177,9 @@ setTimeout(function () { document.documentElement.classList.remove('anim'); }, 2
 
 <section class="hero" id="hero" data-header="dark">
 <div class="hero__stage" aria-hidden="true">
-<picture class="hero__layer hero__layer--base is-active" data-stage="base">
-<source media="(max-width: 47.999rem)" srcset="/assets/img/hero/roof-base-m.webp"/>
-<img src="/assets/img/hero/roof-base.webp" alt="" width="1440" height="786" decoding="async"/>
-</picture>
-
-<picture class="hero__layer hero__layer--solar" data-stage="solar">
-<source media="(max-width: 47.999rem)" srcset="/assets/img/hero/roof-solar-m.webp"/>
-<img src="/assets/img/hero/roof-solar.webp" alt="Solar modules installed across the roof of an industrial facility in Bangladesh" width="1440" height="786" decoding="async" fetchpriority="low"/>
-</picture>
-
-<svg class="hero__survey" viewBox="0 0 1440 786" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
-<g class="hs" fill="none" stroke="#FF7A00" stroke-width="1.4" vector-effect="non-scaling-stroke">
-<path class="hs-path" d="M392 205 L1078 187 L1180 452 L352 512 Z"/>
-<path class="hs-path" d="M520 201 L560 486"/>
-<path class="hs-path" d="M650 197 L700 476"/>
-<path class="hs-path" d="M780 193 L840 462"/>
-<path class="hs-path" d="M910 189 L980 448"/>
-<path class="hs-path" d="M404 340 L1124 316"/>
-<path class="hs-dim" d="M392 560 L1180 500"/>
-<path class="hs-dim" d="M392 550 L392 570"/>
-<path class="hs-dim" d="M1180 490 L1180 510"/>
-<path class="hs-dim" d="M330 250 L330 430"/>
-<path class="hs-dim" d="M320 250 L340 250"/>
-<path class="hs-dim" d="M320 430 L340 430"/>
-</g>
-<g class="hs-targets" stroke="#FF7A00" fill="none" stroke-width="1.4">
-<circle cx="392" cy="205" r="7"/><path d="M392 191v-8M392 227v8M378 205h-8M406 205h8"/>
-<circle cx="1078" cy="187" r="7"/><path d="M1078 173v-8M1078 209v8M1064 187h-8M1092 187h8"/>
-<circle cx="1180" cy="452" r="7"/><path d="M1180 438v-8M1180 474v8M1166 452h-8M1194 452h8"/>
-<circle cx="352" cy="512" r="7"/><path d="M352 498v-8M352 534v8M338 512h-8M366 512h8"/>
-</g>
-</svg>
-
-<svg class="hero__flow" viewBox="0 0 1440 786" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">
-<g class="hf" fill="none" stroke="#FFC53D" stroke-width="1.6" vector-effect="non-scaling-stroke">
-<path class="hf-line" d="M470 300 L700 400 L980 470 L1120 512"/>
-<path class="hf-line" d="M900 250 L1060 380 L1120 512"/>
-<path class="hf-line" d="M620 430 L900 500 L1120 512"/>
-<path class="hf-drop" d="M1120 512 L1120 640"/>
-</g>
-<circle class="hf-node" cx="1120" cy="512" r="5" fill="#FFC53D"/>
-</svg>
+<video class="hero__video" muted playsinline autoplay loop preload="auto" poster="/assets/img/rooftop-night-poster.webp">
+<source src="/assets/video/rooftop-night.mp4" type="video/mp4"/>
+</video>
 </div>
 
 <div class="hero__scrim" aria-hidden="true"></div>
@@ -226,10 +187,6 @@ setTimeout(function () { document.documentElement.classList.remove('anim'); }, 2
 <div class="shell hero__inner">
 <div class="hero__top">
 <span class="eyebrow eyebrow--plain" style="color:rgba(255,255,255,0.62)">Netso Energy · Bangladesh</span>
-<div class="hero__compare" role="group" aria-label="Compare the roof today with the roof under a Netso agreement">
-<button type="button" class="hero__compare-btn is-on" data-hero-state="today" aria-pressed="true">Today</button>
-<button type="button" class="hero__compare-btn" data-hero-state="netso" aria-pressed="false">With Netso</button>
-</div>
 </div>
 
 <div class="hero__main">

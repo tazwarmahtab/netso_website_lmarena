@@ -17,7 +17,10 @@ function initHero() {
   if (hero) {
     const base = q('.hero__layer--base', hero);
     const solar = q('.hero__layer--solar', hero);
-    const img = q('img', base);
+    const img = base ? q('img', base) : null;
+    const heroVideo = q('.hero__video', hero);
+    // ambient backdrop video; reduced motion holds a single frame (poster)
+    if (heroVideo && DL.reduceMotion) { heroVideo.removeAttribute('autoplay'); try { heroVideo.pause(); } catch (e) {} }
     const title = q('.hero__title');
     const sub = q('.hero__sub');
     const model = q('.hero__model');
@@ -42,7 +45,7 @@ function initHero() {
           scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: true },
         });
       }
-      [base, solar].forEach((layer) => {
+      [base, solar].filter(Boolean).forEach((layer) => {
         const l = q('img', layer);
         if (l) gsap.fromTo(l, { scale: 1.12 }, { scale: 1.06, duration: 2.4, ease: 'power3.out' });
       });
