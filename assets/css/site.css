@@ -890,12 +890,11 @@ html.anim .header { transform: translateY(-100%); }
 .hero__stage { position: sticky; inset: auto; top: 0; height: 100svh; z-index: 0; }   /* inset first: it would reset `top` */
 .hero__inner { position: relative; z-index: 2; margin-top: -100svh; min-height: 100svh; align-content: end; }
 /* the incoming section must paint over the pinned stage and be opaque */
-[data-page="home"] #opportunity { z-index: 1; background: var(--paper);
-  /* pulled up by exactly the stage's travel, so the argument rises over the
-     pinned roof instead of arriving after it has scrolled away */
-  margin-top: -75svh; }
+/* #opportunity now follows the merged glyph-portal section directly; the portal's
+   own opaque #0A0C10 content tail handles the hand-off, so no negative pull. */
+[data-page="home"] #opportunity { z-index: 1; background: var(--paper); margin-top: 0; }
 @media (max-width: 47.999rem) { .hero { min-height: 140svh; }
-  [data-page="home"] #opportunity { margin-top: -40svh; } }
+  [data-page="home"] #opportunity { margin-top: 0; } }
 @media (prefers-reduced-motion: reduce) {
   .hero { min-height: 100svh; }
   [data-page="home"] #opportunity { margin-top: 0; }
@@ -1253,6 +1252,70 @@ html.wipe-cover .pagewipe { opacity: 1; visibility: visible; }
    hiding the cut between the two video sections. Solid fill so no paper flashes
    through once the pin releases. */
 .gp[data-gp-motion="on"] [data-gp-content] { margin-top: calc((var(--gp-length) - 1) * var(--gp-height)); background: #0A0C10; opacity: var(--gp-reveal, 0); pointer-events: none; }
+
+/* ---- merged hero: copy + cards slide up over the SAME sticky portal video ----
+   The portal's built-in "content scrolls over the sticky camera" is reused. The
+   content block is ~1.75 screens tall: the TOP screen holds the hero copy (shown
+   OVER the live video while the pin is still stuck), the remainder is an opaque
+   #0A0C10 tail that covers the cream fly-through surround after the pin releases
+   (no cream flash) and hands off into #opportunity. Tunable: --gp-content-len. */
+.gp[data-gp-motion="on"] [data-gp-content].gp__hero {
+  --gp-content-len: 1.75;
+  min-height: calc(var(--gp-height, 100svh) * var(--gp-content-len));
+  align-content: start;
+  padding: calc(var(--header-h, 64px) + 6vh) 0 clamp(3rem, 10vh, 7rem);
+  color: #fff;
+  /* legible scrim over the video near the top, opaque dark at the tail */
+  background: linear-gradient(180deg,
+    rgba(10,12,16,.48) 0%,
+    rgba(10,12,16,.62) 34%,
+    rgba(10,12,16,.86) 60%,
+    #0A0C10 78%);
+}
+.gp__hero-inner { display: grid; gap: clamp(1.75rem, 4vw, 3rem); }
+/* keep the t1 mid-page video hero unaffected — these are portal-scoped only */
+
+/* staggered slide-up of the hero copy once the portal is entered (motion on) */
+.gp[data-gp-motion="on"] .gp__hero .hero__top,
+.gp[data-gp-motion="on"] .gp__hero .hero__title,
+.gp[data-gp-motion="on"] .gp__hero .hero__sub,
+.gp[data-gp-motion="on"] .gp__hero .hero__model,
+.gp[data-gp-motion="on"] .gp__hero .hero__cta,
+.gp[data-gp-motion="on"] .gp__hero .hero__model-steps li,
+.gp[data-gp-motion="on"] .gp__hero .hero__proof {
+  opacity: 0; transform: translateY(22px);
+  transition: opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1);
+}
+.gp[data-gp-motion="on"][data-gp-entered="true"] .gp__hero .hero__top,
+.gp[data-gp-motion="on"][data-gp-entered="true"] .gp__hero .hero__title,
+.gp[data-gp-motion="on"][data-gp-entered="true"] .gp__hero .hero__sub,
+.gp[data-gp-motion="on"][data-gp-entered="true"] .gp__hero .hero__model,
+.gp[data-gp-motion="on"][data-gp-entered="true"] .gp__hero .hero__cta,
+.gp[data-gp-motion="on"][data-gp-entered="true"] .gp__hero .hero__model-steps li,
+.gp[data-gp-motion="on"][data-gp-entered="true"] .gp__hero .hero__proof {
+  opacity: 1; transform: none;
+}
+.gp__hero .hero__title { transition-delay: .04s; }
+.gp__hero .hero__sub { transition-delay: .10s; }
+.gp__hero .hero__model { transition-delay: .16s; }
+.gp__hero .hero__cta { transition-delay: .22s; }
+.gp__hero .hero__model-steps li:nth-child(1) { transition-delay: .28s; }
+.gp__hero .hero__model-steps li:nth-child(2) { transition-delay: .34s; }
+.gp__hero .hero__model-steps li:nth-child(3) { transition-delay: .40s; }
+.gp__hero .hero__model-steps li:nth-child(4) { transition-delay: .46s; }
+.gp__hero .hero__proof { transition-delay: .54s; }
+/* safety: if portal motion is off (reduced motion / no-JS / touch fallback),
+   the global `html.anim … opacity:0` rule must not strand the copy hidden */
+.gp[data-gp-motion="off"] .gp__hero :is(.hero__top,.hero__title,.hero__sub,.hero__model,.hero__cta,.hero__proof,.hero__model-steps li) {
+  opacity: 1 !important; transform: none !important;
+}
+/* motion off (video stalled / no scrub): render the hero on a clean opaque panel
+   rather than the show-through gradient, and drop the extra sticky-travel height */
+.gp[data-gp-motion="off"] [data-gp-content].gp__hero {
+  background: #0A0C10; min-height: auto; align-content: center;
+  padding: calc(var(--header-h, 64px) + 3rem) 0 clamp(3rem, 8vh, 6rem);
+}
+
 .gp[data-gp-motion="on"][data-gp-entered="true"] [data-gp-content] { pointer-events: auto; }
 .gp[data-gp-motion="on"]:has([data-gp-content]:focus-within) [data-gp-field] { clip-path: none !important; }
 .gp[data-gp-motion="on"] [data-gp-content]:focus-within { opacity: 1; pointer-events: auto; }
