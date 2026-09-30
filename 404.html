@@ -26,26 +26,12 @@
 <link rel="preload" href="/assets/fonts/Archivo-100-900-normal-latin.woff2" as="font" type="font/woff2" crossorigin/>
 <link rel="preload" href="/assets/fonts/InstrumentSerif-400-normal-latin.woff2" as="font" type="font/woff2" crossorigin/>
 
-<script>/* opt-in intro animations; auto-failsafe so content is never hidden even if
-   the main bundle fails to load */
-document.documentElement.classList.add('anim');
-setTimeout(function () { document.documentElement.classList.remove('anim'); }, 2000);</script>
-<script>/* page-transition curtain: if we arrived through an internal wipe, cover the
-   page before first paint so there is no flash, then uncover as a failsafe even
-   if the main bundle never loads. Disabled for reduced motion. */
-(function(){try{
-  if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
-  if(sessionStorage.getItem('netso:wipe')==='1'){
-    document.documentElement.classList.add('wipe-cover');
-    setTimeout(function(){document.documentElement.classList.remove('wipe-cover');},1400);
-  }
-}catch(e){}})();</script>
-
+<script>document.documentElement.classList.add('anim');setTimeout(function(){document.documentElement.classList.remove('anim');},2000);</script>
+<script>(function(){try{if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;if(sessionStorage.getItem('netso:wipe')==='1'){document.documentElement.classList.add('wipe-cover');setTimeout(function(){document.documentElement.classList.remove('wipe-cover');},1400);}}catch(e){}})();</script>
 
 <link rel="stylesheet" href="/assets/css/fonts.css"/>
 <link rel="stylesheet" href="/assets/css/site.css"/>
-</head>
-<body data-page="404" class=""><a class="skip-link" href="#content">Skip to content</a>
+</head><body data-page="404" class="legal"><a class="skip-link" href="#content">Skip to content</a>
 <div class="pagewipe" id="pagewipe" aria-hidden="true"><div class="pagewipe__field"></div><div class="pagewipe__mark"><svg viewBox="0 0 100 41.09" fill="none" focusable="false" aria-hidden="true"><path d="M0 40.59L22.77 40.84L34.86 20.48L48.22 20.36L48.85 40.71L73.54 40.71L85.5 20.48L99.87 20.1L99.87 0.25L74.55 0L62.34 20.48L48.98 20.48L48.47 0.13L23.41 0Z" fill="currentColor"/></svg></div></div><header class="header">
 <div class="shell header__inner">
 <a class="header__logo" href="/" aria-label="Netso Energy — home">
@@ -53,10 +39,9 @@ setTimeout(function () { document.documentElement.classList.remove('anim'); }, 2
 <span style="font-weight:600;font-size:0.9375rem;letter-spacing:0.16em;">NETSO</span>
 </a>
 <nav class="header__nav" aria-label="Primary">
-<a href="/how-it-works"{route==='/how-it-works'?' aria-current="page"':''}>How it works</a>
-<a href="/projects"{route==='/projects'?' aria-current="page"':''}>Projects</a>
-<a href="/about"{route==='/about'?' aria-current="page"':''}>About</a>
-<a href="/estimate"{route==='/estimate'?' aria-current="page"':''}>Estimate</a>
+<a href="/how-it-works">How it works</a>
+<a href="/about">About</a>
+<a href="/estimate">Estimate</a>
 </nav>
 <div class="cluster">
 <a class="btn header__cta" href="/start-a-project"><span>Start a project</span>
@@ -77,10 +62,9 @@ setTimeout(function () { document.documentElement.classList.remove('anim'); }, 2
 <ul class="mobile-menu__list">
 <li><a href="/"><span>Home</span>01</a></li>
 <li><a href="/how-it-works"><span>How it works</span>02</a></li>
-<li><a href="/projects"><span>Projects</span>03</a></li>
-<li><a href="/about"><span>About</span>04</a></li>
-<li><a href="/estimate"><span>Estimate</span>05</a></li>
-<li><a href="/start-a-project"><span>Start a project</span>06</a></li>
+<li><a href="/about"><span>About</span>03</a></li>
+<li><a href="/estimate"><span>Estimate</span>04</a></li>
+<li><a href="/start-a-project"><span>Start a project</span>05</a></li>
 </ul>
 </nav>
 <div class="mobile-menu__foot">
@@ -116,7 +100,6 @@ setTimeout(function () { document.documentElement.classList.remove('anim'); }, 2
 <div class="footer__col">
 <h2 class="footer__coltitle">Company</h2>
 <a href="/how-it-works">How it works</a>
-<a href="/projects">Projects</a>
 <a href="/about">About</a>
 </div>
 <div class="footer__col">
