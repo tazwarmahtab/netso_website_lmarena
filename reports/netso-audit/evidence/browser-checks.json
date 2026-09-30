@@ -1,0 +1,716 @@
+{
+  "routes": [
+    {
+      "route": "/",
+      "width": 1440,
+      "status": 200,
+      "errors": [],
+      "overflow": 10,
+      "h1": 1,
+      "main": 1,
+      "title": "Netso Energy \u2014 Your roof. Now an energy asset.",
+      "robots": null,
+      "brokenImages": [],
+      "missingHashes": [],
+      "video": [
+        {
+          "src": "http://127.0.0.1:8100/assets/video/rooftop-night.mp4",
+          "paused": true,
+          "preload": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:8100/assets/video/solar-aerial.mp4",
+          "paused": true,
+          "preload": "none"
+        }
+      ],
+      "transfer": 17796551,
+      "h1Top": 3092.5
+    },
+    {
+      "route": "/how-it-works",
+      "width": 1440,
+      "status": 200,
+      "errors": [],
+      "overflow": 0,
+      "h1": 1,
+      "main": 1,
+      "title": "How It Works \u2014 Netso Energy",
+      "robots": null,
+      "brokenImages": [],
+      "missingHashes": [],
+      "video": [],
+      "transfer": 768402,
+      "h1Top": 224.51089477539062
+    },
+    {
+      "route": "/about",
+      "width": 1440,
+      "status": 200,
+      "errors": [],
+      "overflow": 10,
+      "h1": 1,
+      "main": 1,
+      "title": "About \u2014 Netso Energy",
+      "robots": null,
+      "brokenImages": [],
+      "missingHashes": [],
+      "video": [],
+      "transfer": 765128,
+      "h1Top": 586.2371215820312
+    },
+    {
+      "route": "/estimate",
+      "width": 1440,
+      "status": 200,
+      "errors": [],
+      "overflow": 0,
+      "h1": 1,
+      "main": 1,
+      "title": "Estimate \u2014 Netso Energy",
+      "robots": null,
+      "brokenImages": [],
+      "missingHashes": [],
+      "video": [],
+      "transfer": 155372,
+      "h1Top": 224.51040649414062
+    },
+    {
+      "route": "/start-a-project",
+      "width": 1440,
+      "status": 200,
+      "errors": [],
+      "overflow": 0,
+      "h1": 1,
+      "main": 1,
+      "title": "Start a Project \u2014 Netso Energy",
+      "robots": null,
+      "brokenImages": [],
+      "missingHashes": [],
+      "video": [],
+      "transfer": 140373,
+      "h1Top": 224.51040649414062
+    },
+    {
+      "route": "/legal/privacy",
+      "width": 1440,
+      "status": 200,
+      "errors": [],
+      "overflow": 0,
+      "h1": 1,
+      "main": 1,
+      "title": "Privacy Policy \u2014 Netso Energy",
+      "robots": null,
+      "brokenImages": [],
+      "missingHashes": [],
+      "video": [],
+      "transfer": 139867,
+      "h1Top": 224.5074005126953
+    },
+    {
+      "route": "/legal/terms",
+      "width": 1440,
+      "status": 200,
+      "errors": [],
+      "overflow": 0,
+      "h1": 1,
+      "main": 1,
+      "title": "Terms of Service \u2014 Netso Energy",
+      "robots": null,
+      "brokenImages": [],
+      "missingHashes": [],
+      "video": [],
+      "transfer": 139867,
+      "h1Top": 224.5115966796875
+    },
+    {
+      "route": "/not-a-route",
+      "width": 1440,
+      "status": 404,
+      "errors": [],
+      "overflow": 0,
+      "h1": 1,
+      "main": 1,
+      "title": "Page not found \u2014 Netso Energy",
+      "robots": null,
+      "brokenImages": [],
+      "missingHashes": [],
+      "video": [],
+      "transfer": 139867,
+      "h1Top": 224.51040649414062
+    },
+    {
+      "route": "/",
+      "width": 390,
+      "status": 200,
+      "errors": [],
+      "overflow": 1,
+      "h1": 1,
+      "main": 1,
+      "title": "Netso Energy \u2014 Your roof. Now an energy asset.",
+      "robots": null,
+      "brokenImages": [],
+      "missingHashes": [],
+      "video": [
+        {
+          "src": "http://127.0.0.1:8100/assets/video/rooftop-night.mp4",
+          "paused": true,
+          "preload": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:8100/assets/video/solar-aerial.mp4",
+          "paused": true,
+          "preload": "none"
+        }
+      ],
+      "transfer": 17835289,
+      "h1Top": 2889.921875
+    },
+    {
+      "route": "/how-it-works",
+      "width": 390,
+      "status": 200,
+      "errors": [],
+      "overflow": 0,
+      "h1": 1,
+      "main": 1,
+      "title": "How It Works \u2014 Netso Energy",
+      "robots": null,
+      "brokenImages": [],
+      "missingHashes": [],
+      "video": [],
+      "transfer": 588391,
+      "h1Top": 160.51010131835938
+    },
+    {
+      "route": "/about",
+      "width": 390,
+      "status": 200,
+      "errors": [],
+      "overflow": 1,
+      "h1": 1,
+      "main": 1,
+      "title": "About \u2014 Netso Energy",
+      "robots": null,
+      "brokenImages": [],
+      "missingHashes": [],
+      "video": [],
+      "transfer": 765128,
+      "h1Top": 602.5870361328125
+    },
+    {
+      "route": "/estimate",
+      "width": 390,
+      "status": 200,
+      "errors": [],
+      "overflow": 0,
+      "h1": 1,
+      "main": 1,
+      "title": "Estimate \u2014 Netso Energy",
+      "robots": null,
+      "brokenImages": [],
+      "missingHashes": [],
+      "video": [],
+      "transfer": 155372,
+      "h1Top": 160.51119995117188
+    },
+    {
+      "route": "/start-a-project",
+      "width": 390,
+      "status": 200,
+      "errors": [],
+      "overflow": 0,
+      "h1": 1,
+      "main": 1,
+      "title": "Start a Project \u2014 Netso Energy",
+      "robots": null,
+      "brokenImages": [],
+      "missingHashes": [],
+      "video": [],
+      "transfer": 140373,
+      "h1Top": 160.51119995117188
+    },
+    {
+      "route": "/legal/privacy",
+      "width": 390,
+      "status": 200,
+      "errors": [],
+      "overflow": 0,
+      "h1": 1,
+      "main": 1,
+      "title": "Privacy Policy \u2014 Netso Energy",
+      "robots": null,
+      "brokenImages": [],
+      "missingHashes": [],
+      "video": [],
+      "transfer": 139867,
+      "h1Top": 160.5124969482422
+    },
+    {
+      "route": "/legal/terms",
+      "width": 390,
+      "status": 200,
+      "errors": [],
+      "overflow": 0,
+      "h1": 1,
+      "main": 1,
+      "title": "Terms of Service \u2014 Netso Energy",
+      "robots": null,
+      "brokenImages": [],
+      "missingHashes": [],
+      "video": [],
+      "transfer": 139867,
+      "h1Top": 160.5133056640625
+    },
+    {
+      "route": "/not-a-route",
+      "width": 390,
+      "status": 404,
+      "errors": [],
+      "overflow": 0,
+      "h1": 1,
+      "main": 1,
+      "title": "Page not found \u2014 Netso Energy",
+      "robots": null,
+      "brokenImages": [],
+      "missingHashes": [],
+      "video": [],
+      "transfer": 139867,
+      "h1Top": 163.61827087402344
+    },
+    {
+      "route": "/",
+      "width": 320,
+      "status": 200,
+      "errors": [],
+      "overflow": 0,
+      "h1": 1,
+      "main": 1,
+      "title": "Netso Energy \u2014 Your roof. Now an energy asset.",
+      "robots": null,
+      "brokenImages": [],
+      "missingHashes": [],
+      "video": [
+        {
+          "src": "http://127.0.0.1:8100/assets/video/rooftop-night.mp4",
+          "paused": true,
+          "preload": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:8100/assets/video/solar-aerial.mp4",
+          "paused": true,
+          "preload": "none"
+        }
+      ],
+      "transfer": 17835289,
+      "h1Top": 2420.5
+    },
+    {
+      "route": "/how-it-works",
+      "width": 320,
+      "status": 200,
+      "errors": [],
+      "overflow": 0,
+      "h1": 1,
+      "main": 1,
+      "title": "How It Works \u2014 Netso Energy",
+      "robots": null,
+      "brokenImages": [],
+      "missingHashes": [],
+      "video": [],
+      "transfer": 347270,
+      "h1Top": 160.51190185546875
+    },
+    {
+      "route": "/about",
+      "width": 320,
+      "status": 200,
+      "errors": [],
+      "overflow": 0,
+      "h1": 1,
+      "main": 1,
+      "title": "About \u2014 Netso Energy",
+      "robots": null,
+      "brokenImages": [],
+      "missingHashes": [],
+      "video": [],
+      "transfer": 365068,
+      "h1Top": 458.3436584472656
+    },
+    {
+      "route": "/estimate",
+      "width": 320,
+      "status": 200,
+      "errors": [],
+      "overflow": 0,
+      "h1": 1,
+      "main": 1,
+      "title": "Estimate \u2014 Netso Energy",
+      "robots": null,
+      "brokenImages": [],
+      "missingHashes": [],
+      "video": [],
+      "transfer": 155372,
+      "h1Top": 160.5117950439453
+    },
+    {
+      "route": "/start-a-project",
+      "width": 320,
+      "status": 200,
+      "errors": [],
+      "overflow": 0,
+      "h1": 1,
+      "main": 1,
+      "title": "Start a Project \u2014 Netso Energy",
+      "robots": null,
+      "brokenImages": [],
+      "missingHashes": [],
+      "video": [],
+      "transfer": 140373,
+      "h1Top": 160.50650024414062
+    },
+    {
+      "route": "/legal/privacy",
+      "width": 320,
+      "status": 200,
+      "errors": [],
+      "overflow": 0,
+      "h1": 1,
+      "main": 1,
+      "title": "Privacy Policy \u2014 Netso Energy",
+      "robots": null,
+      "brokenImages": [],
+      "missingHashes": [],
+      "video": [],
+      "transfer": 139867,
+      "h1Top": 160.50990295410156
+    },
+    {
+      "route": "/legal/terms",
+      "width": 320,
+      "status": 200,
+      "errors": [],
+      "overflow": 0,
+      "h1": 1,
+      "main": 1,
+      "title": "Terms of Service \u2014 Netso Energy",
+      "robots": null,
+      "brokenImages": [],
+      "missingHashes": [],
+      "video": [],
+      "transfer": 139867,
+      "h1Top": 160.51060485839844
+    },
+    {
+      "route": "/not-a-route",
+      "width": 320,
+      "status": 404,
+      "errors": [],
+      "overflow": 0,
+      "h1": 1,
+      "main": 1,
+      "title": "Page not found \u2014 Netso Energy",
+      "robots": null,
+      "brokenImages": [],
+      "missingHashes": [],
+      "video": [],
+      "transfer": 139867,
+      "h1Top": 160.50979614257812
+    },
+    {
+      "route": "/",
+      "width": 768,
+      "status": 200,
+      "errors": [],
+      "overflow": 28,
+      "h1": 1,
+      "main": 1,
+      "title": "Netso Energy \u2014 Your roof. Now an energy asset.",
+      "robots": null,
+      "brokenImages": [],
+      "missingHashes": [],
+      "video": [
+        {
+          "src": "http://127.0.0.1:8100/assets/video/rooftop-night.mp4",
+          "paused": true,
+          "preload": "auto"
+        },
+        {
+          "src": "http://127.0.0.1:8100/assets/video/solar-aerial.mp4",
+          "paused": true,
+          "preload": "none"
+        }
+      ],
+      "transfer": 17835289,
+      "h1Top": 3479.453125
+    },
+    {
+      "route": "/how-it-works",
+      "width": 768,
+      "status": 200,
+      "errors": [],
+      "overflow": 0,
+      "h1": 1,
+      "main": 1,
+      "title": "How It Works \u2014 Netso Energy",
+      "robots": null,
+      "brokenImages": [],
+      "missingHashes": [],
+      "video": [],
+      "transfer": 768402,
+      "h1Top": 173.94790649414062
+    },
+    {
+      "route": "/about",
+      "width": 768,
+      "status": 200,
+      "errors": [],
+      "overflow": 28,
+      "h1": 1,
+      "main": 1,
+      "title": "About \u2014 Netso Energy",
+      "robots": null,
+      "brokenImages": [],
+      "missingHashes": [],
+      "video": [],
+      "transfer": 765128,
+      "h1Top": 791.183837890625
+    },
+    {
+      "route": "/estimate",
+      "width": 768,
+      "status": 200,
+      "errors": [],
+      "overflow": 0,
+      "h1": 1,
+      "main": 1,
+      "title": "Estimate \u2014 Netso Energy",
+      "robots": null,
+      "brokenImages": [],
+      "missingHashes": [],
+      "video": [],
+      "transfer": 155372,
+      "h1Top": 173.94740295410156
+    },
+    {
+      "route": "/start-a-project",
+      "width": 768,
+      "status": 200,
+      "errors": [],
+      "overflow": 0,
+      "h1": 1,
+      "main": 1,
+      "title": "Start a Project \u2014 Netso Energy",
+      "robots": null,
+      "brokenImages": [],
+      "missingHashes": [],
+      "video": [],
+      "transfer": 140373,
+      "h1Top": 173.9481964111328
+    },
+    {
+      "route": "/legal/privacy",
+      "width": 768,
+      "status": 200,
+      "errors": [],
+      "overflow": 0,
+      "h1": 1,
+      "main": 1,
+      "title": "Privacy Policy \u2014 Netso Energy",
+      "robots": null,
+      "brokenImages": [],
+      "missingHashes": [],
+      "video": [],
+      "transfer": 139867,
+      "h1Top": 173.94639587402344
+    },
+    {
+      "route": "/legal/terms",
+      "width": 768,
+      "status": 200,
+      "errors": [],
+      "overflow": 0,
+      "h1": 1,
+      "main": 1,
+      "title": "Terms of Service \u2014 Netso Energy",
+      "robots": null,
+      "brokenImages": [],
+      "missingHashes": [],
+      "video": [],
+      "transfer": 139867,
+      "h1Top": 173.94650268554688
+    },
+    {
+      "route": "/not-a-route",
+      "width": 768,
+      "status": 404,
+      "errors": [],
+      "overflow": 0,
+      "h1": 1,
+      "main": 1,
+      "title": "Page not found \u2014 Netso Energy",
+      "robots": null,
+      "brokenImages": [],
+      "missingHashes": [],
+      "video": [],
+      "transfer": 139867,
+      "h1Top": 263.1979064941406
+    }
+  ],
+  "checks": {
+    "calculator_default": "INDICATIVE ANNUAL GRID ENERGY VALUE\n\u09f3 41,61,600 \u2013 \u09f3 96,36,000\n\u2248 \u09f3 0.4 \u2013 1.0 crore/year of indicative grid-energy value\nINDICATIVE PV CAPACITY\n300\u2013429 kWp\nANNUAL GENERATION\n0.4\u20130.6 GWh\nMONTHLY LOAD OFFSET\n30\u201350%\nBATTERY ROLE\nNot included\n\nThis is a screening model, not a quote or feasibility study. It does not infer a PPA tariff, demand-charge savings, export revenue, battery CAPEX, financing cost or site-specific yield. Under the 2025 Net Metering Guideline, AC output is subject to the approved capacity and utility process; OPEX tariffs are agreed with the consumer and must not exceed the applicable utility retail tariff. Net export is also subject to the guideline's settlement and distribution-system-maintenance rules.\n\nGET THE SITE-SPECIFIC NUMBERS\nCHAT ON WHATSAPP",
+    "calculator_load_limited": "INDICATIVE ANNUAL GRID ENERGY VALUE\n\u09f3 11,89,029 \u2013 \u09f3 22,48,400\n\u2248 \u09f3 0.1 \u2013 0.2 crore/year of indicative grid-energy value\nINDICATIVE PV CAPACITY\n86\u2013100 kWp\nANNUAL GENERATION\n0.1\u20130.1 GWh\nMONTHLY LOAD OFFSET\n86\u2013117%\nBATTERY ROLE\nNot included\n\nThis is a screening model, not a quote or feasibility study. It does not infer a PPA tariff, demand-charge savings, export revenue, battery CAPEX, financing cost or site-specific yield. Under the 2025 Net Metering Guideline, AC output is subject to the approved capacity and utility process; OPEX tariffs are agreed with the consumer and must not exceed the applicable utility retail tariff. Net export is also subject to the guideline's settlement and distribution-system-maintenance rules.\n\nGET THE SITE-SPECIFIC NUMBERS\nCHAT ON WHATSAPP",
+    "calculator_small_roof": "INDICATIVE ANNUAL GRID ENERGY VALUE\n\u09f3 2,77,440 \u2013 \u09f3 6,42,400\n\u2248 \u09f3 0.0 \u2013 0.1 crore/year of indicative grid-energy value\nINDICATIVE PV CAPACITY\n20\u201329 kWp\nANNUAL GENERATION\n0.0\u20130.0 GWh\nMONTHLY LOAD OFFSET\n0\u20130%\nBATTERY ROLE\nNot included\n\nThis is a screening model, not a quote or feasibility study. It does not infer a PPA tariff, demand-charge savings, export revenue, battery CAPEX, financing cost or site-specific yield. Under the 2025 Net Metering Guideline, AC output is subject to the approved capacity and utility process; OPEX tariffs are agreed with the consumer and must not exceed the applicable utility retail tariff. Net export is also subject to the guideline's settlement and distribution-system-maintenance rules.\n\nGET THE SITE-SPECIFIC NUMBERS\nCHAT ON WHATSAPP",
+    "battery_toggle": "Reliability + shifting",
+    "empty_form": {
+      "invalid": 7,
+      "focus": "f-name"
+    },
+    "valid_form": {
+      "message": "We\u2019ve opened WhatsApp with your enquiry prefilled \u2014 just press send to reach us. If nothing opened, message us on WhatsApp directly.",
+      "formVisible": true,
+      "handoffHost": "wa.me",
+      "hasLeadSummary": true
+    },
+    "closed_menu_tab_order": [
+      {
+        "tag": "A",
+        "text": "Skip to content",
+        "inMenu": false,
+        "expanded": "false"
+      },
+      {
+        "tag": "A",
+        "text": "NETSO",
+        "inMenu": false,
+        "expanded": "false"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "",
+        "inMenu": false,
+        "expanded": "false"
+      },
+      {
+        "tag": "A",
+        "text": "Home01",
+        "inMenu": true,
+        "expanded": "false"
+      },
+      {
+        "tag": "A",
+        "text": "How it works02",
+        "inMenu": true,
+        "expanded": "false"
+      },
+      {
+        "tag": "A",
+        "text": "About03",
+        "inMenu": true,
+        "expanded": "false"
+      },
+      {
+        "tag": "A",
+        "text": "Estimate04",
+        "inMenu": true,
+        "expanded": "false"
+      },
+      {
+        "tag": "A",
+        "text": "Start a project05",
+        "inMenu": true,
+        "expanded": "false"
+      },
+      {
+        "tag": "A",
+        "text": "Start a project",
+        "inMenu": true,
+        "expanded": "false"
+      },
+      {
+        "tag": "A",
+        "text": "Chat on WhatsApp",
+        "inMenu": true,
+        "expanded": "false"
+      },
+      {
+        "tag": "BUTTON",
+        "text": "Replay \u21bb",
+        "inMenu": false,
+        "expanded": "false"
+      },
+      {
+        "tag": "A",
+        "text": "Chat on WhatsApp",
+        "inMenu": false,
+        "expanded": "false"
+      },
+      {
+        "tag": "A",
+        "text": "Start a project",
+        "inMenu": false,
+        "expanded": "false"
+      }
+    ],
+    "open_menu_focus": "header__burger",
+    "escape_menu": "false",
+    "resize_open_menu": {
+      "overflow": "hidden",
+      "expanded": "true",
+      "burgerVisible": false
+    },
+    "no-js": {
+      "errors": [],
+      "outputConsumption": "100,000 kWh",
+      "formSubmitStatus": [
+        501
+      ]
+    },
+    "no-gsap": {
+      "errors": [
+        "gsap is not defined",
+        "Cannot read properties of undefined (reading 'ready')",
+        "gsap is not defined",
+        "Cannot read properties of undefined (reading 'ready')"
+      ],
+      "outputConsumption": "100,000 kWh",
+      "formSubmitListeners": "undefined"
+    },
+    "no-scrolltrigger": {
+      "errors": [
+        "ScrollTrigger is not defined",
+        "ScrollTrigger is not defined",
+        "ScrollTrigger is not defined",
+        "ScrollTrigger is not defined"
+      ],
+      "outputConsumption": "100,000 kWh",
+      "formSubmitListeners": "undefined"
+    },
+    "reduced-motion": {
+      "errors": [],
+      "outputConsumption": "10,000 kWh",
+      "scrollAnimations": 11,
+      "formSubmitListeners": "function"
+    },
+    "http:/.git/HEAD": {
+      "status": 200,
+      "contentLength": "23",
+      "contentRange": null
+    },
+    "http:/README.md": {
+      "status": 200,
+      "contentLength": "23723",
+      "contentRange": null
+    },
+    "http:/src/pages/privacy.html": {
+      "status": 200,
+      "contentLength": "4086",
+      "contentRange": null
+    },
+    "http:/assets/video/rooftop-night.mp4": {
+      "status": 200,
+      "contentLength": "6966940",
+      "contentRange": null
+    }
+  }
+}

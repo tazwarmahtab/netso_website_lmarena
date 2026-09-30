@@ -1,0 +1,40 @@
+{
+  "home_after_settle": {
+    "overflow": 28,
+    "h1top": 3479.453125,
+    "transfer": 17835289,
+    "offenders": []
+  },
+  "step_inside": {
+    "scrollY": 3207,
+    "h1top": 250.453125,
+    "hash": "",
+    "focus": "A"
+  },
+  "internal_links": {
+    "/": 200,
+    "/about": 200,
+    "/estimate": 200,
+    "/how-it-works": 200,
+    "/legal/privacy": 200,
+    "/legal/terms": 200,
+    "/start-a-project": 200,
+    "/start-a-project#capital": 200
+  },
+  "faq_open": "true",
+  "faq_closed": "false",
+  "skip_focus": {
+    "tag": "A",
+    "cls": "skip-link",
+    "hash": ""
+  },
+  "reduced_home": {
+    "videoBytes": [
+      {
+        "name": "rooftop-night.mp4",
+        "bytes": 6967240
+      }
+    ],
+    "animations": 56
+  }
+}
