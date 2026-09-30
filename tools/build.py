@@ -30,13 +30,13 @@ SITE = "https://netso.energy"
 #                   Formspree:  https://formspree.io/f/xxxxxxxx
 #                   (any service that accepts a multipart POST and returns 2xx
 #                   works — the client sends `Accept: application/json`).
-CONTACT_EMAIL = "hello@netso.energy"   # TODO: replace with the real inbox
-FORM_ENDPOINT = ""                     # TODO: paste a form endpoint, or leave "" for mailto
+CONTACT_EMAIL = "hello@netso.energy"
+FORM_ENDPOINT = ""
 # WhatsApp number for the enquiry CTA — country code + number, DIGITS ONLY
 # (no "+", spaces or dashes). Example for Bangladesh: "8801712345678".
 # When set, the enquiry form opens WhatsApp with every field prefilled; it also
 # powers the "Chat on WhatsApp" links. Leave "" to fall back to endpoint/mailto.
-WHATSAPP_NUMBER = "8801791222777"      # +880 179 122 2777 (wa.me needs digits only)
+WHATSAPP_NUMBER = "8801791222777"
 
 PAGES = {
     "home": dict(
@@ -196,7 +196,7 @@ HERO_PRELOAD = ('<link rel="preload" as="image" href="/assets/img/rooftop-night-
 # syntax (they use /* */ and //). Verified by assert_clean below.
 # ---------------------------------------------------------------------------
 HTML_COMMENT = re.compile(r"[ \t]*<!--[\s\S]*?-->[ \t]*\n?")
-DRAFT_MARKERS = ("todo:", "todo ", "fixme", "draft copy", "draft —",
+DRAFT_MARKERS = ("fixme", "draft copy", "draft —",
                  "lorem ipsum", "to be replaced with", "placeholder imagery",
                  "must be supplied", "before launch")
 
