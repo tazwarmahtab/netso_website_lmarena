@@ -1317,3 +1317,19 @@ html.wipe-cover .pagewipe { opacity: 1; visibility: visible; }
 }
 
 
+
+/* Arena V2: first-45s pacing. The portal is the only cinematic device; copy arrives
+   as a single proposition, then hands directly into the development story. */
+.gp[data-gp-motion="on"] [data-gp-content].gp__hero {
+  --gp-content-len: 1.25;
+  min-height: calc(var(--gp-height, 100svh) * var(--gp-content-len));
+}
+.gp__hero-inner { gap: clamp(1.5rem, 3.5vw, 2.75rem); }
+.gp__hero .hero__title { max-width: 11ch; }
+.gp__hero .hero__sub { max-width: 50ch; }
+.gp__hero .hero__model-steps { max-width: 54rem; }
+.gp__hero .hero__proof { display: none; }
+@media (max-width: 48rem) {
+  .gp[data-gp-motion="on"] [data-gp-content].gp__hero { --gp-content-len: 1.35; }
+  .gp__hero .hero__title { max-width: 10ch; }
+}
