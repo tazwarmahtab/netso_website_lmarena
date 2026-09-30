@@ -26,26 +26,12 @@
 <link rel="preload" href="/assets/fonts/Archivo-100-900-normal-latin.woff2" as="font" type="font/woff2" crossorigin/>
 <link rel="preload" href="/assets/fonts/InstrumentSerif-400-normal-latin.woff2" as="font" type="font/woff2" crossorigin/>
 <link rel="preload" as="image" href="/assets/img/rooftop-night-poster.webp" fetchpriority="high"/>
-<script>/* opt-in intro animations; auto-failsafe so content is never hidden even if
-   the main bundle fails to load */
-document.documentElement.classList.add('anim');
-setTimeout(function () { document.documentElement.classList.remove('anim'); }, 2000);</script>
-<script>/* page-transition curtain: if we arrived through an internal wipe, cover the
-   page before first paint so there is no flash, then uncover as a failsafe even
-   if the main bundle never loads. Disabled for reduced motion. */
-(function(){try{
-  if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
-  if(sessionStorage.getItem('netso:wipe')==='1'){
-    document.documentElement.classList.add('wipe-cover');
-    setTimeout(function(){document.documentElement.classList.remove('wipe-cover');},1400);
-  }
-}catch(e){}})();</script>
+<script>document.documentElement.classList.add('anim');setTimeout(function(){document.documentElement.classList.remove('anim');},2000);</script>
+<script>(function(){try{if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;if(sessionStorage.getItem('netso:wipe')==='1'){document.documentElement.classList.add('wipe-cover');setTimeout(function(){document.documentElement.classList.remove('wipe-cover');},1400);}}catch(e){}})();</script>
 
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://netso.energy/#org","name":"Netso Energy","url":"https://netso.energy/","logo":"https://netso.energy/assets/img/icon-512.png","description":"Netso Energy develops, finances, owns and operates distributed solar infrastructure on commercial and industrial rooftops in Bangladesh.","areaServed":{"@type":"Country","name":"Bangladesh"}},{"@type":"WebSite","@id":"https://netso.energy/#site","url":"https://netso.energy/","name":"Netso Energy","publisher":{"@id":"https://netso.energy/#org"},"inLanguage":"en-GB"}]}</script>
 <link rel="stylesheet" href="/assets/css/fonts.css"/>
 <link rel="stylesheet" href="/assets/css/site.css"/>
-</head>
-<body data-page="home" class=""><a class="skip-link" href="#content">Skip to content</a>
+</head><body data-page="home" class=""><a class="skip-link" href="#content">Skip to content</a>
 <div class="pagewipe" id="pagewipe" aria-hidden="true"><div class="pagewipe__field"></div><div class="pagewipe__mark"><svg viewBox="0 0 100 41.09" fill="none" focusable="false" aria-hidden="true"><path d="M0 40.59L22.77 40.84L34.86 20.48L48.22 20.36L48.85 40.71L73.54 40.71L85.5 20.48L99.87 20.1L99.87 0.25L74.55 0L62.34 20.48L48.98 20.48L48.47 0.13L23.41 0Z" fill="currentColor"/></svg></div></div><header class="header">
 <div class="shell header__inner">
 <a class="header__logo" href="/" aria-label="Netso Energy — home">
@@ -53,10 +39,9 @@ setTimeout(function () { document.documentElement.classList.remove('anim'); }, 2
 <span style="font-weight:600;font-size:0.9375rem;letter-spacing:0.16em;">NETSO</span>
 </a>
 <nav class="header__nav" aria-label="Primary">
-<a href="/how-it-works"{route==='/how-it-works'?' aria-current="page"':''}>How it works</a>
-<a href="/projects"{route==='/projects'?' aria-current="page"':''}>Projects</a>
-<a href="/about"{route==='/about'?' aria-current="page"':''}>About</a>
-<a href="/estimate"{route==='/estimate'?' aria-current="page"':''}>Estimate</a>
+<a href="/how-it-works">How it works</a>
+<a href="/about">About</a>
+<a href="/estimate">Estimate</a>
 </nav>
 <div class="cluster">
 <a class="btn header__cta" href="/start-a-project"><span>Start a project</span>
@@ -77,10 +62,9 @@ setTimeout(function () { document.documentElement.classList.remove('anim'); }, 2
 <ul class="mobile-menu__list">
 <li><a href="/"><span>Home</span>01</a></li>
 <li><a href="/how-it-works"><span>How it works</span>02</a></li>
-<li><a href="/projects"><span>Projects</span>03</a></li>
-<li><a href="/about"><span>About</span>04</a></li>
-<li><a href="/estimate"><span>Estimate</span>05</a></li>
-<li><a href="/start-a-project"><span>Start a project</span>06</a></li>
+<li><a href="/about"><span>About</span>03</a></li>
+<li><a href="/estimate"><span>Estimate</span>04</a></li>
+<li><a href="/start-a-project"><span>Start a project</span>05</a></li>
 </ul>
 </nav>
 <div class="mobile-menu__foot">
@@ -92,7 +76,7 @@ setTimeout(function () { document.documentElement.classList.remove('anim'); }, 2
 </div>
 </div>
 </div>
-<main id="content" class=""><section id="gp" class="gp" data-glyph-portal data-gp-word="NETSO ENERGY" data-gp-interactive="true" aria-label="NETSO ENERGY" style="--gp-length:3.2;--gp-characters:12;--gp-paper:#F5F3EF;--gp-ink:#0C0E11;--gp-field:#0C0E11;--gp-foreground:#ffffff;">
+<section id="gp" class="gp" data-glyph-portal data-gp-word="NETSO ENERGY" data-gp-interactive="true" aria-label="NETSO ENERGY" style="--gp-length:3.2;--gp-characters:12;--gp-paper:#F5F3EF;--gp-ink:#0C0E11;--gp-field:#0C0E11;--gp-foreground:#ffffff;">
 <div data-gp-viewport aria-hidden="true"></div>
 <div data-gp-pin>
 <div data-gp-field aria-hidden="true" inert>
@@ -174,17 +158,15 @@ setTimeout(function () { document.documentElement.classList.remove('anim'); }, 2
 </ol>
 
 <div class="hero__proof">
-<span class="evidence evidence--verified" style="border-color:rgba(127,211,174,0.5);color:#8FE0BC;background:rgba(31,122,90,0.18)">Contracted</span>
-<span class="hero__proof-item"><strong class="num">80 kWp</strong> Chittagong Grammar School</span>
+<span class="evidence evidence--verified" style="border-color:rgba(127,211,174,0.5);color:#8FE0BC;background:rgba(31,122,90,0.18)">Model</span>
+<span class="hero__proof-item"><strong class="num">C&amp;I</strong> rooftop energy infrastructure</span>
 <span class="hero__proof-sep" aria-hidden="true"></span>
-<span class="hero__proof-item"><strong class="num">PPA signed</strong> pre-construction</span>
-<a class="hero__proof-link mono" href="/projects">See the project
-<svg width="10" height="8" viewBox="0 0 11 9" fill="none" aria-hidden="true"><path d="M0 4.5h9.5M6 .8l3.7 3.7L6 8.2" stroke="currentColor" stroke-width="1.2"/></svg></a>
+<span class="hero__proof-item"><strong class="num">OPEX</strong> customer buys the power</span>
 </div>
 </div>
 </div>
 </section>
-<section class="section" id="opportunity">
+<main id="content" class=""><section class="section" id="opportunity">
 <div class="shell">
 <div class="sec-head">
 <div class="sec-head__top">
@@ -360,37 +342,29 @@ setTimeout(function () { document.documentElement.classList.remove('anim'); }, 2
 <div class="shell">
 <div class="sec-head">
 <div class="sec-head__top">
-<span class="eyebrow" style="color:rgba(255,255,255,0.5)">04 — See the system in practice</span>
-<span class="evidence evidence--verified" style="border-color:rgba(31,122,90,0.55);color:#7FD3AE;background:rgba(31,122,90,0.16)">Verified — PPA signed</span>
+<span class="eyebrow" style="color:rgba(255,255,255,0.5)">04 — Evidence before scale</span>
+<span class="evidence evidence--verified" style="border-color:rgba(31,122,90,0.55);color:#7FD3AE;background:rgba(31,122,90,0.16)">Public record · intentionally limited</span>
 </div>
-<h2 class="display display-sm maxw-48" data-lines>Chittagong Grammar School</h2>
+<h2 class="display display-sm maxw-48" data-lines>We will publish assets when there is an asset to publish.</h2>
 </div>
-
 <div class="split split--gap mt-8">
 <div class="split__aside">
-<p class="lead" style="color:rgba(255,255,255,0.78)">An 80 kWp rooftop system contracted with Chittagong Grammar School under a signed Power Purchase Agreement. Netso originated the project, surveyed the roof and structured the commercial case against the school’s own electricity bill: the contracted tariff sits below the grid rate the school already pays. The system is not yet built — construction follows the agreement.</p>
-<div class="proofbar mt-6">
-<div class="proofbar__cell"><span class="proofbar__v num" data-count data-value="80">80</span><span class="proofbar__l mono">kWp contracted capacity</span></div>
-<div class="proofbar__cell"><span class="proofbar__v mono" style="font-size:1.0625rem;letter-spacing:0.04em">Below grid</span><span class="proofbar__l mono">PPA tariff vs BERC benchmark</span></div>
-<div class="proofbar__cell"><span class="proofbar__v mono" style="font-size:1.0625rem;letter-spacing:0.04em">Netso</span><span class="proofbar__l mono">develops · owns · operates</span></div>
-</div>
-<p class="body mt-6" style="color:rgba(255,255,255,0.7)">This is the reference for every project that follows: originated and priced by Netso, contracted with the facility itself, and structured to be financed, owned and operated by Netso for the full term — on an occupied site with a live load, which is the condition every future project will operate in.</p>
-<a class="link-arrow mt-6" style="color:#fff;border-color:rgba(255,255,255,0.35)" href="/projects">See the project and the pipeline
-<svg width="11" height="9" viewBox="0 0 11 9" fill="none" aria-hidden="true"><path d="M0 4.5h9.5M6 .8l3.7 3.7L6 8.2" stroke="currentColor" stroke-width="1.2"/></svg></a>
+<p class="lead" style="color:rgba(255,255,255,0.78)">Netso is early. We are building the development, financing and operating system before we manufacture a public project portfolio.</p>
+<p class="body mt-4" style="color:rgba(255,255,255,0.7)">For now, the public site explains the model and the standards we apply to a facility. We do not publish customer names, project capacities, commercial terms or development-stage counterparties here. When an asset is ready to be disclosed, the record will distinguish clearly between contracted, under construction and operating.</p>
 </div>
 <div class="split__media">
 <div class="record record--dark" data-reveal="up">
 <div class="record__head">
-<span class="mono record__label">Project record</span>
-<span class="tag tag--contracted"><span class="dot"></span>PPA signed · pre-construction</span>
+<span class="mono record__label">Evidence standard</span>
+<span class="tag tag--dark">No manufactured proof</span>
 </div>
 <ol class="record__ladder">
-<li class="record__step is-done"><span class="record__idx mono">01</span><div><h3>Letter of Intent executed</h3><p class="small">September 2026 — commercial terms agreed with the school.</p></div></li>
-<li class="record__step is-done"><span class="record__idx mono">02</span><div><h3>Power Purchase Agreement signed</h3><p class="small">Contract in place. Nothing has been built under it yet.</p></div></li>
-<li class="record__step"><span class="record__idx mono">03</span><div><h3>Construction</h3><p class="small">Not started — follows the agreement.</p></div></li>
-<li class="record__step"><span class="record__idx mono">04</span><div><h3>Commissioning</h3><p class="small">Not started — first metered billing follows commissioning.</p></div></li>
+<li class="record__step is-done"><span class="record__idx mono">01</span><div><h3>Site assessed</h3><p class="small">Technical, load and commercial evidence exists before a project is underwritten.</p></div></li>
+<li class="record__step"><span class="record__idx mono">02</span><div><h3>Commercial structure</h3><p class="small">PPA, ownership and financing terms are documented before capital is committed.</p></div></li>
+<li class="record__step"><span class="record__idx mono">03</span><div><h3>Construction</h3><p class="small">Physical progress is disclosed only when construction actually begins.</p></div></li>
+<li class="record__step"><span class="record__idx mono">04</span><div><h3>Operations</h3><p class="small">Generation and performance claims follow metered operating data.</p></div></li>
 </ol>
-<p class="record__note small">This record stands where a project photograph will go, because there is no installed system to photograph yet. When there is, the photograph replaces it — not before.</p>
+<p class="record__note small">The rule is simple: no customer logo, project photograph or operating claim appears before the underlying evidence exists.</p>
 </div>
 </div>
 </div>
@@ -484,37 +458,32 @@ setTimeout(function () { document.documentElement.classList.remove('anim'); }, 2
 <div class="shell">
 <div class="sec-head">
 <div class="sec-head__top">
-<span class="eyebrow">07 — Development portfolio</span>
-<span class="evidence evidence--interpretive">Pipeline — not operational</span>
+<span class="eyebrow">07 — What makes a site financeable</span>
+<span class="sec-head__idx">Underwriting</span>
 </div>
-<h2 class="display display-sm maxw-48" data-lines>The first asset is a reference point, not the business.</h2>
+<h2 class="display display-sm maxw-48" data-lines>A good roof is only the beginning.</h2>
 </div>
-
 <div class="split split--gap mt-8">
 <div class="split__aside">
-<p class="lead">Netso’s model only works if it repeats. Each project adds contracted revenue, operational data and a repeatable development process — the three things that let a portfolio of distributed assets be financed and scaled.</p>
-<p class="body mt-3">We publish the stage and the capacity of every project we are developing. Counterparties are named only where an agreement is in place. No project is described as built, commissioned or generating until it is.</p>
-<a class="link-arrow mt-6" href="/projects">Projects and pipeline
+<p class="lead">Netso develops only where the technical, load and commercial evidence can support a long-term energy asset.</p>
+<p class="body mt-3">We look for a structurally viable roof, a load profile that can absorb generation, a credible counterparty and a contract structure that can support financing. If those pieces do not line up, we do not force the project.</p>
+<a class="link-arrow mt-6" href="/start-a-project">See if your facility qualifies
 <svg width="11" height="9" viewBox="0 0 11 9" fill="none" aria-hidden="true"><path d="M0 4.5h9.5M6 .8l3.7 3.7L6 8.2" stroke="currentColor" stroke-width="1.2"/></svg></a>
 </div>
 <div class="split__media">
 <div class="card" data-reveal="up">
-<span class="mono text-muted">Portfolio at a glance</span>
+<span class="mono text-muted">Screening framework</span>
 <table class="minitable mt-3">
-<thead><tr><th scope="col">Status</th><th scope="col">Projects</th></tr></thead>
+<thead><tr><th scope="col">Question</th><th scope="col">What we test</th></tr></thead>
 <tbody>
-<tr><td>PPA signed — pre-construction</td><td class="num">1</td></tr>
-<tr><td>Proposal stage — survey and PPA pending</td><td class="num">1</td></tr>
-<tr><td>MOU signed — terms to be agreed</td><td class="num">1</td></tr>
-<tr><td>Early origination · Chattogram</td><td class="num">10</td></tr>
+<tr><td>Roof</td><td>Area, structure, shading, access and usable surface</td></tr>
+<tr><td>Load</td><td>Consumption profile, daytime demand and existing generation</td></tr>
+<tr><td>Economics</td><td>Tariff, solar yield, PPA structure and operating costs</td></tr>
+<tr><td>Counterparty</td><td>Credit, tenure, authority and long-term site access</td></tr>
 </tbody>
 </table>
-<p class="small mt-3">Stage and capacity are published only where they are confirmed against current internal records. Approximate capacities are marked as such and are confirmed by survey before contract.</p>
+<p class="small mt-3">The website estimate is a screening instrument. Engineering, metering and contractual diligence determine the actual project.</p>
 </div>
-<figure class="media media--3x2 mt-4">
-<img src="/assets/img/pipeline-industrial.jpg" alt="Aerial view of an industrial zone with warehouses and a river port" width="1408" height="768" loading="lazy"/>
-<figcaption class="media__badge mono">Industrial cluster, Chattogram region</figcaption>
-</figure>
 </div>
 </div>
 </div>
@@ -611,7 +580,6 @@ setTimeout(function () { document.documentElement.classList.remove('anim'); }, 2
 <div class="footer__col">
 <h2 class="footer__coltitle">Company</h2>
 <a href="/how-it-works">How it works</a>
-<a href="/projects">Projects</a>
 <a href="/about">About</a>
 </div>
 <div class="footer__col">

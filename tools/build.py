@@ -51,12 +51,6 @@ PAGES = {
         desc="Develop, finance, build, own and operate: how Netso turns a commercial rooftop into a contracted energy asset, and how you buy the power through a long-term PPA.",
         og="/assets/img/og/how-it-works.jpg",
     ),
-    "projects": dict(
-        out="projects/index.html", route="/projects", script="projects.js",
-        title="Projects — Netso Energy",
-        desc="Validated and active Netso projects, beginning with the Chittagong Grammar School 80 kWp rooftop system under a 20-year PPA, plus our development pipeline.",
-        og="/assets/img/og/projects.jpg",
-    ),
     "about": dict(
         out="about/index.html", route="/about", script="about.js",
         title="About — Netso Energy",
@@ -72,7 +66,7 @@ PAGES = {
     "estimate": dict(
         out="estimate/index.html", route="/estimate", script="estimate.js",
         title="Estimate — Netso Energy",
-        desc="Move two sliders for an indicative rooftop plant size and monthly saving for your facility. No rate quoted, no commitment — the real numbers come from a site survey and the PPA.",
+        desc="Enter three screening inputs for an indicative rooftop plant size, generation range and grid-energy value for your facility. No PPA price is quoted; site-specific figures come from a survey and the PPA.",
         og="/assets/img/og/how-it-works.jpg",
     ),
     "privacy": dict(
@@ -230,7 +224,12 @@ def build_page(key, page):
                        site=SITE, key=key, body_class=page.get("body_class", ""))
     portal = read("src/partials/glyph-portal.html") if key == "home" else ""
     skip = read("src/partials/skip.html")
-    header = read("src/partials/header.html").replace("{route}", page["route"])
+    header = read("src/partials/header.html")
+    header = re.sub(
+        r'''\{route==='([^']+)'\?' aria-current="page"':''\}''',
+        lambda m: ' aria-current="page"' if page["route"] == m.group(1) else '',
+        header,
+    )
     menu = read("src/partials/mobile-menu.html").replace("{route}", page["route"])
     footer = read("src/partials/footer.html")
     main = read(f"src/pages/{key}.html")
@@ -267,7 +266,7 @@ def write_sitemap_and_robots():
     # 404 is not a public URL; everything else in PAGES is indexable
     routes = [p["route"] for k, p in PAGES.items() if k != "404"]
     # priority hints: home highest, then primary sections, then legal
-    prio = {"/": "1.0", "/how-it-works": "0.9", "/projects": "0.9",
+    prio = {"/": "1.0", "/how-it-works": "0.9",
             "/about": "0.8", "/start-a-project": "0.8", "/estimate": "0.8"}
     urls = "".join(
         f"<url><loc>{SITE}{r}</loc><lastmod>{today}</lastmod>"

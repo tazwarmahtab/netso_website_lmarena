@@ -3,7 +3,7 @@
 <div class="shell">
 <span class="eyebrow" style="color:rgba(255,255,255,0.6)">Indicative estimate</span>
 <h1 class="display pagehero__title" data-lines>See what your roof<br/><em style="font-style:italic;color:var(--solar-soft)">could actually do.</em></h1>
-<p class="lead pagehero__sub" style="color:var(--void-muted)">Move two sliders. In seconds you get an indicative plant size and monthly saving for your facility. No price is quoted and nothing is committed — the real figures come from a site survey and the PPA.</p>
+<p class="lead pagehero__sub" style="color:var(--void-muted)">Enter three screening inputs. In seconds you get an indicative plant size, generation range and grid-energy value for your facility. No PPA price is quoted and nothing is committed.</p>
 <div class="cluster mt-6">
 <a class="btn btn--light" href="#instrument"><span>Try the estimate</span>
 <svg width="11" height="9" viewBox="0 0 11 9" fill="none" aria-hidden="true"><path d="M0 4.5h9.5M6 .8l3.7 3.7L6 8.2" stroke="currentColor" stroke-width="1.2"/></svg></a>
@@ -20,63 +20,70 @@
 <span class="eyebrow">The instrument</span>
 <span class="sec-head__idx">Indicative · not an offer</span>
 </div>
-<h2 class="display display-sm maxw-48" data-lines>Two numbers in. An indicative asset out.</h2>
+<h2 class="display display-sm maxw-48" data-lines>Three numbers in. A defensible screening view out.</h2>
+<p class="lead mt-4 maxw-48">Use monthly electricity consumption, usable roof area and the share of your load that runs during daylight. We use current Bangladesh rooftop-solar reference ranges rather than pretending a two-slider calculator is a feasibility study.</p>
 </div>
 
 <div class="instrument mt-8" data-reveal="up">
 <div class="instrument__controls">
 <div class="ctrl">
-<div class="ctrl__head"><label for="in-bill">Monthly electricity bill</label><output class="ctrl__val" id="out-bill" for="in-bill">৳ 8,00,000</output></div>
-<input id="in-bill" class="range" type="range" min="50000" max="5000000" step="25000" value="800000" aria-describedby="out-bill"/>
-<div class="ctrl__scale"><span>৳ 50k</span><span>৳ 50 lakh</span></div>
+<div class="ctrl__head"><label for="in-consumption">Monthly electricity consumption</label><output class="ctrl__val" id="out-consumption" for="in-consumption">100,000 kWh</output></div>
+<input id="in-consumption" class="range" type="range" min="10000" max="1000000" step="10000" value="100000" aria-describedby="out-consumption"/>
+<div class="ctrl__scale"><span>10,000 kWh</span><span>1,000,000 kWh</span></div>
 </div>
 
 <div class="ctrl">
-<div class="ctrl__head"><label for="in-roof">Available rooftop area</label><output class="ctrl__val" id="out-roof" for="in-roof">3,000 m²</output></div>
+<div class="ctrl__head"><label for="in-roof">Usable rooftop area</label><output class="ctrl__val" id="out-roof" for="in-roof">3,000 m²</output></div>
 <input id="in-roof" class="range" type="range" min="200" max="20000" step="100" value="3000" aria-describedby="out-roof"/>
 <div class="ctrl__scale"><span>200 m²</span><span>20,000 m²</span></div>
 </div>
 
-<div class="ctrl ctrl--toggle">
-<div>
-<span class="ctrl__toglabel">Battery backup</span>
-<span class="ctrl__toghint">Keeps the line up through a cut. Trades some saving for reliability.</span>
-</div>
-<button id="in-battery" class="toggle" type="button" role="switch" aria-checked="false" aria-label="Battery backup"><span class="toggle__dot"></span></button>
+<div class="ctrl">
+<div class="ctrl__head"><label for="in-daytime">Daylight load share</label><output class="ctrl__val" id="out-daytime" for="in-daytime">55%</output></div>
+<input id="in-daytime" class="range" type="range" min="30" max="100" step="5" value="55" aria-describedby="out-daytime"/>
+<div class="ctrl__scale"><span>30%</span><span>100%</span></div>
 </div>
 
-<p class="instrument__note">Grounded in Bangladesh figures: ~1,440 kWh per kWp a year (SREDA resource data, conservative end), medium-voltage industrial tariffs of ৳12.5–16.4/kWh (BERC, June 2025), and sizing to your usable roof and daytime load. Illustrative only.</p>
+<div class="ctrl ctrl--toggle">
+<div>
+<span class="ctrl__toglabel">Battery storage</span>
+<span class="ctrl__toghint">Adds resilience and can shift solar into later hours. It is not assumed to increase savings in this screening model.</span>
+</div>
+<button id="in-battery" class="toggle" type="button" role="switch" aria-checked="false" aria-label="Include battery storage"><span class="toggle__dot"></span></button>
+</div>
+
+<p class="instrument__note">Reference ranges: SREDA describes roughly 7–10 m² of roof per kWp and 1,200–1,400 kWh of annual generation per kWp. The June 2026 BERC tariff revision put 11 kV industrial energy rates at roughly ৳11.56–16.06/kWh depending on peak/off-peak period. Final sizing depends on sanctioned load, site geometry, equipment and the hourly load profile. The September 2026 battery-based rooftop export incentive is excluded from this base case until eligibility and commercial treatment are confirmed.</p>
 </div>
 
 <div class="instrument__results" aria-live="polite">
 <div class="result result--hero">
-<span class="result__label">Indicative monthly saving</span>
-<span class="result__big" id="r-save">৳ 52,800 – ৳ 1,10,000</span>
-<span class="result__sub" id="r-save-yr">≈ ৳ 6.3 – 13.2 lakh per year</span>
+<span class="result__label">Indicative annual grid energy value</span>
+<span class="result__big" id="r-value">৳ 41,60,000 – 96,40,000</span>
+<span class="result__sub" id="r-value-sub">Based on the indicative solar generation range and current 11 kV industrial energy-rate reference.</span>
 </div>
 <div class="result__grid">
 <div class="result">
-<span class="result__label">Indicative plant size</span>
-<span class="result__num" id="r-kwp">253 kWp</span>
+<span class="result__label">Indicative PV capacity</span>
+<span class="result__num" id="r-kwp">300–429 kWp</span>
 </div>
 <div class="result">
-<span class="result__label">Daytime generation</span>
-<span class="result__num" id="r-kwh">30,345 kWh<span class="result__unit"> / mo</span></span>
+<span class="result__label">Annual generation</span>
+<span class="result__num" id="r-kwh">0.36–0.60 GWh</span>
 </div>
 <div class="result">
-<span class="result__label">Share of your load</span>
-<span class="result__num" id="r-share">55%</span>
+<span class="result__label">Monthly load offset</span>
+<span class="result__num" id="r-share">30–50%</span>
 </div>
 <div class="result">
-<span class="result__label">CO₂ avoided</span>
-<span class="result__num" id="r-co2">231 t<span class="result__unit"> / yr</span></span>
+<span class="result__label">Battery role</span>
+<span class="result__num" id="r-batt">Not modelled</span>
 </div>
 </div>
 
-<p class="instrument__disclaimer">Indicative only. Actual plant size, generation and saving depend on your roof, load profile and interconnection — confirmed by a site survey. Since 2025, net metering allows systems up to 100% of sanctioned load (previously 70%). Final terms, including the tariff you pay, are set in a Power Purchase Agreement. This is not an offer. Sources: SREDA, BERC, ADB grid emission factor.</p>
+<p class="instrument__disclaimer">This is a screening model, not a quote or feasibility study. It does not infer a PPA tariff, demand-charge savings, export revenue, battery CAPEX, financing cost or site-specific yield. Under the 2025 Net Metering Guideline, AC output is subject to the approved capacity and utility process; OPEX tariffs are agreed with the consumer and must not exceed the applicable utility retail tariff. Net export is also subject to the guideline's settlement and distribution-system-maintenance rules.</p>
 
 <div class="cluster">
-<a class="btn" href="/start-a-project"><span>Get the real numbers</span>
+<a class="btn" href="/start-a-project"><span>Get the site-specific numbers</span>
 <svg width="11" height="9" viewBox="0 0 11 9" fill="none" aria-hidden="true"><path d="M0 4.5h9.5M6 .8l3.7 3.7L6 8.2" stroke="currentColor" stroke-width="1.2"/></svg></a>
 <a class="btn btn--ghost" href="{{WHATSAPP_URL}}" target="_blank" rel="noopener"><span>Chat on WhatsApp</span></a>
 </div>
@@ -85,7 +92,6 @@
 </div>
 </section>
 
-<!-- ============================== COMPARE ============================== -->
 <section class="section section--paper" id="compare">
 <div class="shell">
 <div class="sec-head">
@@ -131,17 +137,7 @@
 <div class="prob__cell">
 <span class="prob__idx mono">01</span>
 <h3 class="h3">Tariffs keep climbing</h3>
-<p class="body mt-2">Industrial daytime power has moved decisively upward, and every revision lands straight on the production cost of each unit you make.</p>
-</div>
-<div class="prob__cell">
-<span class="prob__idx mono">02</span>
-<h3 class="h3">Cuts stop the line</h3>
-<p class="body mt-2">Interruptions halt output. Diesel covers them badly — dirtier, louder, and at a worse price than the grid it replaces.</p>
-</div>
-<div class="prob__cell">
-<span class="prob__idx mono">03</span>
-<h3 class="h3">Capital sits on the roof</h3>
-<p class="body mt-2">Buying the plant yourself locks cash on the roof that belongs in production, inventory and growth — for a 25-year payback.</p>
+<p class="body mt-2">Buying the plant yourself ties up capital and leaves the owner responsible for performance, maintenance and the asset over its operating life.</p>
 </div>
 </div>
 
