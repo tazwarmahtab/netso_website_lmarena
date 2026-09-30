@@ -17,6 +17,9 @@ python3 tools/serve.py 8100     # local preview at http://127.0.0.1:8100
 
 ## A. Checklist
 
+### Public disclosure policy
+Named customer projects and development-stage pipeline details are intentionally excluded from the public website until Netso decides they are ready for disclosure. The public site currently describes the business model, underwriting framework and calculator rather than individual counterparties.
+
 | # | Item | Status | Evidence / what remains |
 |---|---|---|---|
 | 1 | Replace CGS placeholder with authentic imagery | **DONE (honestly)** | The stand-in photograph is **gone**. The slot now carries a status record panel (`.record`) stating LOI → PPA signed → construction not started → commissioning not started. **No image is used for a named, contracted project.** Real photography requires the system to be built. Substitution point marked in `home.html`, `projects.html`, `about.html`. |
@@ -52,7 +55,11 @@ CSS/JS/HTML is the single biggest avoidable cost in the numbers above.
 
 ---
 
-## B. The 10-second test
+## B. Calculator methodology
+
+The public estimate is a screening instrument, not a feasibility model. It uses SREDA's 7–10 m²/kWp rooftop-area reference and 1,200–1,400 kWh/kWp/year generation reference, plus the June 2026 11 kV industrial tariff band as an indicative energy-value range. Battery storage is deliberately separated from the base economics because its value depends on hourly load, outage requirements, round-trip efficiency, battery cost and applicable export incentives.
+
+## C. The 10-second test
 
 The site's job is to make a stranger say *"they develop and operate solar infrastructure on
 commercial rooftops, the customer buys the power"*. It cannot be self-assessed by anyone who built
