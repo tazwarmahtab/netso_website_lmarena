@@ -24,7 +24,7 @@ window.DL.ready(function () {
   DL.initForm(form, (data) => {
     // fires after a confirmed successful submission to FORM_ENDPOINT.
     // optional integration point — e.g. fire an analytics/conversion event here.
-    console.info('[netso] project enquiry submitted', data);
+    window.dispatchEvent(new CustomEvent('netso:lead-confirmed', { detail: { hasCompany: !!data.company } }));
   });
 
   // prefill facility type from ?type=… links elsewhere on the site

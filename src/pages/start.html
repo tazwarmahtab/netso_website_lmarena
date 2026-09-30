@@ -24,7 +24,7 @@
   name, company, email, phone, facility_location, facility_type, rooftop_area,
   consumption, tariff, sanctioned_load, existing_solar, notes, consent.
 -->
-<form class="form" id="project-form" method="POST" action="{{FORM_ENDPOINT}}" data-endpoint="{{FORM_ENDPOINT}}" data-whatsapp="{{WHATSAPP_NUMBER}}" data-contact="hello@netso.energy" novalidate>
+<form class="form" id="project-form" method="GET" action="mailto:hello@netso.energy" data-endpoint="{{FORM_ENDPOINT}}" data-whatsapp="{{WHATSAPP_NUMBER}}" data-contact="hello@netso.energy" >
 <div class="grid-12" style="row-gap:1.25rem">
 <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none"/>
 <input type="hidden" name="_subject" value="New project enquiry — Netso website"/>
@@ -100,10 +100,10 @@
 </div>
 </div>
 
-<button class="btn btn--block" type="submit" style="margin-top:1.5rem"><span data-label>Submit project enquiry</span>
+<button class="btn btn--block" type="submit" style="margin-top:1.5rem"><span data-label>Continue with enquiry</span>
 <svg width="11" height="9" viewBox="0 0 11 9" fill="none" aria-hidden="true"><path d="M0 4.5h9.5M6 .8l3.7 3.7L6 8.2" stroke="currentColor" stroke-width="1.2"/></svg></button>
-<p class="form-msg" role="alert" aria-live="assertive" hidden></p>
-<p class="small" style="margin-top:0.875rem">Submitting this form does not commit you to anything. We use the information to assess the facility and respond.</p>
+<p class="form-msg" role="alert" aria-live="assertive" hidden></p><noscript><p class="small">JavaScript is disabled. Email <a href="mailto:hello@netso.energy">hello@netso.energy</a> with your facility details instead.</p></noscript>
+<p class="small" style="margin-top:0.875rem">We will prepare the enquiry for WhatsApp, email, or the configured secure form endpoint. No message is treated as received until you send it or the endpoint confirms delivery.</p>
 </form>
 
 <div class="form-status" role="status" aria-live="polite">

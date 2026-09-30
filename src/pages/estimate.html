@@ -52,12 +52,12 @@
 <button id="in-battery" class="toggle" type="button" role="switch" aria-checked="false" aria-label="Include battery storage"><span class="toggle__dot"></span></button>
 </div>
 
-<p class="instrument__note">Reference ranges: SREDA describes roughly 7–10 m² of roof per kWp and 1,200–1,400 kWh of annual generation per kWp. The June 2026 BERC tariff revision put 11 kV industrial energy rates at roughly ৳11.56–16.06/kWh depending on peak/off-peak period. Final sizing depends on sanctioned load, site geometry, equipment and the hourly load profile. The September 2026 battery-based rooftop export incentive is excluded from this base case until eligibility and commercial treatment are confirmed.</p>
+<p class="instrument__note">Reference ranges: SREDA describes roughly 7–10 m² of roof per kWp and 1,200–1,400 kWh of annual generation per kWp. Industrial grid tariffs vary by utility, voltage and peak/off-peak period. Final sizing depends on sanctioned load, site geometry, equipment and the hourly load profile. The September 2026 battery-based rooftop export incentive is excluded from this base case until eligibility and commercial treatment are confirmed.</p>
 </div>
 
 <div class="instrument__results" aria-live="polite">
 <div class="result result--hero">
-<span class="result__label">Indicative annual grid energy value</span>
+<span class="result__label">Indicative annual displaced grid-energy value</span>
 <span class="result__big" id="r-value">৳ 41,60,000 – 96,40,000</span>
 <span class="result__sub" id="r-value-sub">Based on the indicative solar generation range and current 11 kV industrial energy-rate reference.</span>
 </div>
@@ -67,11 +67,11 @@
 <span class="result__num" id="r-kwp">300–429 kWp</span>
 </div>
 <div class="result">
-<span class="result__label">Annual generation</span>
+<span class="result__label">Annual generation range</span>
 <span class="result__num" id="r-kwh">0.36–0.60 GWh</span>
 </div>
 <div class="result">
-<span class="result__label">Monthly load offset</span>
+<span class="result__label">Monthly load offset · capped</span>
 <span class="result__num" id="r-share">30–50%</span>
 </div>
 <div class="result">
@@ -79,6 +79,8 @@
 <span class="result__num" id="r-batt">Not modelled</span>
 </div>
 </div>
+
+<noscript><p class="instrument__disclaimer">This interactive screening model needs JavaScript. For a site-specific view, email hello@netso.energy or start a project.</p></noscript>
 
 <p class="instrument__disclaimer">This is a screening model, not a quote or feasibility study. It does not infer a PPA tariff, demand-charge savings, export revenue, battery CAPEX, financing cost or site-specific yield. Under the 2025 Net Metering Guideline, AC output is subject to the approved capacity and utility process; OPEX tariffs are agreed with the consumer and must not exceed the applicable utility retail tariff. Net export is also subject to the guideline's settlement and distribution-system-maintenance rules.</p>
 
@@ -113,8 +115,8 @@
 <tr><th scope="row">Engineering &amp; build</th><td data-h="Buy it yourself">You procure and manage it</td><td class="compare__ours" data-h="Netso · asset-owned">We develop, finance and build it</td></tr>
 <tr><th scope="row">Operations &amp; maintenance</th><td data-h="Buy it yourself">Your team, for 25 years</td><td class="compare__ours" data-h="Netso · asset-owned">Ours, for the life of the contract</td></tr>
 <tr><th scope="row">Yield &amp; performance risk</th><td data-h="Buy it yourself">Yours</td><td class="compare__ours" data-h="Netso · asset-owned">Ours</td></tr>
-<tr><th scope="row">Unit price of power</th><td data-h="Buy it yourself">Grid price, after you&#8217;ve paid for the plant</td><td class="compare__ours" data-h="Netso · asset-owned">Below your grid tariff — set in the PPA</td></tr>
-<tr><th scope="row">How it lands</th><td data-h="Buy it yourself">An asset and debt on the books</td><td class="compare__ours" data-h="Netso · asset-owned">A single operating line: the power you use</td></tr>
+<tr><th scope="row">Unit price of power</th><td data-h="Buy it yourself">Your capital cost, residual grid imports and operating costs</td><td class="compare__ours" data-h="Netso · asset-owned">Below your grid tariff — set in the PPA</td></tr>
+<tr><th scope="row">How it lands</th><td data-h="Buy it yourself">A capital asset with project-specific financing and accounting treatment</td><td class="compare__ours" data-h="Netso · asset-owned">A single operating line: the power you use</td></tr>
 </tbody>
 </table>
 <p class="compare__foot">The comparison is directional. Netso does not quote a rate here — it is agreed in a Power Purchase Agreement after a survey.</p>

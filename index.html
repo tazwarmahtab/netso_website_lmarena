@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>Netso Energy — Your roof. Now an energy asset.</title>
 <meta name="description" content="Netso Energy develops, finances, owns and operates distributed solar infrastructure for commercial and industrial customers in Bangladesh."/>
+
 <link rel="canonical" href="https://netso.energy/"/>
 <meta property="og:type" content="website"/>
 <meta property="og:site_name" content="Netso Energy"/>
@@ -26,12 +27,26 @@
 <link rel="preload" href="/assets/fonts/Archivo-100-900-normal-latin.woff2" as="font" type="font/woff2" crossorigin/>
 <link rel="preload" href="/assets/fonts/InstrumentSerif-400-normal-latin.woff2" as="font" type="font/woff2" crossorigin/>
 <link rel="preload" as="image" href="/assets/img/rooftop-night-poster.webp" fetchpriority="high"/>
-<script>document.documentElement.classList.add('anim');setTimeout(function(){document.documentElement.classList.remove('anim');},2000);</script>
-<script>(function(){try{if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;if(sessionStorage.getItem('netso:wipe')==='1'){document.documentElement.classList.add('wipe-cover');setTimeout(function(){document.documentElement.classList.remove('wipe-cover');},1400);}}catch(e){}})();</script>
+<script>/* opt-in intro animations; auto-failsafe so content is never hidden even if
+   the main bundle fails to load */
+document.documentElement.classList.add('anim');
+setTimeout(function () { document.documentElement.classList.remove('anim'); }, 2000);</script>
+<script>/* page-transition curtain: if we arrived through an internal wipe, cover the
+   page before first paint so there is no flash, then uncover as a failsafe even
+   if the main bundle never loads. Disabled for reduced motion. */
+(function(){try{
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  if(sessionStorage.getItem('netso:wipe')==='1'){
+    document.documentElement.classList.add('wipe-cover');
+    setTimeout(function(){document.documentElement.classList.remove('wipe-cover');},1400);
+  }
+}catch(e){}})();</script>
 
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://netso.energy/#org","name":"Netso Energy","url":"https://netso.energy/","logo":"https://netso.energy/assets/img/icon-512.png","description":"Netso Energy develops, finances, owns and operates distributed solar infrastructure on commercial and industrial rooftops in Bangladesh.","areaServed":{"@type":"Country","name":"Bangladesh"}},{"@type":"WebSite","@id":"https://netso.energy/#site","url":"https://netso.energy/","name":"Netso Energy","publisher":{"@id":"https://netso.energy/#org"},"inLanguage":"en-GB"}]}</script>
 <link rel="stylesheet" href="/assets/css/fonts.css"/>
 <link rel="stylesheet" href="/assets/css/site.css"/>
-</head><body data-page="home" class=""><a class="skip-link" href="#content">Skip to content</a>
+</head>
+<body data-page="home" class=""><a class="skip-link" href="#content">Skip to content</a>
 <div class="pagewipe" id="pagewipe" aria-hidden="true"><div class="pagewipe__field"></div><div class="pagewipe__mark"><svg viewBox="0 0 100 41.09" fill="none" focusable="false" aria-hidden="true"><path d="M0 40.59L22.77 40.84L34.86 20.48L48.22 20.36L48.85 40.71L73.54 40.71L85.5 20.48L99.87 20.1L99.87 0.25L74.55 0L62.34 20.48L48.98 20.48L48.47 0.13L23.41 0Z" fill="currentColor"/></svg></div></div><header class="header">
 <div class="shell header__inner">
 <a class="header__logo" href="/" aria-label="Netso Energy — home">
@@ -40,6 +55,7 @@
 </a>
 <nav class="header__nav" aria-label="Primary">
 <a href="/how-it-works">How it works</a>
+<a href="/projects">Evidence</a>
 <a href="/about">About</a>
 <a href="/estimate">Estimate</a>
 </nav>
@@ -57,14 +73,15 @@
 </div>
 </div>
 </header>
-<div class="mobile-menu" id="mobile-menu">
+<div class="mobile-menu" id="mobile-menu" hidden aria-hidden="true" inert>
 <nav aria-label="Mobile">
 <ul class="mobile-menu__list">
 <li><a href="/"><span>Home</span>01</a></li>
 <li><a href="/how-it-works"><span>How it works</span>02</a></li>
-<li><a href="/about"><span>About</span>03</a></li>
-<li><a href="/estimate"><span>Estimate</span>04</a></li>
-<li><a href="/start-a-project"><span>Start a project</span>05</a></li>
+<li><a href="/projects"><span>Evidence</span>03</a></li>
+<li><a href="/about"><span>About</span>04</a></li>
+<li><a href="/estimate"><span>Estimate</span>05</a></li>
+<li><a href="/start-a-project"><span>Start a project</span>06</a></li>
 </ul>
 </nav>
 <div class="mobile-menu__foot">
@@ -76,15 +93,21 @@
 </div>
 </div>
 </div>
-<section id="gp" class="gp" data-glyph-portal data-gp-word="NETSO ENERGY" data-gp-interactive="true" aria-label="NETSO ENERGY" style="--gp-length:3.2;--gp-characters:12;--gp-paper:#F5F3EF;--gp-ink:#0C0E11;--gp-field:#0C0E11;--gp-foreground:#ffffff;">
+<main id="content" tabindex="-1" class=""><section id="gp" class="gp" data-glyph-portal data-gp-word="NETSO ENERGY" data-gp-interactive="true" aria-label="NETSO ENERGY" style="--gp-length:3.2;--gp-characters:12;--gp-paper:#F5F3EF;--gp-ink:#0C0E11;--gp-field:#0C0E11;--gp-foreground:#ffffff;">
 <div data-gp-viewport aria-hidden="true"></div>
 <div data-gp-pin>
 <div data-gp-field aria-hidden="true" inert>
 <div class="gp__bg" style="position:absolute;inset:0;transform:scale(var(--gp-field-scale,1));">
-<video class="gp__video" data-gp-video muted playsinline autoplay loop preload="auto" poster="/assets/img/rooftop-night-poster.webp">
-<source src="/assets/video/rooftop-night.mp4" type="video/mp4"/>
+<video class="gp__video" data-gp-video muted playsinline preload="none" poster="/assets/img/rooftop-night-poster.webp">
+<source data-src="/assets/video/rooftop-night.mp4" type="video/mp4"/>
 </video>
 </div>
+</div>
+<div class="gp__qualification">
+<span class="eyebrow">Commercial &amp; industrial rooftop solar · Bangladesh</span>
+<h1>Your roof.<br/><em>Now an energy asset.</em></h1>
+<p>Netso develops, finances, owns and operates the system. Your facility buys the electricity — not the equipment.</p>
+<div class="cluster"><a class="btn" href="/start-a-project"><span>Start a project</span><svg width="11" height="9" viewBox="0 0 11 9" fill="none" aria-hidden="true"><path d="M0 4.5h9.5M6 .8l3.7 3.7L6 8.2" stroke="currentColor" stroke-width="1.2"/></svg></a><a class="link-arrow" href="#gp-content">Explore the model <span aria-hidden="true">↘</span></a></div>
 </div>
 <svg data-gp-art aria-hidden="true" focusable="false">
 <defs>
@@ -139,7 +162,7 @@
 </div>
 
 <div class="hero__main">
-<h1 class="display hero__title">Your roof.<br/><em>Now an energy asset.</em></h1>
+<h2 class="display hero__title">Your roof.<br/><em>Now an energy asset.</em></h2>
 <p class="hero__sub">Netso develops, finances, owns and operates solar infrastructure on commercial and industrial rooftops. The customer buys the power — not the system.</p>
 <p class="hero__model"><span class="hero__model-mark" aria-hidden="true"></span>You use the power. We build and operate the asset — Netso funds the system. Qualifying projects only.</p>
 <div class="hero__cta">
@@ -158,15 +181,17 @@
 </ol>
 
 <div class="hero__proof">
-<span class="evidence evidence--verified" style="border-color:rgba(127,211,174,0.5);color:#8FE0BC;background:rgba(31,122,90,0.18)">Model</span>
-<span class="hero__proof-item"><strong class="num">C&amp;I</strong> rooftop energy infrastructure</span>
+<span class="evidence evidence--verified" style="border-color:rgba(127,211,174,0.5);color:#8FE0BC;background:rgba(31,122,90,0.18)">Contracted</span>
+<span class="hero__proof-item"><strong class="num">PPA signed</strong> pre-construction</span>
 <span class="hero__proof-sep" aria-hidden="true"></span>
-<span class="hero__proof-item"><strong class="num">OPEX</strong> customer buys the power</span>
+<span class="hero__proof-item">Project details disclosed by evidence stage</span>
+<a class="hero__proof-link mono" href="/projects">Evidence standard
+<svg width="10" height="8" viewBox="0 0 11 9" fill="none" aria-hidden="true"><path d="M0 4.5h9.5M6 .8l3.7 3.7L6 8.2" stroke="currentColor" stroke-width="1.2"/></svg></a>
 </div>
 </div>
 </div>
 </section>
-<main id="content" class=""><section class="section" id="opportunity">
+<section class="section" id="opportunity">
 <div class="shell">
 <div class="sec-head">
 <div class="sec-head__top">
@@ -180,7 +205,7 @@
 <div class="split__aside">
 <p class="lead">Bangladesh’s industrial economy runs on large, flat, structurally simple roofs. Almost all of that surface does nothing.</p>
 <p class="body mt-3" data-wordreveal>Meanwhile the businesses underneath it pay for electricity that keeps getting more expensive, more carbon-intensive than it needs to be, and less reliable than their operations can afford.</p>
-<p class="body mt-3">Netso treats the roof as an infrastructure site: a place where an energy asset can be built, owned and operated for decades, producing electricity for the facility below it.</p>
+<p class="body mt-3">Netso treats the roof as an infrastructure site: a place where an energy asset can be built, owned and operated over a long contract term, producing electricity for the facility below it.</p>
 <p class="body mt-3">The facility keeps running exactly as it does today. What changes is who owns the equipment on the roof, who pays for it, and who carries the performance risk.</p>
 </div>
 <figure class="split__media media media--3x2 is-sticky">
@@ -190,7 +215,7 @@
 </div>
 
 <div class="sourced mt-8" data-reveal="up">
-<div class="sourced__cell"><span class="sourced__v num">৳12.5–16.4</span><span class="sourced__l">per kWh — BERC medium-voltage industrial grid tariff, June 2025.</span></div>
+<div class="sourced__cell"><span class="sourced__v num">Varies</span><span class="sourced__l">Industrial grid tariffs vary by utility, voltage and peak/off-peak period. Netso pricing is set in the PPA after survey.</span></div>
 <div class="sourced__cell"><span class="sourced__v num">5,500 MW</span><span class="sourced__l">National solar capacity target for 2030 — public announcement, as reported September 2026.</span></div>
 <div class="sourced__cell"><span class="sourced__v num">~213 MW</span><span class="sourced__l">Installed nationally — 3.9% of target. Public announcement, as reported September 2026.</span></div>
 </div>
@@ -314,7 +339,7 @@
 </ol>
 
 <div class="quoteband mt-8" data-reveal="up">
-<p class="quoteband__text display" data-wordreveal>The roof becomes an <em>energy-generating asset</em> that creates economic value — for the business below it and for the investors who own it.</p>
+<p class="quoteband__text display" data-wordreveal>The roof becomes an <em>energy-generating asset</em> that can create economic value — for the business below it and for the capital that owns it.</p>
 </div>
 
 <div class="note mt-6"><span class="mono" style="color:var(--solar-deep)">What we do not claim</span><p>Netso does not claim that a roof produces revenue on its own. Value appears where a project is viable and a PPA is signed: metered electricity is sold to the facility at a contracted rate, and the asset that produces it is owned and operated by Netso or the project company that holds it.</p></div>
@@ -331,7 +356,7 @@
 <div class="svhero__overlay">
 <span class="svhero__eyebrow mono">Distributed generation · Bangladesh</span>
 <h2 class="svhero__title display">Every rooftop, an asset.</h2>
-<p class="svhero__sub">Megawatts of clean generation on industrial surfaces that already exist — built, owned and operated by Netso.</p>
+<p class="svhero__sub">Distributed generation on industrial surfaces that already exist — developed, financed, owned and operated through Netso’s asset-owner model.</p>
 </div>
 <span class="svhero__scroll mono" aria-hidden="true">Scroll to play ↓</span>
 </div>
@@ -360,7 +385,7 @@
 </div>
 <ol class="record__ladder">
 <li class="record__step is-done"><span class="record__idx mono">01</span><div><h3>Site assessed</h3><p class="small">Technical, load and commercial evidence exists before a project is underwritten.</p></div></li>
-<li class="record__step"><span class="record__idx mono">02</span><div><h3>Commercial structure</h3><p class="small">PPA, ownership and financing terms are documented before capital is committed.</p></div></li>
+<li class="record__step"><span class="record__idx mono">02</span><div><h3>Commercial structure</h3><p class="small">PPA, ownership and financing terms are documented before capital is committed, subject to final diligence and approvals.</p></div></li>
 <li class="record__step"><span class="record__idx mono">03</span><div><h3>Construction</h3><p class="small">Physical progress is disclosed only when construction actually begins.</p></div></li>
 <li class="record__step"><span class="record__idx mono">04</span><div><h3>Operations</h3><p class="small">Generation and performance claims follow metered operating data.</p></div></li>
 </ol>
@@ -435,7 +460,7 @@
 </div>
 <h3 class="h3 mt-6">The decision-makers we work with</h3>
 <p class="body mt-3">Managing directors and owners weighing an operating cost against a capital project. CFOs who need the numbers to be defensible. Operations and facilities leaders who need the roof to keep working. Energy and sustainability leads asked to cut consumption without slowing the operation.</p>
-<p class="body mt-3">The conversation is commercial and technical, not aspirational. We are not selling a symbol of sustainability; we are proposing infrastructure that produces cheaper electricity from a surface you already own.</p>
+<p class="body mt-3">The conversation is commercial and technical, not aspirational. We are not selling a symbol of sustainability; we are proposing infrastructure designed to compete with the electricity cost the facility already pays, subject to site-specific engineering and commercial terms.</p>
 </div>
 <div class="split__media">
 <figure class="media media--4x3">

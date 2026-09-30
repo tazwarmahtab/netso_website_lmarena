@@ -61,6 +61,7 @@ window.DL.ready(function () {
   const grp = (n) => Math.round(n).toLocaleString('en-IN');
   const bdt = (n) => '৳ ' + grp(n);
   const crore = (n) => (n / 10000000);
+  const energy = (n) => n >= 1000000 ? `${oneDp(n / 1000000)} GWh` : n >= 1000 ? `${grp(n / 1000)} MWh` : `${grp(n)} kWh`;
   const oneDp = (n) => (Math.round(n * 10) / 10).toLocaleString('en-IN', {
     minimumFractionDigits: 1,
     maximumFractionDigits: 1
@@ -92,16 +93,21 @@ window.DL.ready(function () {
     const monthlyKwhLo = annualKwhLo / 12;
     const monthlyKwhHi = annualKwhHi / 12;
 
-    // This is NOT "customer savings". It is the retail-energy value displaced
-    // before any PPA payment, demand charges, taxes, exports or financing.
-    const annualValueLo = annualKwhLo * GRID_TARIFF.lo;
-    const annualValueHi = annualKwhHi * GRID_TARIFF.hi;
+    // Separate generated energy from energy that can actually displace facility load.
+    // Export is not valued in this base case, so neither value nor offset can exceed
+    // annual consumption. This also prevents mixed low/high assumptions from making
+    // the upper scenario appear to supply more load than the facility uses.
+    const annualLoad = monthlyLoad * 12;
+    const displacedKwhLo = Math.min(annualKwhLo, annualLoad);
+    const displacedKwhHi = Math.min(annualKwhHi, annualLoad);
+    const annualValueLo = displacedKwhLo * GRID_TARIFF.lo;
+    const annualValueHi = displacedKwhHi * GRID_TARIFF.hi;
 
-    const offsetLo = monthlyLoad > 0 ? (monthlyKwhLo / monthlyLoad) * 100 : 0;
-    const offsetHi = monthlyLoad > 0 ? (monthlyKwhHi / monthlyLoad) * 100 : 0;
+    const offsetLo = monthlyLoad > 0 ? (displacedKwhLo / annualLoad) * 100 : 0;
+    const offsetHi = monthlyLoad > 0 ? (displacedKwhHi / annualLoad) * 100 : 0;
 
     return {
-      kwpLo, kwpHi, annualKwhLo, annualKwhHi,
+      kwpLo, kwpHi, annualKwhLo, annualKwhHi, displacedKwhLo, displacedKwhHi,
       annualValueLo, annualValueHi, offsetLo, offsetHi
     };
   }
@@ -120,10 +126,8 @@ window.DL.ready(function () {
       ' crore/year of indicative grid-energy value';
 
     els.kwp.textContent = grp(r.kwpLo) + '–' + grp(r.kwpHi) + ' kWp';
-    els.kwh.textContent = oneDp(r.annualKwhLo / 1000000) + '–' +
-      oneDp(r.annualKwhHi / 1000000) + ' GWh';
-    els.share.textContent = Math.round(r.offsetLo) + '–' +
-      Math.round(r.offsetHi) + '%';
+    els.kwh.textContent = energy(r.annualKwhLo) + '–' + energy(r.annualKwhHi);
+    els.share.textContent = Math.round(r.offsetLo) + '–' + Math.round(r.offsetHi) + '%';
 
     const battery = els.batt.getAttribute('aria-checked') === 'true';
     els.battOut.textContent = battery
@@ -156,6 +160,7 @@ window.DL.ready(function () {
       window.dispatchEvent(new CustomEvent('dl:introPlayed'));
       return;
     }
+    if (typeof gsap === 'undefined') { window.dispatchEvent(new CustomEvent('dl:introPlayed')); return; }
     const tl = gsap.timeline({ delay: 0.15, defaults: { ease: 'expo.out' } });
     tl.fromTo(t, { y: 22 }, { y: 0, duration: 0.9 });
     if (s) tl.fromTo(s, { y: 14 }, { y: 0, duration: 0.8 }, '-=0.6');

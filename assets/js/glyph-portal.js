@@ -111,6 +111,19 @@
     if (video) {
       video.removeAttribute('autoplay'); video.loop = false; video.muted = true; video.playsInline = true;
       video.addEventListener('loadedmetadata', vPrime);
+      const source = video.querySelector('source[data-src]');
+      const loadVideo = () => {
+        if (!source || source.src || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        source.src = source.dataset.src;
+        try { video.load(); } catch (e) {}
+      };
+      // The poster is the first-view asset. Load the film only after an explicit
+      // scroll, pointer or keyboard intent so reduced-bandwidth visitors are not
+      // charged for a decorative enhancement they never use.
+      const intent = () => { loadVideo(); window.removeEventListener('scroll', intent); window.removeEventListener('pointerdown', intent); window.removeEventListener('keydown', intent); };
+      window.addEventListener('scroll', intent, { passive: true, once: true });
+      window.addEventListener('pointerdown', intent, { passive: true, once: true });
+      window.addEventListener('keydown', intent, { once: true });
       if (video.readyState >= 1) vPrime();
     }
 
