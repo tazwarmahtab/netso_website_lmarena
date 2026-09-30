@@ -66,7 +66,7 @@ PAGES = {
     "estimate": dict(
         out="estimate/index.html", route="/estimate", script="estimate.js",
         title="Estimate — Netso Energy",
-        desc="Move two sliders for an indicative rooftop plant size and monthly saving for your facility. No rate quoted, no commitment — the real numbers come from a site survey and the PPA.",
+        desc="Enter three screening inputs for an indicative rooftop plant size, generation range and grid-energy value for your facility. No PPA price is quoted; site-specific figures come from a survey and the PPA.",
         og="/assets/img/og/how-it-works.jpg",
     ),
     "privacy": dict(
