@@ -92,7 +92,7 @@ HEAD = """<!DOCTYPE html>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>{title}</title>
-<meta name="description" content="{desc}"/>
+<meta name="description" content="{desc}"/>\n<meta name="robots" content="noindex, nofollow, noarchive"/>
 <link rel="canonical" href="{site}{route}"/>
 <meta property="og:type" content="website"/>
 <meta property="og:site_name" content="Netso Energy"/>
