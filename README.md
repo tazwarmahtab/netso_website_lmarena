@@ -19,9 +19,10 @@ The `?hero=` query parameter, the `.hero__variant` review badge and the `DIRECTI
 `src/pages/home.html`. Directions B and C are recorded in `BRAND.md` as rejected-for-now, with
 the reason (C is the most literal and least owned; B needs the walk-back sub-line).
 
-Hero proof strip reads, left to right: **Contracted · 80 kWp Chittagong Grammar School ·
-PPA signed, pre-construction** — the category label, the asset, then the exact contract and
-build state, above the fold.
+Hero proof strip reads, left to right: **Contracted · PPA signed,
+pre-construction** — the category label, then the exact contract and build
+state, above the fold. No counterparty name, capacity or tariff appears
+anywhere on the public site (client-name removal, 1 Oct 2026).
 
 **Direction A/B/C were re-rendered and compared this pass** (`tools/shots/compare-desktop.jpg`,
 `compare-mobile.jpg`). Result: A holds. B's supporting copy needs to explain qualification and
@@ -38,7 +39,7 @@ qualifies.
 ## Source material (Sept 2026 intake) — what it changed
 
 The 51 MB upload in `uploads/` was read for company facts: **`Netso energy Pitch Deck VC.pdf`**
-(primary), the three `4H-*` proposal decks, and `Pink & Black Personal Name Logo.pdf`. The
+(primary), three third-party proposal decks, and `Pink & Black Personal Name Logo.pdf`. The
 remaining files are third-party reference material (Indian RTS/RESCO decks, CAPEX-vs-RESCO
 comparisons, funding articles) and design references — not Netso sources.
 
@@ -46,29 +47,29 @@ comparisons, funding articles) and design references — not Netso sources.
 
 | Fact | Source | Where |
 |---|---|---|
-| Founder & CEO: Tazwar Mahtab; the company is Netso Energy Ltd., based in Dhaka, working across Dhaka and Chattogram | 4H proposal decks (16–18 Sep 2026), VC teaser | `/about` §06 Origin |
-| CGS: 80 kWp, **LOI executed at a tariff below the BERC benchmark, PPA in finalisation** | VC teaser, Traction table ("LOI SIGNED" / "PPA TO BE AGREED") | hero proof strip, home §04, `/projects` |
-| Pipeline: ~400 kWp commercial programme (proposal stage) · ~200–300 kWp plastic-recycling plant (MOU signed) · 10 further Chattogram sites (early origination) · first close ≈480 kWp | VC teaser, Traction table | home §07, `/projects` §pipeline |
+| Founder & CEO: Tazwar Mahtab; the company is Netso Energy Ltd., based in Dhaka, working across Dhaka and Chattogram | Third-party proposal decks (16–18 Sep 2026), VC teaser | `/about` §06 Origin |
+| Contracted school project: 80 kWp, **LOI executed at a tariff below the BERC benchmark, PPA in finalisation** (counterparty name withheld from all public material, 1 Oct 2026) | VC teaser, Traction table ("LOI SIGNED" / "PPA TO BE AGREED") | hero proof strip (status only), home §04 |
+| Pipeline, internal record (counterparty names withheld from all public material, 1 Oct 2026): ~400 kWp commercial programme (proposal stage) · ~200–300 kWp plastic-recycling plant (MOU signed) · 10 further Chattogram sites (early origination) · first close ≈480 kWp | VC teaser, Traction table | home §07 (criteria only, no counterparties) |
 | Tk 15.36/kWh BERC grid benchmark (June 2026 tariff order) · 5,500 MW 2030 target · ~213 MW installed (3.9%) | VC teaser, market slides | home §01 |
 | Tk 11.50–12.00/kWh indicative PPA band | VC teaser ("INDICATIVE") | `/projects` §pipeline |
 
 **Status of the first asset — settled with the company, 24 Sep 2026.** The VC teaser records
-CGS as *LOI signed / PPA to be agreed* and calls it the *nearest-term* asset; the 4H sales decks
-call it "closed — first operating reference". Those disagree, so the site was put on the
-teaser's conservative reading and then confirmed by the company: **the PPA is signed, the system
-is pre-construction.** The site now says exactly that on the home proof strip, home §04,
-`/projects` §active and §pipeline, and `/about` §05–06, with "the system is not yet built —
-construction follows the agreement" stated once rather than implied.
+the contracted school project as *LOI signed / PPA to be agreed* and calls it the
+*nearest-term* asset; the third-party sales decks call it "closed — first operating
+reference". Those disagree, so the site was put on the teaser's conservative reading
+and then confirmed by the company: **the PPA is signed, the system is pre-construction.**
+The site states status only (no counterparty, capacity or tariff) on the home proof strip,
+home §04 and `/about`, with "the system is not yet built — construction follows the
+agreement" stated once rather than implied.
 
-**When construction completes or commissioning is recorded, three edits flip the site to
-"operating":** the home hero proof strip chip, the home §04 lead, and the CGS block + pipeline row
-on `/projects`. Nothing else changes — the copy was written so status is the only variable.
+**When construction completes or commissioning is recorded, one edit flips the site to
+"operating":** the home §04 lead (the hero proof strip was removed entirely under the
+zero-proof rule). Nothing else changes — the copy was written so status is the only variable.
 
-**Publishing decisions taken 24 Sep 2026:** Four H Group is **named** in the ~400 kWp pipeline
-row (source-backed; it is their third-party proposal, not a Netso claim). The CGS tariff is
-published as **≈35% below the BERC grid benchmark** rather than the absolute Tk 10.00/kWh figure.
-The plastic-recycling MOU counterparty stays **unnamed** — the name does not appear anywhere in
-the source material; add it in the third `plist__item` block when the company supplies it.
+**Publishing decisions taken 24 Sep 2026, tightened 1 Oct 2026:** no counterparty is
+**named** anywhere in public material — pipeline rows carry stage and criteria only.
+No absolute tariff figure is published. The plastic-recycling MOU counterparty stays
+**unnamed**.
 
 **Deliberately not published** (internal financial material, no place on a public site): the
 US$500k SAFE / US$3M cap / 20% discount raise, equity IRR and DSCR by project (~20% sponsor equity,
@@ -78,13 +79,21 @@ values, I-REC position).
 
 ## V1 sitemap
 
+Status as of **30 September 2026:** the `/projects` route was removed under the
+public disclosure policy (no named counterparties, capacities or commercial
+terms on the public site — see `PRODUCTION-READINESS.md` §A). References to
+`/projects` elsewhere in this file describe earlier passes, not the live site.
+The `?hero=` toggle section below is likewise historical: direction A is fixed
+in markup. Dead runtime primitives (`DL.parallax`, `DL.marquee`, `DL.tabs`,
+`DL.maskedVideoHero`) have been deleted.
+
 | Route | File | Purpose |
 |---|---|---|
-| `/` | `index.html` | The commercial narrative: what Netso is → the problem → the model → why us → who we serve → proof → pipeline → vision → about → CTA |
+| `/` | `index.html` | The commercial narrative: what Netso is → the problem → the model → why us → who we serve → proof → underwriting → vision → about → CTA |
 | `/how-it-works` | `how-it-works/index.html` | The four phases: Develop · Finance + Build · Own + Operate · Buy the Power |
-| `/projects` | `projects/index.html` | Validated/active projects, then development pipeline (clearly separated) |
 | `/about` | `about/index.html` | Beliefs, why Bangladesh, why distributed C&I, asset-owner thesis, company today, origin, roadmap, capital |
 | `/start-a-project` | `start-a-project/index.html` | Primary conversion page — facility assessment enquiry form |
+| `/estimate` | `estimate/index.html` | Screening instrument — three inputs in, indicative plant/generation/value ranges out |
 | `/legal/privacy` | `legal/privacy/index.html` | Privacy policy (draft) |
 | `/legal/terms` | `legal/terms/index.html` | Terms of service (draft) |
 | `/404` | `404.html` | Not found |
@@ -106,10 +115,10 @@ serve `404.html` **with a 404 status**.
 ```
 netso/
 ├── src/partials/   skip · header · mobile-menu · footer
-├── src/pages/      home · how-it-works · projects · about · start · privacy · terms · 404
+├── src/pages/      home · how-it-works · about · start · estimate · privacy · terms · 404
 ├── assets/css/     fonts.css (Archivo, IBM Plex Mono, Instrument Serif — SIL OFL, self-hosted)
 │                   site.css (the whole design system)
-├── assets/js/      core.js (runtime) · home.js · how.js · projects.js · about.js · start.js · legal.js
+├── assets/js/      core.js (runtime) · home.js · how.js · about.js · start.js · estimate.js · legal.js · glyph-portal.js
 │                   vendor/ (gsap, ScrollTrigger, SplitText, lenis)
 ├── assets/img/     generated placeholder photography + brand/ + og/ social cards
 ├── assets/svg/     logo lockups · favicon.svg
@@ -176,7 +185,7 @@ route.** Production notes for this pass:
 | Type | Where | Status |
 |---|---|---|
 | Photography — general | `assets/img/*.jpg` | AI-generated placeholders (no stock licences), each flagged with an `INTERNAL` comment in the source at the point of use. Replace with commissioned photography as it becomes available. |
-| Photography — CGS | home §04 · `/projects` §active · `/about` §05 | **No photograph is used for the contracted project at all.** The slot carries a `.record` status panel instead, because there is no installed system to photograph and a stand-in image under a named project reads as documentary evidence. `school-campus.jpg` has been deleted so the stand-in cannot creep back. When the system is built, replace the `.record` block with a `<figure>` — the substitution point is marked in each source file. **Do not put stock or generated imagery in this slot.** |
+| Photography — contracted project | home §04 · `/about` | **No photograph is used for the contracted project at all.** The slot carries a `.record` status panel instead, because there is no installed system to photograph and a stand-in image under a named project reads as documentary evidence. `school-campus.jpg` has been deleted so the stand-in cannot creep back. When the system is built, replace the `.record` block with a `<figure>` — the substitution point is marked in each source file. **Do not put stock or generated imagery in this slot.** |
 | Founder story | `/about` §06 Origin | **Founder facts now published** from source: Tazwar Mahtab, Founder & CEO; Netso Energy Ltd.; Dhaka base, Dhaka + Chattogram. Still **not** stated, because the sources do not contain them: founding year, company registration number, the founder's own background. An `INTERNAL` comment in `src/pages/about.html` lists them. Do not invent them. |
 | Legal | `/legal/*` | No visible "draft" copy. Review items (retention schedule, processor list, governing law, entity details) are held as HTML comments under `INTERNAL — before launch` in `src/pages/privacy.html` and `terms.html`. The pages deliberately state no jurisdiction, registration detail or contractual term that hasn't been confirmed. |
 | Pipeline | `/projects` §pipeline + home §07 | **Published this pass**, every row checked against the Sept 2026 deck: stage + capacity + evidence state per project, approximate capacities marked approximate, unnamed counterparties until contract. New component: `.plist` in `site.css`. |
@@ -368,6 +377,7 @@ no horizontal overflow on either.
   skipped on repeat views via a pre-paint `sessionStorage` check, `pointer-events: none`, and any
   scroll/key/click removes it instantly. Cost measured and minimised: **+56 ms FCP** on a throttled
   mobile connection (from +160 ms in the first version). Profile in `ANIMATION-AUDIT.md` §8.
-* **One dead primitive:** `DL.parallax` is defined in `core.js` with zero call sites. Wire it or
-  delete it — dead code in a shared runtime is a trap.
+* **Dead primitives removed (30 Sep 2026):** `DL.parallax`, `DL.marquee`, `DL.tabs`
+  and `DL.maskedVideoHero` had zero live hooks and were deleted, with their CSS
+  (`.mvhero`, `.gp__scroll`, orphan portal copy classes) and boot calls.
 

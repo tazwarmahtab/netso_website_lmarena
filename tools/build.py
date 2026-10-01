@@ -78,7 +78,7 @@ PAGES = {
         out="estimate/index.html", route="/estimate", script="estimate.js",
         title="Estimate — Netso Energy",
         desc="Enter three screening inputs for an indicative rooftop plant size, generation range and grid-energy value for your facility. No PPA price is quoted; site-specific figures come from a survey and the PPA.",
-        og="/assets/img/og/how-it-works.jpg",
+        og="/assets/img/og/estimate.jpg",
     ),
     "privacy": dict(
         out="legal/privacy/index.html", route="/legal/privacy", script="legal.js",

@@ -43,7 +43,7 @@ Your standing constraint: *hide any ৳/kWh everywhere, indicative **savings ran
 - `projects/index.html:267` — `The contracted first asset prices roughly a third below the BERC grid benchmark of Tk 15.36 per kWh… **The tariff band across projects still in screening is Tk 11.50–12.00 per kWh.** That band is indicative, not an offer…`
 
 Why it matters:
-- **Derivable Netso rate:** "a third below Tk 15.36" ⇒ ~Tk 9.98/kWh for the CGS PPA. Even though phrased as a discount, it discloses the rate.
+- **Derivable Netso rate:** "a third below Tk 15.36" ⇒ ~Tk 9.98/kWh for the contracted-project PPA. Even though phrased as a discount, it discloses the rate.
 - **Indicative pricing for projects that don't exist yet:** the `Tk 11.50–12.00/kWh` band is for projects *"still in screening"* — i.e., unsigned. It is hedged ("indicative, not an offer"), but it is exactly the kind of concrete per-kWh number the rule says to withhold, and it edges toward the "no fabricated rates" line.
 
 **Note the nuance:** the *BERC grid benchmark* itself (Tk 15.36/kWh, dated + sourced) is a public figure and is defensible as transparency. The concern is (a) the derivable Netso rate and (b) the screening band.

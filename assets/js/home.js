@@ -43,7 +43,6 @@ window.DL.ready(function () {
 
   /* ===================== 3. section reveals ============================ */
   DL.lines('[data-lines]');
-  DL.reveal('[data-reveal="up"]', { y: 30 });
   DL.qa('[data-count]').forEach((el) => DL.countUp(el, { suffix: '' }));
 
   DL.scrubReveal('.statgrid', '.statcard', { y: 40, scale: 0.99, stagger: 0.08, start: 'top 88%', end: 'top 45%' });

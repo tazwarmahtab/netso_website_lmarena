@@ -8,7 +8,6 @@ window.DL.ready(function () {
   const q = DL.q, qa = DL.qa;
 
   DL.lines('[data-lines]');
-  DL.reveal('[data-reveal="up"]', { y: 28 });
 
   qa('.phase').forEach((phase) => {
     const idx = q('.phase__idx', phase);

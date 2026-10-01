@@ -7,7 +7,6 @@ window.DL.ready(function () {
   const qa = DL.qa;
 
   DL.lines('[data-lines]');
-  DL.reveal('[data-reveal="up"]', { y: 28 });
   DL.scrubReveal('.beliefs', '.belief', { y: 46, scale: 0.99, stagger: 0.1, start: 'top 88%', end: 'top 45%' });
   DL.scrubReveal('.roadmap', '.roadmap__item', { y: 40, scale: 0.99, stagger: 0.1, start: 'top 88%', end: 'top 45%' });
   DL.scrubReveal('.statgrid', '.statcard', { y: 40, scale: 0.99, stagger: 0.08, start: 'top 88%', end: 'top 45%' });

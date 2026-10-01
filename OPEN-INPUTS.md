@@ -47,8 +47,8 @@ Four of the five attached images arrived. This one did not.
 | `ChatGPT Image…PNG` | Glass-balustraded solar terrace | **Reads residential/luxury villa.** Same caution. |
 
 Both rooftop renders are good source material for the *energy asset* story (canopy structure,
-light strip under the panels) — not for the hero, and **never** in the Chittagong Grammar School
-slot (see README, "What is placeholder").
+light strip under the panels) — not for the hero, and **never** in a contracted-project
+slot (see README). No counterparty imagery, stock or otherwise, is used for any contracted project.
 
 ---
 

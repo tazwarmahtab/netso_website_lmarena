@@ -108,7 +108,7 @@ def cover(path, size):
 CARDS = [
     dict(name="home", eyebrow="NETSO ENERGY · DISTRIBUTED ENERGY INFRASTRUCTURE",
          title="Your roof.", accent="Now an energy asset.",
-         foot="80 kWp · Chittagong Grammar School · PPA signed, pre-construction",
+         foot="First asset contracted · PPA signed, pre-construction",
          image="assets/img/hero/roof-solar.webp"),
     dict(name="how-it-works", eyebrow="HOW IT WORKS",
          title="Develop. Finance.", accent="Own. Operate.",

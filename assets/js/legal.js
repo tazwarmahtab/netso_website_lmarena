@@ -5,7 +5,6 @@ window.DL.ready(function () {
   'use strict';
   const DL = window.DL;
   DL.lines('[data-lines]');
-  DL.reveal('[data-reveal="up"]', { y: 20 });
   // document sections fade in as you read
   DL.qa('.prose h2, .prose p, .prose ul').forEach((el) => {
     gsap.fromTo(el, { opacity: 0, y: 14 }, {

@@ -16,7 +16,6 @@ window.DL.ready(function () {
   const q = DL.q;
 
   DL.lines('[data-lines]');
-  DL.reveal('[data-reveal="up"]', { y: 28 });
 
   /*
    Current reference assumptions, checked 30 Sep 2026:

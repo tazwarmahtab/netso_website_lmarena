@@ -1,7 +1,7 @@
 /* ==========================================================================
    Netso Energy — core.js
-   Shared runtime: smooth scroll, header chrome, reveals, marquee, accordions,
-   tabs, animated counters, form handling.
+   Shared runtime: smooth scroll, header chrome, reveals, accordions,
+   animated counters, form handling.
    ========================================================================== */
 (function () {
   'use strict';
@@ -78,7 +78,6 @@
   function header() {
     const el = DL.q('.header');
     if (!el) return;
-    const dark = DL.q('.mobile-menu.is-dark');
     // reveal the header chrome shortly after load; on the home page the intro
     // curtain covers the viewport for ~1.5 s, so this happens behind it
     const onReady = () => el.classList.add('is-in');
@@ -168,6 +167,8 @@
     if (!list.length) return;
     if (DL.reduceMotion) { list.forEach((el) => { el.style.opacity = '1'; el.style.transform = 'none'; }); return; }
     list.forEach((el) => {
+      if (el.dataset.reveal === 'done') return;
+      el.dataset.reveal = 'done';
       gsap.fromTo(el, { opacity: o.opacity, y: o.y, x: o.x, scale: o.scale },
         {
           opacity: 1, y: 0, x: 0, scale: 1, duration: o.duration, ease: 'power3.out',
@@ -387,116 +388,6 @@
     apply(0);
   };
 
-  /* ---------------------------------------------------- maskedVideoHero ----
-     The rooftop-at-night film plays THROUGH the NETSO ENERGY letterforms (an
-     SVG text mask acts as a window). Scroll scrubs the clip frame-by-frame,
-     while CSS (driven by --mv-progress) scales the wordmark open and dissolves
-     the surround away until the video fills the frame, then hands off to the
-     section below. Progressive enhancement: no-JS keeps the muted autoplay loop
-     shining through the static wordmark; reduced motion pins a single frame. */
-  DL.maskedVideoHero = function (section) {
-    if (!section) return;
-    const video = section.querySelector('video');
-    if (!video) return;
-    // take over from the no-JS autoplay-loop fallback
-    video.removeAttribute('autoplay'); video.loop = false; video.muted = true; video.playsInline = true;
-
-    const set = (p) => section.style.setProperty('--mv-progress', String(p));
-
-    if (DL.reduceMotion) { try { video.pause(); } catch (e) {} set(0); return; }
-
-    let dur = 0, ready = false, seeking = false, want = 0, st = null;
-    const SCRUB_END = 0.82;               // clip finishes before the wordmark fully opens
-
-    const seek = (t) => {
-      want = t;
-      if (!ready || seeking) return;
-      seeking = true;
-      const onSeek = () => {
-        seeking = false; video.removeEventListener('seeked', onSeek);
-        if (Math.abs(video.currentTime - want) > 0.03) seek(want);   // catch up to latest scroll
-      };
-      video.addEventListener('seeked', onSeek);
-      try { video.currentTime = t; } catch (e) { seeking = false; }
-    };
-    const apply = (p) => {
-      set(p);
-      if (ready && dur) seek(Math.min(dur - 0.05, (Math.min(p, SCRUB_END) / SCRUB_END) * dur));
-    };
-    const prime = () => {
-      dur = video.duration || 0;
-      if (!dur || !isFinite(dur) || ready) return;
-      ready = true;
-      const play = video.play();
-      if (play && play.then) play.then(() => video.pause()).catch(() => {});
-      apply(st ? st.progress : 0);
-    };
-    video.addEventListener('loadedmetadata', prime);
-    if (video.readyState >= 1) prime();
-
-    st = ScrollTrigger.create({
-      trigger: section, start: 'top top', end: 'bottom bottom', scrub: true,
-      onUpdate: (self) => apply(self.progress),
-    });
-    apply(0);
-  };
-
-  /* ---------------------------------------------------------- editorialPoster --
-     Layered-depth editorial cover (vanilla adaptation of the MIT "Sakura
-     Editorial Poster" by DesignLayer, reskinned to Netso's infrastructure
-     aesthetic): a background scene, a huge title that reveals letter-by-letter
-     from BEHIND a foreground cut-out, an editorial masthead and bilingual
-     caption. Depth comes from three parallax planes on scroll, plus a gentle
-     pointer parallax on desktop. Progressive enhancement: with no JS the title
-     and art are fully visible; reduced motion pins everything and just shows it. */
-  DL.editorialPoster = function (section) {
-    if (!section) return;
-    const bg = DL.q('[data-poster-bg]', section);
-    const title = DL.q('[data-poster-title]', section);
-    const fg = DL.q('[data-poster-fg]', section);
-    const caption = DL.q('[data-poster-caption]', section);
-    const chars = DL.qa('.poster__ch', title);
-    const replay = DL.q('[data-poster-replay]', section);
-
-    const reveal = () => {
-      if (DL.reduceMotion) { gsap.set(chars, { opacity: 1, yPercent: 0, filter: 'none' }); return; }
-      gsap.killTweensOf(chars);
-      gsap.fromTo(chars,
-        { opacity: 0, yPercent: 70, filter: 'blur(12px)' },
-        { opacity: 1, yPercent: 0, filter: 'blur(0px)', duration: 1.0, ease: 'power3.out', stagger: 0.055 });
-    };
-    reveal();
-    if (replay) replay.addEventListener('click', reveal);
-    if (!DL.reduceMotion && caption) gsap.fromTo(caption, { opacity: 0, y: 22 }, { opacity: 1, y: 0, duration: 1.0, delay: 0.45, ease: 'power3.out' });
-    if (DL.reduceMotion) return;
-
-    // three parallax planes tied to scroll
-    const par = (el, y) => el && gsap.to(el, { yPercent: y, ease: 'none',
-      scrollTrigger: { trigger: section, start: 'top top', end: 'bottom top', scrub: true } });
-    par(bg, -8); par(title, -20); par(fg, 12);
-
-    // pointer parallax on desktop for tangible depth
-    if (DL.isDesktop() && window.matchMedia('(pointer:fine)').matches) {
-      const mk = (el) => ({ x: gsap.quickTo(el, 'x', { duration: 0.7, ease: 'power3' }), y: gsap.quickTo(el, 'y', { duration: 0.7, ease: 'power3' }) });
-      const b = mk(bg), t = mk(title), f = mk(fg);
-      section.addEventListener('pointermove', (e) => {
-        const r = section.getBoundingClientRect();
-        const nx = (e.clientX - r.left) / r.width - 0.5, ny = (e.clientY - r.top) / r.height - 0.5;
-        b.x(nx * -12); b.y(ny * -12); t.x(nx * -24); t.y(ny * -16); f.x(nx * 40); f.y(ny * 20);
-      });
-      section.addEventListener('pointerleave', () => { b.x(0); b.y(0); t.x(0); t.y(0); f.x(0); f.y(0); });
-    }
-  };
-
-  /* ------------------------------------------------------------ marquee --- */
-  DL.marquee = function (root) {
-    const track = DL.q('.marquee__track', root || document);
-    if (!track) return;
-    const html = track.innerHTML;
-    track.innerHTML = html + html;
-    gsap.to(track, { xPercent: -50, duration: 42, ease: 'none', repeat: -1 });
-  };
-
   /* ---------------------------------------------------------- accordion --- */
   DL.accordion = function (root) {
     DL.qa('.accordion__item', root || document).forEach((item) => {
@@ -515,31 +406,6 @@
         item.classList.toggle('is-open', !isOpen);
         btn.setAttribute('aria-expanded', String(!isOpen));
         gsap.to(panel, { height: isOpen ? 0 : 'auto', duration: 0.7, ease: 'power3.inOut', onComplete: () => ScrollTrigger.refresh() });
-      });
-    });
-  };
-
-  /* --------------------------------------------------------------- tabs --- */
-  DL.tabs = function (root) {
-    DL.qa('[data-tabs]', root || document).forEach((group) => {
-      const btns = DL.qa('button', group);
-      btns.forEach((btn, i) => {
-        btn.addEventListener('click', () => {
-          btns.forEach((b) => b.setAttribute('aria-selected', 'false'));
-          btn.setAttribute('aria-selected', 'true');
-          const target = btn.dataset.target;
-          const scope = document.getElementById(group.dataset.tabs);
-          if (!scope) return;
-          DL.qa('[data-panel]', scope).forEach((p) => {
-            const on = p.dataset.panel === target;
-            p.hidden = !on;
-            if (on) {
-              gsap.fromTo(p, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.6, ease: 'power3.out' });
-              ScrollTrigger.refresh();
-            }
-          });
-        });
-        if (i === 0) btn.setAttribute('aria-selected', 'true');
       });
     });
   };
@@ -697,9 +563,7 @@
   DL.qa('[data-year]').forEach((el) => { el.textContent = String(new Date().getFullYear()); });
 
   header();
-  DL.marquee(document);
   DL.accordion(document);
-  DL.tabs(document);
   DL.qa('[data-count]').forEach((el) => DL.countUp(el, { decimals: Number(el.dataset.decimals || 0), suffix: el.dataset.suffix || '' }));
 
   // generic reveals
@@ -711,8 +575,6 @@
   DL.wordReveal('[data-wordreveal]');
   DL.dither('[data-dither]');
   DL.qa('[data-scroll-video]').forEach((el) => DL.scrollVideo(el));
-  DL.qa('[data-masked-video]').forEach((el) => DL.maskedVideoHero(el));
-  DL.qa('[data-editorial-poster]').forEach((el) => DL.editorialPoster(el));
 })();
 
 /* ==========================================================================

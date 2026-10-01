@@ -38,7 +38,6 @@ window.DL.ready(function () {
     }
   }
 
-  DL.reveal('[data-reveal="up"]', { y: 24 });
   DL.scrubReveal('.nextsteps', '.nextsteps__item', { y: 22, scale: 1, stagger: 0.08, start: 'top 92%', end: 'top 60%' });
 });
 

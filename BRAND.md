@@ -93,6 +93,15 @@ own and operate → you buy the electricity under a long-term PPA), and the line
 We build and operate the asset — Netso funds the system. Qualifying projects only."* The
 qualification clause goes in the same sentence as the financing claim, never as a footnote.
 
+Entry-gate ruling, 30 Sep 2026 (design-loop Piece 1): the home entry is a portal
+splash gate, not the hero. The gate carries the mechanism in one line —
+*"Your roof is the way in. Netso funds, owns and operates the system — you buy
+the power."* — plus exactly one cue (*Step inside ↓*). The locked headline,
+sub-line, four-step strip, proof and CTAs live one scroll down in the pinned
+hero. Judging the gate as if it were the hero is a category error; judge it on
+the mechanism line + single cue. Revisiting this means redesigning the entry,
+not rewording it.
+
 Recorded alternatives, re-tested and rejected 24 Sep 2026: **"Your roof generates revenue."**
 — its supporting copy has to explain qualification and contracting before the claim is true, and
 that walk-back runs to five lines on a 390 px screen, so the caveat becomes the hero.
@@ -132,5 +141,13 @@ the site stays credible with both facility owners and capital partners.
 ## CTA rules
 
 Primary: **START A PROJECT** (header, hero, section ends, footer).
-Secondary: **SEE HOW IT WORKS**. Contextual: **WHAT CAN YOUR ROOF DO?**
+Secondary: **SEE HOW IT WORKS**. Contextual: **WHAT CAN YOUR ROOF DO?**,
+**TRY THE ESTIMATE** (in-page anchor to the `/estimate` instrument only),
+**CHAT ON WHATSAPP** (ghost/secondary escape hatch only, never the primary).
 Never: Buy Now · Get a Quote · Book a Demo · Request a Solar Installation.
+Contextual labels are closed: a new one needs a dated entry here, not a guess
+in markup. (TRY THE ESTIMATE + CHAT ON WHATSAPP admitted 30 Sep 2026,
+design-loop Piece 2.)
+Hero convention: one primary button plus at most one secondary link per
+screen — the reference bars pair the same way. Two primaries is the violation,
+not the pair.
