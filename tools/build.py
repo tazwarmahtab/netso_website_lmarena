@@ -38,6 +38,11 @@ FORM_ENDPOINT = ""
 # powers the "Chat on WhatsApp" links. Leave "" to fall back to endpoint/mailto.
 WHATSAPP_NUMBER = "8801791222777"
 
+# Production is indexable by default. Set NETSO_INDEXABLE=0 for staging previews.
+INDEXABLE = os.getenv("NETSO_INDEXABLE", "1") != "0"
+ROBOTS_META = "" if INDEXABLE else '<meta name="robots" content="noindex, nofollow, noarchive"/>'
+SITE_LASTMOD = os.getenv("NETSO_LASTMOD", "2026-09-30")
+
 PAGES = {
     "home": dict(
         out="index.html", route="/", script="home.js", extra_js=["glyph-portal.js"],
@@ -50,6 +55,12 @@ PAGES = {
         title="How It Works — Netso Energy",
         desc="Develop, finance, build, own and operate: how Netso turns a commercial rooftop into a contracted energy asset, and how you buy the power through a long-term PPA.",
         og="/assets/img/og/how-it-works.jpg",
+    ),
+    "projects": dict(
+        out="projects/index.html", route="/projects", script="legal.js",
+        title="Evidence — Netso Energy",
+        desc="How Netso distinguishes a screened opportunity, a contracted project, construction and operating performance.",
+        og="/assets/img/og/about.jpg",
     ),
     "about": dict(
         out="about/index.html", route="/about", script="about.js",
@@ -92,7 +103,7 @@ HEAD = """<!DOCTYPE html>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>{title}</title>
-<meta name="description" content="{desc}"/>\n<meta name="robots" content="noindex, nofollow, noarchive"/>
+<meta name="description" content="{desc}"/>\n{robots_meta}
 <link rel="canonical" href="{site}{route}"/>
 <meta property="og:type" content="website"/>
 <meta property="og:site_name" content="Netso Energy"/>
@@ -221,7 +232,7 @@ def build_page(key, page):
     head = HEAD.format(hero_preload=HERO_PRELOAD if key == "home" else "", intro_head=intro_head,
                        jsonld=JSONLD if key == "home" else "",
                        title=page["title"], desc=page["desc"], route=page["route"], og=page["og"],
-                       site=SITE, key=key, body_class=page.get("body_class", ""))
+                       robots_meta=ROBOTS_META, site=SITE, key=key, body_class=page.get("body_class", ""))
     portal = read("src/partials/glyph-portal.html") if key == "home" else ""
     skip = read("src/partials/skip.html")
     header = read("src/partials/header.html")
@@ -236,7 +247,7 @@ def build_page(key, page):
     scripts = "".join(f'<script src="{s}"></script>' for s in VENDOR)
     scripts += "".join(f'<script src="/assets/js/{s}"></script>' for s in ["core.js"] + page.get("extra_js", []) + [page["script"]])
     html = (head + skip + PAGEWIPE + header + menu +
-            f'<main id="content" class="{page.get("main_class", "")}">' + portal + main + "</main>" +
+            f'<main id="content" tabindex="-1" class="{page.get("main_class", "")}">' + portal + main + "</main>" +
             footer + scripts + "</body></html>")
     # inject deploy config (single source of truth in this file)
     if WHATSAPP_NUMBER:
@@ -262,7 +273,7 @@ def build_page(key, page):
 def write_sitemap_and_robots():
     """Generate sitemap.xml (public routes only) and robots.txt."""
     import datetime
-    today = datetime.date.today().isoformat()
+    today = SITE_LASTMOD
     # 404 is not a public URL; everything else in PAGES is indexable
     routes = [p["route"] for k, p in PAGES.items() if k != "404"]
     # priority hints: home highest, then primary sections, then legal

@@ -6,6 +6,19 @@
 (function () {
   'use strict';
 
+  // Motion is an enhancement, never a dependency of navigation, forms or the estimate.
+  // The tiny no-op adapter keeps functional modules alive when a vendor asset is blocked.
+  if (typeof window.gsap === 'undefined') {
+    const noop = () => {};
+    const chain = () => ({ from: noop, fromTo: noop, to: noop, set: noop, kill: noop });
+    window.gsap = { registerPlugin: noop, config: noop, defaults: noop, set: noop, to: noop, fromTo: noop,
+      timeline: chain, quickTo: () => noop, killTweensOf: noop,
+      ticker: { add: noop, lagSmoothing: noop } };
+  }
+  if (typeof window.ScrollTrigger === 'undefined') {
+    window.ScrollTrigger = { refresh: () => {}, update: () => {}, create: () => ({ progress: 0, kill: () => {} }) };
+  }
+
   // register only the plugins that actually loaded, so one failed vendor
   // request degrades gracefully instead of throwing and killing the page
   gsap.registerPlugin(...[typeof ScrollTrigger !== 'undefined' && ScrollTrigger,
@@ -33,10 +46,12 @@
     readyQueue.forEach((fn) => { try { fn(); } catch (e) { console.warn('[netso]', e); } });
     ScrollTrigger.refresh();
   }
-  window.addEventListener('load', () => {
+  const scheduleReady = () => {
     const fonts = document.fonts ? document.fonts.ready : Promise.resolve();
-    Promise.race([fonts, new Promise((r) => setTimeout(r, 2500))]).then(() => setTimeout(fireReady, 60));
-  });
+    Promise.race([fonts, new Promise((r) => setTimeout(r, 800))]).then(() => fireReady());
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', scheduleReady, { once: true });
+  else scheduleReady();
 
   /* ------------------------------------------------------------- smooth --- */
   let lenis = null;
@@ -84,17 +99,27 @@
     if (burger && menu) {
       const open = burger.querySelector('[data-icon="burger"]');
       const close = burger.querySelector('[data-icon="close"]');
-      const setOpen = (state) => {
+      let previousFocus = null;
+      const firstLink = () => DL.q('a,button', menu);
+      const setOpen = (state, restore = true) => {
+        if (state && !menu.classList.contains('is-open')) previousFocus = document.activeElement;
         menu.classList.toggle('is-open', state);
+        menu.hidden = !state;
+        menu.inert = !state;
+        menu.setAttribute('aria-hidden', String(!state));
         burger.setAttribute('aria-expanded', String(state));
         gsap.to(open, { opacity: state ? 0 : 1, rotate: state ? -30 : 0, duration: 0.35, ease: 'power2.out' });
         gsap.to(close, { opacity: state ? 1 : 0, rotate: state ? 0 : 30, duration: 0.35, ease: 'power2.out' });
         DL.lockScroll(state);
+        if (state) requestAnimationFrame(() => firstLink()?.focus());
+        else if (restore && previousFocus?.focus) requestAnimationFrame(() => previousFocus.focus());
       };
-      setOpen(false);
+      setOpen(false, false);
       burger.addEventListener('click', () => setOpen(!menu.classList.contains('is-open')));
       DL.qa('a', menu).forEach((a) => a.addEventListener('click', () => setOpen(false)));
-      window.addEventListener('keydown', (e) => { if (e.key === 'Escape') setOpen(false); });
+      window.addEventListener('keydown', (e) => { if (e.key === 'Escape' && menu.classList.contains('is-open')) { e.preventDefault(); setOpen(false); } });
+      const mq = window.matchMedia('(min-width: 60rem)');
+      mq.addEventListener?.('change', () => { if (mq.matches && menu.classList.contains('is-open')) setOpen(false, false); });
       DL.closeMenu = () => setOpen(false);
     }
 
@@ -105,6 +130,10 @@
         const t = id && document.getElementById(id);
         if (!t) return;
         e.preventDefault();
+        if (a.classList.contains('skip-link') || id === 'content') {
+          t.setAttribute('tabindex', '-1');
+          t.focus({ preventScroll: true });
+        }
         DL.scrollTo(t, { offset: -70 });
       });
     });
@@ -117,6 +146,7 @@
     const els = typeof target === 'string' ? DL.qa(target) : (Array.isArray(target) ? target : [target]);
     els.forEach((el) => {
       if (!el || el.dataset.split === 'done') return;
+      if (DL.reduceMotion || typeof SplitText === 'undefined') { el.style.opacity = '1'; el.style.transform = 'none'; el.dataset.split = 'done'; return; }
       SplitText.create(el, {
         type: 'lines', mask: 'lines', autoSplit: true,
         onSplit(self) {
@@ -136,6 +166,7 @@
     const els = typeof target === 'string' ? DL.qa(target) : (Array.isArray(target) ? target : [target]);
     const list = els.filter(Boolean);
     if (!list.length) return;
+    if (DL.reduceMotion) { list.forEach((el) => { el.style.opacity = '1'; el.style.transform = 'none'; }); return; }
     list.forEach((el) => {
       gsap.fromTo(el, { opacity: o.opacity, y: o.y, x: o.x, scale: o.scale },
         {
@@ -605,7 +636,7 @@
     const whatsappSubmit = (data) => {
       const text = '*New project enquiry — Netso*\n\n' + summarise(data);
       const url = 'https://wa.me/' + whatsapp + '?text=' + encodeURIComponent(text);
-      window.open(url, '_blank', 'noopener');
+      return window.open(url, '_blank', 'noopener');
     };
     // fallback: compose a prefilled email so the enquiry still reaches a human
     const mailtoFallback = (data) => {
@@ -630,8 +661,8 @@
 
       // primary path: hand off to WhatsApp with the enquiry prefilled
       if (whatsapp) {
-        whatsappSubmit(data);
-        showMsg('We\u2019ve opened WhatsApp with your enquiry prefilled \u2014 just press send to reach us. If nothing opened, message us on WhatsApp directly.', false);
+        const handoff = whatsappSubmit(data);
+        showMsg(handoff ? 'WhatsApp is ready with your enquiry prefilled. Review it, then press Send to reach Netso.' : 'Your browser blocked the WhatsApp window. Open WhatsApp directly or email ' + (contact || 'hello@netso.energy') + ' to send the enquiry.', !handoff);
         return;
       }
 
