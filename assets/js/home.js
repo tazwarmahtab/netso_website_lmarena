@@ -94,13 +94,15 @@
     const heroVisual = document.querySelector('.netso-hero__visual');
     if (heroVisual) {
       gsap.to(heroVisual, { yPercent: 10, ease: 'none', scrollTrigger: { trigger: '.netso-hero', start: 'top top', end: 'bottom top', scrub: 1 } });
-      heroVisual.addEventListener('pointermove', (event) => {
-        const r = heroVisual.getBoundingClientRect();
-        const x = (event.clientX - r.left) / r.width - .5;
-        const y = (event.clientY - r.top) / r.height - .5;
-        gsap.to(heroVisual, { rotateY: x * 2.2, rotateX: y * -1.8, transformPerspective: 900, duration: .55, ease: 'power3.out', overwrite: true });
-      });
-      heroVisual.addEventListener('pointerleave', () => gsap.to(heroVisual, { rotateY: 0, rotateX: 0, duration: .8, ease: 'power3.out' }));
+      if (window.matchMedia('(any-hover: hover)').matches) {
+        heroVisual.addEventListener('pointermove', (event) => {
+          const r = heroVisual.getBoundingClientRect();
+          const x = (event.clientX - r.left) / r.width - .5;
+          const y = (event.clientY - r.top) / r.height - .5;
+          gsap.to(heroVisual, { rotateY: x * 2.2, rotateX: y * -1.8, transformPerspective: 900, duration: .55, ease: 'power3.out', overwrite: true });
+        });
+        heroVisual.addEventListener('pointerleave', () => gsap.to(heroVisual, { rotateY: 0, rotateX: 0, duration: .8, ease: 'power3.out' }));
+      }
     }
 
     // Micro-interactions for cards and CTAs: lift, underline, and tactile press feedback.

@@ -113,7 +113,9 @@
       video.addEventListener('loadedmetadata', vPrime);
       const source = video.querySelector('source[data-src]');
       const loadVideo = () => {
-        if (!source || source.src || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        var connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+        var constrained = connection && (connection.saveData || /(^|-)2g$/.test(connection.effectiveType || ''));
+        if (!source || source.src || window.matchMedia('(prefers-reduced-motion: reduce)').matches || constrained) return;
         source.src = source.dataset.src;
         try { video.load(); } catch (e) {}
       };

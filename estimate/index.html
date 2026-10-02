@@ -137,6 +137,26 @@ setTimeout(function () { document.documentElement.classList.remove('anim'); }, 2
 <div class="ctrl__scale"><span>30%</span><span>100%</span></div>
 </div>
 
+<div class="ctrl">
+<div class="ctrl__head"><label for="in-tariff">Bangladesh tariff basis</label><output class="ctrl__val" id="out-tariff">11 kV industrial</output></div>
+<select id="in-tariff" class="select" aria-describedby="out-tariff">
+<option value="industrial">11 kV industrial · Tk 11.56–16.06/kWh</option>
+<option value="custom">My blended rate · set below</option>
+</select>
+</div>
+
+<div class="ctrl" id="custom-tariff-control" hidden>
+<div class="ctrl__head"><label for="in-custom-tariff">Your blended grid rate</label><output class="ctrl__val" id="out-custom-tariff" for="in-custom-tariff">৳13.50/kWh</output></div>
+<input id="in-custom-tariff" class="range" type="range" min="8" max="25" step="0.25" value="13.5" aria-describedby="out-custom-tariff"/>
+<div class="ctrl__scale"><span>৳8/kWh</span><span>৳25/kWh</span></div>
+</div>
+
+<div class="ctrl">
+<div class="ctrl__head"><label for="in-outage">Grid interruption exposure</label><output class="ctrl__val" id="out-outage" for="in-outage">8 hrs/month</output></div>
+<input id="in-outage" class="range" type="range" min="0" max="40" step="1" value="8" aria-describedby="out-outage"/>
+<div class="ctrl__scale"><span>0 hrs</span><span>40 hrs/month</span></div>
+</div>
+
 <div class="ctrl ctrl--toggle">
 <div>
 <span class="ctrl__toglabel">Battery storage</span>
@@ -145,7 +165,7 @@ setTimeout(function () { document.documentElement.classList.remove('anim'); }, 2
 <button id="in-battery" class="toggle" type="button" role="switch" aria-checked="false" aria-label="Include battery storage"><span class="toggle__dot"></span></button>
 </div>
 
-<p class="instrument__note">Reference ranges: SREDA describes roughly 7–10 m² of roof per kWp and 1,200–1,400 kWh of annual generation per kWp. Industrial grid tariffs vary by utility, voltage and peak/off-peak period. Final sizing depends on sanctioned load, site geometry, equipment and the hourly load profile. The September 2026 battery-based rooftop export incentive is excluded from this base case until eligibility and commercial treatment are confirmed.</p>
+<p class="instrument__note">Reference ranges: SREDA describes roughly 7–10 m² of roof per kWp and 1,200–1,400 kWh of annual generation per kWp. The default tariff basis is the June 2026 11 kV industrial reference band; switch to your own blended rate when you have a bill. Outage exposure is a resilience context, not a monetised diesel-savings claim.</p>
 </div>
 
 <div class="instrument__results" aria-live="polite">
@@ -170,6 +190,14 @@ setTimeout(function () { document.documentElement.classList.remove('anim'); }, 2
 <div class="result">
 <span class="result__label">Battery role</span>
 <span class="result__num" id="r-batt">Not modelled</span>
+</div>
+<div class="result">
+<span class="result__label">Tariff basis</span>
+<span class="result__num" id="r-tariff">৳11.56–16.06</span>
+</div>
+<div class="result">
+<span class="result__label">Grid exposure</span>
+<span class="result__num" id="r-resilience">8 hrs/month</span>
 </div>
 </div>
 

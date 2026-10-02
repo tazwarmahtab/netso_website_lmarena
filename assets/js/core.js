@@ -55,7 +55,9 @@
 
   /* ------------------------------------------------------------- smooth --- */
   let lenis = null;
-  if (!DL.reduceMotion && typeof Lenis !== 'undefined') {
+  const saveData = !!(navigator.connection && navigator.connection.saveData);
+  const useLenis = !DL.reduceMotion && !saveData && window.matchMedia('(min-width: 48rem)').matches;
+  if (useLenis && typeof Lenis !== 'undefined') {
     lenis = new Lenis({ lerp: 0.11, wheelMultiplier: 1, touchMultiplier: 1.4 });
     lenis.on('scroll', ScrollTrigger.update);
     gsap.ticker.add((time) => lenis.raf(time * 1000));
