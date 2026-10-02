@@ -41,13 +41,14 @@ WHATSAPP_NUMBER = "8801791222777"
 # Production is indexable by default. Set NETSO_INDEXABLE=0 for staging previews.
 INDEXABLE = os.getenv("NETSO_INDEXABLE", "1") != "0"
 ROBOTS_META = "" if INDEXABLE else '<meta name="robots" content="noindex, nofollow, noarchive"/>'
-SITE_LASTMOD = os.getenv("NETSO_LASTMOD", "2026-09-30")
+SITE_LASTMOD = os.getenv("NETSO_LASTMOD", "2026-10-02")
 
 PAGES = {
     "home": dict(
         out="index.html", route="/", script="home.js", extra_js=["glyph-portal.js"],
         title="Netso Energy — Your roof. Now an energy asset.",
         desc="Netso Energy develops, finances, owns and operates distributed solar infrastructure for commercial and industrial customers in Bangladesh.",
+        keywords="commercial rooftop solar Bangladesh, industrial solar Bangladesh, solar PPA Bangladesh, rooftop solar Dhaka, rooftop solar Chattogram",
         og="/assets/img/og/home.jpg",
     ),
     "how-it-works": dict(
@@ -76,8 +77,9 @@ PAGES = {
     ),
     "estimate": dict(
         out="estimate/index.html", route="/estimate", script="estimate.js",
-        title="Estimate — Netso Energy",
-        desc="Enter three screening inputs for an indicative rooftop plant size, generation range and grid-energy value for your facility. No PPA price is quoted; site-specific figures come from a survey and the PPA.",
+        title="Bangladesh Solar Calculator — Netso Energy",
+        desc="Use Netso Energy’s Bangladesh solar calculator to estimate rooftop PV capacity, generation, grid-energy value and regional solar resource for a commercial facility.",
+        keywords="Bangladesh solar calculator, rooftop solar calculator, industrial solar calculator Bangladesh, solar generation estimate Dhaka, solar PPA calculator",
         og="/assets/img/og/estimate.jpg",
     ),
     "privacy": dict(
@@ -98,12 +100,16 @@ PAGES = {
 }
 
 HEAD = """<!DOCTYPE html>
-<html lang="en-GB">
+<html lang="en-BD">
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>{title}</title>
-<meta name="description" content="{desc}"/>\n{robots_meta}
+<meta name="description" content="{desc}"/>
+<meta name="keywords" content="{keywords}"/>
+{robots_meta}
+<meta name="geo.region" content="BD"/>
+<meta name="geo.placename" content="Bangladesh"/>
 <link rel="canonical" href="{site}{route}"/>
 <meta property="og:type" content="website"/>
 <meta property="og:site_name" content="Netso Energy"/>
@@ -113,7 +119,7 @@ HEAD = """<!DOCTYPE html>
 <meta property="og:image" content="{site}{og}"/>
 <meta property="og:image:width" content="1200"/>
 <meta property="og:image:height" content="630"/>
-<meta property="og:locale" content="en_GB"/>
+<meta property="og:locale" content="en_BD"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="{site}{og}"/>
 <link rel="manifest" href="/manifest.webmanifest"/>
@@ -162,6 +168,20 @@ JSONLD = ('<script type="application/ld+json">'
           '"url":"' + SITE + '/","name":"Netso Energy",'
           '"publisher":{"@id":"' + SITE + '/#org"},'
           '"inLanguage":"en-GB"}]}'
+          '</script>')
+
+ESTIMATE_JSONLD = ('<script type="application/ld+json">'
+          '{"@context":"https://schema.org","@graph":['
+          '{"@type":"WebApplication","@id":"' + SITE + '/estimate#app",'
+          '"name":"Bangladesh Solar Calculator","url":"' + SITE + '/estimate",'
+          '"applicationCategory":"BusinessApplication","operatingSystem":"All",'
+          '"description":"Indicative rooftop solar capacity, generation and grid-energy value screening for commercial facilities in Bangladesh.",'
+          '"areaServed":{"@type":"Country","name":"Bangladesh"},'
+          '"offers":{"@type":"Offer","price":"0","priceCurrency":"BDT"}},'
+          '{"@type":"FAQPage","mainEntity":['
+          '{"@type":"Question","name":"How much electricity can a rooftop solar system generate in Bangladesh?","acceptedAnswer":{"@type":"Answer","text":"The calculator uses a regional solar-resource baseline and a screening yield band. Final generation depends on roof geometry, shading, equipment, load profile and survey results."}},'
+          '{"@type":"Question","name":"Which electricity tariff does the Bangladesh solar calculator use?","acceptedAnswer":{"@type":"Answer","text":"The default basis is an 11 kV industrial reference band of Tk 11.56–16.06 per kWh, with an option to enter a custom blended rate from a bill."}},'
+          '{"@type":"Question","name":"Does the calculator provide a solar PPA quote?","acceptedAnswer":{"@type":"Answer","text":"No. It is an indicative screening tool. A PPA price, term and project size are agreed only after a site survey, load review and commercial assessment."}}]}]}'
           '</script>')
 
 INTRO_HEAD = """<script>/* skip the intro curtain on repeat views in the same session — set before
@@ -229,8 +249,10 @@ def build_page(key, page):
     # NETSO wordmark), which supersedes the old CSS intro curtain, so intro_head
     # (its session-skip class) is no longer emitted for home.
     intro_head = ""
+    jsonld = JSONLD if key == "home" else ESTIMATE_JSONLD if key == "estimate" else ""
     head = HEAD.format(hero_preload=HERO_PRELOAD if key == "home" else "", intro_head=intro_head,
-                       jsonld=JSONLD if key == "home" else "",
+                       jsonld=jsonld,
+                       keywords=page.get("keywords", "rooftop solar Bangladesh, Netso Energy"),
                        title=page["title"], desc=page["desc"], route=page["route"], og=page["og"],
                        robots_meta=ROBOTS_META, site=SITE, key=key, body_class=page.get("body_class", ""))
     portal = read("src/partials/glyph-portal.html") if key == "home" else ""

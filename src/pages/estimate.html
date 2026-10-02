@@ -134,10 +134,10 @@
 </div>
 <div class="lead-capture" id="lead-capture">
 <div class="lead-capture__head"><span class="eyebrow">Carry this result forward</span><h3 class="h3">Get a site-specific follow-up.</h3><p class="body">We’ll attach your calculator inputs and selected region to the enquiry so the first conversation starts with context.</p></div>
-<form class="lead-form" data-lead-form novalidate>
+<form class="lead-form" data-lead-form data-whatsapp-number="{{WHATSAPP_NUMBER}}" novalidate>
 <div class="lead-form__grid"><label><span>Name</span><input name="name" type="text" autocomplete="name" required placeholder="Your name"/></label><label><span>Company</span><input name="company" type="text" autocomplete="organization" required placeholder="Facility or company"/></label><label><span>Phone / WhatsApp</span><input name="phone" type="tel" autocomplete="tel" required placeholder="+880 1…"/></label><label><span>Work email</span><input name="email" type="email" autocomplete="email" placeholder="you@company.com"/></label></div>
 <label class="lead-form__consent"><input name="consent" type="checkbox" required/><span>I agree that Netso Energy may contact me about this solar enquiry.</span></label>
-<button class="btn" type="submit"><span>Send my result</span><svg width="11" height="9" viewBox="0 0 11 9" fill="none" aria-hidden="true"><path d="M0 4.5h9.5M6 .8l3.7 3.7L6 8.2" stroke="currentColor" stroke-width="1.2"/></svg></button>
+<button class="btn" type="submit"><span>Continue in WhatsApp</span><svg width="11" height="9" viewBox="0 0 11 9" fill="none" aria-hidden="true"><path d="M0 4.5h9.5M6 .8l3.7 3.7L6 8.2" stroke="currentColor" stroke-width="1.2"/></svg></button>
 <p class="lead-form__status" data-lead-status role="status" aria-live="polite"></p>
 </form>
 </div>
@@ -184,7 +184,16 @@
 </div>
 </div>
 </section>
-
+<section class="section section--paper" id="calculator-faq">
+<div class="shell shell--narrow">
+<div class="sec-head"><div class="sec-head__top"><span class="eyebrow">Bangladesh solar FAQ</span><span class="sec-head__idx">Before you enquire</span></div><h2 class="display display-sm" data-lines>Questions facility owners ask first.</h2></div>
+<div class="faq-list mt-6">
+<details><summary>How much electricity can rooftop solar generate in Bangladesh?</summary><p>The calculator uses a regional solar-resource baseline and a screening yield band. Final generation depends on roof geometry, shading, equipment, load profile and survey results.</p></details>
+<details><summary>Which electricity tariff does the calculator use?</summary><p>The default basis is an 11 kV industrial reference band of Tk 11.56–16.06 per kWh. You can switch to a custom blended rate from your electricity bill.</p></details>
+<details><summary>Does this provide a solar PPA quote?</summary><p>No. It is an indicative screening tool. A PPA price, term and project size are agreed after a site survey, load review and commercial assessment.</p></details>
+</div>
+</div>
+</section>
 <!-- ============================== PROBLEM ============================== -->
 <section class="section section--void" id="why" data-header="dark">
 <div class="shell">

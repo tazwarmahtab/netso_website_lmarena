@@ -138,6 +138,16 @@ window.DL.ready(function () {
       crm: { lifecycleStage: 'lead', leadSource: 'Website calculator', tags: ['solar-calculator', 'bangladesh'] }
     };
     const webhook = window.NETSO_LEAD_WEBHOOK || '';
+    const whatsappNumber = (leadForm.dataset.whatsappNumber || '').replace(/\D/g, '');
+    const whatsappMessage = [
+      'Hello Netso — I would like a rooftop solar assessment.',
+      `Name: ${payload.name}`, `Company: ${payload.company}`, `Phone: ${payload.phone}`,
+      payload.email ? `Email: ${payload.email}` : '', `Region: ${payload.region}`,
+      `Monthly consumption: ${payload.monthlyConsumptionKwh.toLocaleString('en-IN')} kWh`,
+      `Usable roof: ${payload.roofAreaM2.toLocaleString('en-IN')} m²`,
+      `Calculator result: ${Math.round(payload.result.pvKwp[0])}–${Math.round(payload.result.pvKwp[1])} kWp; ${Math.round(payload.result.annualValueBdt[0]).toLocaleString('en-IN')}–${Math.round(payload.result.annualValueBdt[1]).toLocaleString('en-IN')} BDT/year`,
+      'I agree that Netso Energy may contact me about this enquiry.'
+    ].filter(Boolean).join('\n');
     try {
       if (webhook) {
         const response = await fetch(webhook, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
@@ -145,7 +155,8 @@ window.DL.ready(function () {
       } else {
         localStorage.setItem('netso:last-lead', JSON.stringify(payload));
       }
-      leadStatus.textContent = webhook ? 'Received — our team will follow up with your site-specific next step.' : 'Saved as a lead-ready result. CRM routing is ready to connect before launch.';
+      if (whatsappNumber) window.open(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`, '_blank', 'noopener');
+      leadStatus.textContent = whatsappNumber ? 'Opening WhatsApp with your result prefilled.' : (webhook ? 'Received — our team will follow up with your site-specific next step.' : 'Saved as a lead-ready result. CRM routing is ready to connect before launch.');
       leadForm.reset();
     } catch (error) {
       leadStatus.textContent = 'We could not send this yet. Please use WhatsApp or try again in a moment.';
