@@ -192,7 +192,7 @@ def read(path):
 
 # The home hero(es) are now video; preload the shared poster so the first frame
 # paints instantly while the clip streams in behind it.
-HERO_PRELOAD = ('<link rel="preload" as="image" href="/assets/img/rooftop-night-poster.webp" '
+HERO_PRELOAD = ('<link rel="preload" as="image" href="/assets/img/opportunity-roofs.jpg" '
                 'fetchpriority="high"/>')
 
 
