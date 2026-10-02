@@ -11,7 +11,32 @@
 </div>
 </div>
 </section>
-
+<!-- ============================== RESOURCE MAP ============================== -->
+<section class="section section--void solar-map" id="solar-map" data-header="dark">
+<div class="shell">
+<div class="sec-head">
+<div class="sec-head__top"><span class="eyebrow" style="color:rgba(255,255,255,0.6)">Bangladesh resource view</span><span class="sec-head__idx" style="color:rgba(255,255,255,0.6)">Division-level · climatological</span></div>
+<h2 class="display display-sm maxw-48" data-lines>Choose the region. See the solar resource.</h2>
+<p class="lead mt-4 maxw-48" style="color:var(--void-muted)">Select a division to set a location-aware yield band in the screening model. This is a solar-resource baseline, not live plant telemetry; the final number comes from a site survey and load profile.</p>
+</div>
+<div class="solar-map__layout mt-8" data-reveal="up">
+<div class="solar-map__graphic" role="img" aria-label="Schematic interactive map of Bangladesh divisions">
+<svg class="solar-map__svg" viewBox="0 0 620 560" aria-hidden="true"><path class="solar-map__outline" d="M258 18c28 8 54 5 81 20l37 26 51-1 71 47 26 60-19 29 29 42-16 46-41 29-27 54-45 10-23 59-61 22-44-32-43 3-29-31-40-9-22-47 17-41-18-38 21-46-13-40 35-47 24-38 55-29z"/><path class="solar-map__river" d="M203 94c90 45 110 82 99 127-10 43-66 75-55 131 7 33 43 56 84 72"/></svg>
+<div class="solar-map__points" aria-label="Select a Bangladesh division">
+<button class="solar-point solar-point--dhaka" type="button" data-region="dhaka" aria-pressed="true"><span>Dhaka</span></button>
+<button class="solar-point solar-point--chattogram" type="button" data-region="chattogram"><span>Chattogram</span></button>
+<button class="solar-point solar-point--khulna" type="button" data-region="khulna"><span>Khulna</span></button>
+<button class="solar-point solar-point--rajshahi" type="button" data-region="rajshahi"><span>Rajshahi</span></button>
+<button class="solar-point solar-point--sylhet" type="button" data-region="sylhet"><span>Sylhet</span></button>
+<button class="solar-point solar-point--rangpur" type="button" data-region="rangpur"><span>Rangpur</span></button>
+<button class="solar-point solar-point--barishal" type="button" data-region="barishal"><span>Barishal</span></button>
+<button class="solar-point solar-point--mymensingh" type="button" data-region="mymensingh"><span>Mymensingh</span></button>
+</div>
+</div>
+<aside class="solar-map__readout" aria-live="polite"><span class="eyebrow" style="color:var(--solar-soft)">Selected region</span><strong id="solar-region-name">Dhaka</strong><span class="solar-map__metric" id="solar-region-value">4.50 kWh/m²/day</span><p id="solar-region-copy">Regional solar resource baseline. Select a point to compare Bangladesh divisions.</p><span class="mono solar-map__source">Source: NASA POWER climatology · ALLSKY_SFC_SW_DWN</span></aside>
+</div>
+</div>
+</section>
 <!-- ============================== INSTRUMENT ============================== -->
 <section class="section" id="instrument">
 <div class="shell">
@@ -107,7 +132,15 @@
 <span class="result__num" id="r-resilience">8 hrs/month</span>
 </div>
 </div>
-
+<div class="lead-capture" id="lead-capture">
+<div class="lead-capture__head"><span class="eyebrow">Carry this result forward</span><h3 class="h3">Get a site-specific follow-up.</h3><p class="body">We’ll attach your calculator inputs and selected region to the enquiry so the first conversation starts with context.</p></div>
+<form class="lead-form" data-lead-form novalidate>
+<div class="lead-form__grid"><label><span>Name</span><input name="name" type="text" autocomplete="name" required placeholder="Your name"/></label><label><span>Company</span><input name="company" type="text" autocomplete="organization" required placeholder="Facility or company"/></label><label><span>Phone / WhatsApp</span><input name="phone" type="tel" autocomplete="tel" required placeholder="+880 1…"/></label><label><span>Work email</span><input name="email" type="email" autocomplete="email" placeholder="you@company.com"/></label></div>
+<label class="lead-form__consent"><input name="consent" type="checkbox" required/><span>I agree that Netso Energy may contact me about this solar enquiry.</span></label>
+<button class="btn" type="submit"><span>Send my result</span><svg width="11" height="9" viewBox="0 0 11 9" fill="none" aria-hidden="true"><path d="M0 4.5h9.5M6 .8l3.7 3.7L6 8.2" stroke="currentColor" stroke-width="1.2"/></svg></button>
+<p class="lead-form__status" data-lead-status role="status" aria-live="polite"></p>
+</form>
+</div>
 <noscript><p class="instrument__disclaimer">This interactive screening model needs JavaScript. For a site-specific view, email hello@netso.energy or start a project.</p></noscript>
 
 <div class="cluster">
@@ -116,7 +149,7 @@
 <a class="btn btn--ghost" href="{{WHATSAPP_URL}}" target="_blank" rel="noopener"><span>Chat on WhatsApp</span></a>
 </div>
 
-<p class="instrument__disclaimer">This is a screening model, not a quote or feasibility study. It does not infer a PPA tariff, demand-charge savings, export revenue, battery CAPEX, financing cost or site-specific yield. Under the 2025 Net Metering Guideline, AC output is subject to the approved capacity and utility process; OPEX tariffs are agreed with the consumer and must not exceed the applicable utility retail tariff. Net export is also subject to the guideline's settlement and distribution-system-maintenance rules.</p>
+<p class="instrument__disclaimer">This is a screening model, not a quote or feasibility study. It does not infer a PPA tariff, demand-charge savings, export revenue, battery CAPEX, financing cost or site-specific yield. The map uses NASA POWER climatology at division-centre coordinates and a documented screening model; it is not live inverter generation. Under the 2025 Net Metering Guideline, AC output is subject to the approved capacity and utility process; OPEX tariffs are agreed with the consumer and must not exceed the applicable utility retail tariff. Net export is also subject to the guideline's settlement and distribution-system-maintenance rules.</p>
 </div>
 </div>
 </div>

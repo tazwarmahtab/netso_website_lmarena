@@ -13,6 +13,8 @@ window.DL.ready(function () {
     industrial: { lo: 11.56, hi: 16.06, label: '11 kV industrial' },
     custom: { lo: 13.5, hi: 13.5, label: 'Your blended rate' },
   };
+  let selectedRegion = { id: 'dhaka', name: 'Dhaka', ghi_kwh_m2_day: 4.5031 };
+  let selectedYield = YIELD_YR;
 
   const els = {
     consumption: q('#in-consumption'), roof: q('#in-roof'), daytime: q('#in-daytime'),
@@ -47,12 +49,12 @@ window.DL.ready(function () {
     const daytimeLoad = monthlyLoad * daytimeShare;
     const roofKwpLo = roof / ROOF_M2_PER_KWP.hi;
     const roofKwpHi = roof / ROOF_M2_PER_KWP.lo;
-    const loadKwpLo = daytimeLoad / (YIELD_YR.hi / 12);
-    const loadKwpHi = daytimeLoad / (YIELD_YR.lo / 12);
+    const loadKwpLo = daytimeLoad / (selectedYield.hi / 12);
+    const loadKwpHi = daytimeLoad / (selectedYield.lo / 12);
     const kwpLo = Math.max(0, Math.min(roofKwpLo, loadKwpLo));
     const kwpHi = Math.max(kwpLo, Math.min(roofKwpHi, loadKwpHi));
-    const annualKwhLo = kwpLo * YIELD_YR.lo;
-    const annualKwhHi = kwpHi * YIELD_YR.hi;
+    const annualKwhLo = kwpLo * selectedYield.lo;
+    const annualKwhHi = kwpHi * selectedYield.hi;
     const annualLoad = monthlyLoad * 12;
     const displacedKwhLo = Math.min(annualKwhLo, annualLoad);
     const displacedKwhHi = Math.min(annualKwhHi, annualLoad);
@@ -96,6 +98,58 @@ window.DL.ready(function () {
     const on = els.batt.getAttribute('aria-checked') === 'true';
     els.batt.setAttribute('aria-checked', String(!on));
     render();
+  });
+
+  function setRegion(region) {
+    selectedRegion = region;
+    const ghi = Number(region.ghi_kwh_m2_day);
+    // Screening conversion: climatological GHI × 365 × 0.75–0.85 system factor.
+    selectedYield = { lo: Math.round(ghi * 365 * 0.75), hi: Math.round(ghi * 365 * 0.85) };
+    document.querySelectorAll('[data-region]').forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.region === region.id)));
+    const name = q('#solar-region-name'), value = q('#solar-region-value'), copy = q('#solar-region-copy');
+    if (name) name.textContent = region.name;
+    if (value) value.textContent = ghi.toFixed(2) + ' kWh/m²/day';
+    if (copy) copy.textContent = `Screening yield band: ${selectedYield.lo.toLocaleString('en-IN')}–${selectedYield.hi.toLocaleString('en-IN')} kWh/kWp/year using a 0.75–0.85 system factor.`;
+    render();
+  }
+
+  fetch('/assets/data/bangladesh-solar-resource.json').then((response) => response.ok ? response.json() : Promise.reject(response.status)).then((payload) => {
+    const byId = Object.fromEntries(payload.regions.map((region) => [region.id, region]));
+    document.querySelectorAll('[data-region]').forEach((button) => button.addEventListener('click', () => byId[button.dataset.region] && setRegion(byId[button.dataset.region])));
+    if (byId.dhaka) setRegion(byId.dhaka);
+  }).catch(() => {
+    document.querySelectorAll('[data-region]').forEach((button) => button.addEventListener('click', () => {}));
+  });
+
+  const leadForm = q('[data-lead-form]');
+  const leadStatus = q('[data-lead-status]');
+  leadForm?.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (!leadForm.checkValidity()) { leadForm.reportValidity(); return; }
+    const r = compute();
+    const form = new FormData(leadForm);
+    const payload = {
+      source: 'netso-solar-calculator', submittedAt: new Date().toISOString(),
+      name: form.get('name'), company: form.get('company'), phone: form.get('phone'), email: form.get('email'), consent: true,
+      region: selectedRegion.name, regionSolarResource: selectedRegion.ghi_kwh_m2_day,
+      monthlyConsumptionKwh: Number(els.consumption.value), roofAreaM2: Number(els.roof.value), daylightLoadShare: Number(els.daytime.value),
+      tariffBasis: activeTariff().label, blendedTariff: activeTariff().lo, outageHoursPerMonth: Number(els.outage.value), battery: els.batt.getAttribute('aria-checked') === 'true',
+      result: { pvKwp: [r.kwpLo, r.kwpHi], annualGenerationKwh: [r.annualKwhLo, r.annualKwhHi], annualValueBdt: [r.annualValueLo, r.annualValueHi] },
+      crm: { lifecycleStage: 'lead', leadSource: 'Website calculator', tags: ['solar-calculator', 'bangladesh'] }
+    };
+    const webhook = window.NETSO_LEAD_WEBHOOK || '';
+    try {
+      if (webhook) {
+        const response = await fetch(webhook, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+        if (!response.ok) throw new Error('Webhook rejected');
+      } else {
+        localStorage.setItem('netso:last-lead', JSON.stringify(payload));
+      }
+      leadStatus.textContent = webhook ? 'Received — our team will follow up with your site-specific next step.' : 'Saved as a lead-ready result. CRM routing is ready to connect before launch.';
+      leadForm.reset();
+    } catch (error) {
+      leadStatus.textContent = 'We could not send this yet. Please use WhatsApp or try again in a moment.';
+    }
   });
   render();
 });

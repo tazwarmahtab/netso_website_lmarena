@@ -1,0 +1,191 @@
+{
+  "updated": "2026-10-02",
+  "method": "NASA POWER climatology at division-centre coordinates",
+  "units": "kWh/m²/day",
+  "regions": [
+    {
+      "id": "dhaka",
+      "name": "Dhaka",
+      "lat": 23.8103,
+      "lon": 90.4125,
+      "ghi_kwh_m2_day": 4.5031,
+      "monthly_ghi": {
+        "JAN": 3.6233,
+        "FEB": 4.6032,
+        "MAR": 5.2853,
+        "APR": 5.4965,
+        "MAY": 5.2361,
+        "JUN": 4.4378,
+        "JUL": 4.3798,
+        "AUG": 4.5518,
+        "SEP": 4.3258,
+        "OCT": 4.3915,
+        "NOV": 4.2132,
+        "DEC": 3.5177,
+        "ANN": 4.5031
+      },
+      "source": "NASA POWER climatology · ALLSKY_SFC_SW_DWN"
+    },
+    {
+      "id": "chattogram",
+      "name": "Chattogram",
+      "lat": 22.3569,
+      "lon": 91.7832,
+      "ghi_kwh_m2_day": 4.9301,
+      "monthly_ghi": {
+        "JAN": 4.4465,
+        "FEB": 5.2471,
+        "MAR": 5.8015,
+        "APR": 5.958,
+        "MAY": 5.562,
+        "JUN": 4.597,
+        "JUL": 4.644,
+        "AUG": 4.7839,
+        "SEP": 4.6764,
+        "OCT": 4.649,
+        "NOV": 4.6243,
+        "DEC": 4.2029,
+        "ANN": 4.9301
+      },
+      "source": "NASA POWER climatology · ALLSKY_SFC_SW_DWN"
+    },
+    {
+      "id": "khulna",
+      "name": "Khulna",
+      "lat": 22.8456,
+      "lon": 89.5403,
+      "ghi_kwh_m2_day": 4.5864,
+      "monthly_ghi": {
+        "JAN": 3.8866,
+        "FEB": 4.7712,
+        "MAR": 5.4214,
+        "APR": 5.7965,
+        "MAY": 5.6069,
+        "JUN": 4.405,
+        "JUL": 4.1362,
+        "AUG": 4.3013,
+        "SEP": 4.3097,
+        "OCT": 4.428,
+        "NOV": 4.301,
+        "DEC": 3.7049,
+        "ANN": 4.5864
+      },
+      "source": "NASA POWER climatology · ALLSKY_SFC_SW_DWN"
+    },
+    {
+      "id": "rajshahi",
+      "name": "Rajshahi",
+      "lat": 24.3745,
+      "lon": 88.6042,
+      "ghi_kwh_m2_day": 4.507,
+      "monthly_ghi": {
+        "JAN": 3.3778,
+        "FEB": 4.4501,
+        "MAR": 5.3436,
+        "APR": 5.7062,
+        "MAY": 5.4984,
+        "JUN": 4.8137,
+        "JUL": 4.3915,
+        "AUG": 4.6061,
+        "SEP": 4.4059,
+        "OCT": 4.3241,
+        "NOV": 3.971,
+        "DEC": 3.2191,
+        "ANN": 4.507
+      },
+      "source": "NASA POWER climatology · ALLSKY_SFC_SW_DWN"
+    },
+    {
+      "id": "sylhet",
+      "name": "Sylhet",
+      "lat": 24.8949,
+      "lon": 91.8687,
+      "ghi_kwh_m2_day": 4.5866,
+      "monthly_ghi": {
+        "JAN": 3.9178,
+        "FEB": 4.7882,
+        "MAR": 5.3297,
+        "APR": 5.3839,
+        "MAY": 5.0854,
+        "JUN": 4.362,
+        "JUL": 4.5089,
+        "AUG": 4.661,
+        "SEP": 4.4174,
+        "OCT": 4.4374,
+        "NOV": 4.3726,
+        "DEC": 3.7985,
+        "ANN": 4.5866
+      },
+      "source": "NASA POWER climatology · ALLSKY_SFC_SW_DWN"
+    },
+    {
+      "id": "rangpur",
+      "name": "Rangpur",
+      "lat": 25.7439,
+      "lon": 89.2752,
+      "ghi_kwh_m2_day": 4.5324,
+      "monthly_ghi": {
+        "JAN": 3.528,
+        "FEB": 4.5067,
+        "MAR": 5.3578,
+        "APR": 5.447,
+        "MAY": 5.3011,
+        "JUN": 4.5758,
+        "JUL": 4.381,
+        "AUG": 4.6332,
+        "SEP": 4.3406,
+        "OCT": 4.5194,
+        "NOV": 4.2377,
+        "DEC": 3.5729,
+        "ANN": 4.5324
+      },
+      "source": "NASA POWER climatology · ALLSKY_SFC_SW_DWN"
+    },
+    {
+      "id": "barishal",
+      "name": "Barishal",
+      "lat": 22.701,
+      "lon": 90.3535,
+      "ghi_kwh_m2_day": 4.5096,
+      "monthly_ghi": {
+        "JAN": 3.8606,
+        "FEB": 4.7664,
+        "MAR": 5.3717,
+        "APR": 5.6498,
+        "MAY": 5.3688,
+        "JUN": 4.1998,
+        "JUL": 4.1124,
+        "AUG": 4.3344,
+        "SEP": 4.1938,
+        "OCT": 4.373,
+        "NOV": 4.2418,
+        "DEC": 3.673,
+        "ANN": 4.5096
+      },
+      "source": "NASA POWER climatology · ALLSKY_SFC_SW_DWN"
+    },
+    {
+      "id": "mymensingh",
+      "name": "Mymensingh",
+      "lat": 24.7471,
+      "lon": 90.4203,
+      "ghi_kwh_m2_day": 4.3666,
+      "monthly_ghi": {
+        "JAN": 3.4831,
+        "FEB": 4.4796,
+        "MAR": 5.1578,
+        "APR": 5.3194,
+        "MAY": 5.0388,
+        "JUN": 4.266,
+        "JUL": 4.2238,
+        "AUG": 4.4177,
+        "SEP": 4.2302,
+        "OCT": 4.3169,
+        "NOV": 4.1093,
+        "DEC": 3.3806,
+        "ANN": 4.3666
+      },
+      "source": "NASA POWER climatology · ALLSKY_SFC_SW_DWN"
+    }
+  ]
+}
