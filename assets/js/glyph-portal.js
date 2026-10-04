@@ -113,9 +113,7 @@
       video.addEventListener('loadedmetadata', vPrime);
       const source = video.querySelector('source[data-src]');
       const loadVideo = () => {
-        var connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-        var constrained = connection && (connection.saveData || /(^|-)2g$/.test(connection.effectiveType || ''));
-        if (!source || source.src || window.matchMedia('(prefers-reduced-motion: reduce)').matches || constrained) return;
+        if (!source || source.src || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
         source.src = source.dataset.src;
         try { video.load(); } catch (e) {}
       };
@@ -232,15 +230,9 @@
       var isStatic = motion.matches || !browserFrameSeen || stalled || !target;
       var p = isStatic ? 0 : progress;
       if (video && vReady && vDur) {
-        if (p >= 0.985) {
-          // portal is open: let the clip run live so the handoff to the hero's
-          // (also live) backdrop is motion-to-motion, not a frozen-frame cut
-          if (video.paused) { video.loop = true; var pl2 = video.play(); if (pl2 && pl2.catch) pl2.catch(function () {}); }
-        } else {
-          if (!video.paused) { video.pause(); }
-          video.loop = false;
-          vSeek(Math.min(vDur - 0.05, clamp(p / 0.82) * vDur));
-        }
+        if (!video.paused) { video.pause(); }
+        video.loop = false;
+        vSeek(Math.min(vDur - 0.05, clamp(p / 0.80) * vDur));
       }
       var t = clamp(p / 0.78);
       var eased = t < 0.5 ? 4 * Math.pow(t, 3) : 1 - Math.pow(-2 * t + 2, 3) / 2;
@@ -261,10 +253,11 @@
       section.dataset.gpChoosing = String(choosing);
       field.style.clipPath = t >= 1 ? 'none' : 'url(#' + clipId + ')';
       section.style.setProperty('--gp-caption', String(1 - smooth(0.01, 0.16, p)));
-      section.style.setProperty('--gp-reveal', String(isStatic ? 1 : smooth(0.78, 0.9, p)));
-      section.style.setProperty('--gp-field-scale', String(1 + 0.16 * smooth(0, 0.82, p)));
+      section.style.setProperty('--gp-reveal', String(isStatic ? 1 : smooth(0.79, 0.85, p)));
+      section.style.setProperty('--gp-slide', isStatic ? '0px' : (160 * (1 - smooth(0.78, 0.92, p))) + 'px');
+      section.style.setProperty('--gp-field-scale', String(1 + 0.16 * smooth(0, 0.80, p)));
       section.style.setProperty('--gp-caption-hit', p < 0.08 ? 'auto' : 'none');
-      section.dataset.gpEntered = String(p >= 0.9);
+      section.dataset.gpEntered = String(p >= 0.82);
       section.dataset.gpProgress = p.toFixed(5);
       if (p !== lastProgress) { lastProgress = p; }
     }

@@ -1122,82 +1122,190 @@ html.wipe-cover .pagewipe { opacity: 1; visibility: visible; }
 .gp [data-gp-enter] { display: inline-flex; align-items: center; gap: 12px; min-height: 44px; color: inherit; font: inherit; text-decoration: none; letter-spacing: inherit; }
 .gp [data-gp-enter]:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
 .gp [data-gp-caption]:focus-within { opacity: 1; pointer-events: auto; }
-.gp [data-gp-content] { box-sizing: border-box; position: relative; min-height: var(--gp-height, 100svh); padding: clamp(2rem, 7%, 6.25rem); display: grid; align-content: center; color: var(--gp-foreground); background: var(--gp-field); overflow-wrap: anywhere; }
+.gp [data-gp-content] { box-sizing: border-box; position: relative; min-height: 0; }
 .gp[data-gp-motion="on"] [data-gp-pin] { position: sticky; top: 0; }
-/* the content block is now an empty "dip to dark" bridge: it fades in over the
-   opened video and carries the eye into #hero (which owns the live backdrop),
-   hiding the cut between the two video sections. Solid fill so no paper flashes
-   through once the pin releases. */
-.gp[data-gp-motion="on"] [data-gp-content] { margin-top: calc((var(--gp-length) - 1) * var(--gp-height)); background: #0A0C10; opacity: var(--gp-reveal, 0); pointer-events: none; }
+.gp[data-gp-motion="on"] [data-gp-content] {
+  margin-top: calc((var(--gp-length) - 1) * var(--gp-height));
+  height: calc(var(--gp-height, 100svh) * 0.45);
+  background: linear-gradient(180deg, transparent 0%, rgba(10,12,16,0.85) 60%, var(--paper, #F5F3EF) 100%);
+  pointer-events: none;
+}
 
-/* ---- merged hero: copy + cards slide up over the SAME sticky portal video ----
-   The portal's built-in "content scrolls over the sticky camera" is reused. The
-   content block is ~1.75 screens tall: the TOP screen holds the hero copy (shown
-   OVER the live video while the pin is still stuck), the remainder is an opaque
-   #0A0C10 tail that covers the cream fly-through surround after the pin releases
-   (no cream flash) and hands off into #opportunity. Tunable: --gp-content-len. */
-.gp[data-gp-motion="on"] [data-gp-content].gp__hero {
-  --gp-content-len: 1.75;
-  min-height: calc(var(--gp-height, 100svh) * var(--gp-content-len));
+/* Layer 1: Background Video Field */
+.gp [data-gp-field] { position: absolute; inset: 0; background: var(--gp-field); opacity: 0; pointer-events: none; z-index: 1; }
+.gp[data-gp-ready] [data-gp-field] { opacity: 1; }
+
+/* Layer 2: Hero Text Layer — framed in the open sky aperture between pergola & wall */
+.gp__hero-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: grid;
   align-content: start;
-  padding: calc(var(--header-h, 64px) + 6vh) 0 clamp(3rem, 10vh, 7rem);
+  padding: calc(var(--header-h, 64px) + clamp(2rem, 11vh, 6.5rem)) 0 clamp(1.5rem, 4vh, 3rem);
   color: #fff;
-  /* legible scrim over the video near the top, opaque dark at the tail */
-  background: linear-gradient(180deg,
-    rgba(10,12,16,.48) 0%,
-    rgba(10,12,16,.62) 34%,
-    rgba(10,12,16,.86) 60%,
-    #0A0C10 78%);
+  opacity: var(--gp-reveal, 0);
+  pointer-events: none;
+  transition: opacity .4s cubic-bezier(.16,1,.3,1);
 }
-.gp__hero-inner { display: grid; gap: clamp(1.75rem, 4vw, 3rem); }
-/* keep the t1 mid-page video hero unaffected — these are portal-scoped only */
+.gp__hero-layer .shell {
+  width: 100%;
+}
+.gp__hero-layer .gp__hero-inner {
+  display: grid;
+  gap: clamp(1rem, 2.5vw, 1.75rem);
+  transform: translateY(var(--gp-slide, 0));
+  will-change: transform;
+}
+.gp__hero-layer .hero__main {
+  max-width: min(44rem, 100%);
+  text-shadow: 0 2px 22px rgba(0, 0, 0, 0.75);
+}
+.gp__hero-layer .hero__title {
+  font-size: clamp(2.25rem, 4.5vw, 3.85rem);
+  line-height: .98;
+}
+.gp__hero-layer .hero__title em {
+  color: var(--solar, #E4572E);
+}
+.gp__hero-layer .hero__sub {
+  margin-top: 1rem;
+  max-width: 38rem;
+  font-size: clamp(0.9375rem, 1.1vw, 1.125rem);
+  line-height: 1.48;
+}
+.gp__hero-layer .hero__model {
+  margin-top: 0.75rem;
+  max-width: 38rem;
+  font-size: 0.875rem;
+  line-height: 1.45;
+}
+.gp__hero-layer .hero__cta {
+  margin-top: 1.25rem;
+}
+.gp__hero-layer .hero__model-steps {
+  display: none;
+}
+@media (min-width: 64rem) {
+  .gp__hero-layer .hero__model-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.25rem;
+    margin-top: 0.5rem;
+    padding: 1rem 0 0;
+    list-style: none;
+    max-width: 58rem;
+    border-top: 1px solid rgba(255,255,255,0.15);
+  }
+  .gp__hero-layer .hero__model-steps li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    font-size: 0.8125rem;
+    color: rgba(255,255,255,0.7);
+  }
+  .gp__hero-layer .hero__model-steps .hero__step-i {
+    color: var(--solar, #E4572E);
+    font-size: 0.75rem;
+  }
+}
 
-/* staggered slide-up of the hero copy once the portal is entered (motion on) */
-.gp[data-gp-motion="on"] .gp__hero .hero__top,
-.gp[data-gp-motion="on"] .gp__hero .hero__title,
-.gp[data-gp-motion="on"] .gp__hero .hero__sub,
-.gp[data-gp-motion="on"] .gp__hero .hero__model,
-.gp[data-gp-motion="on"] .gp__hero .hero__cta,
-.gp[data-gp-motion="on"] .gp__hero .hero__model-steps li,
-.gp[data-gp-motion="on"] .gp__hero .hero__proof {
-  opacity: 0; transform: translateY(22px);
-  transition: opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1);
+/* Mobile & compact height budget: prevent text from hitting the wall */
+@media (max-width: 48rem), (max-height: 720px) {
+  .gp__hero-layer {
+    padding-top: calc(var(--header-h, 60px) + clamp(1rem, 5vh, 2.5rem));
+  }
+  .gp__hero-layer .hero__title {
+    font-size: clamp(1.85rem, 6.5vw, 2.45rem);
+  }
+  .gp__hero-layer .hero__sub {
+    font-size: 0.875rem;
+    line-height: 1.4;
+    margin-top: 0.65rem;
+    max-width: 30rem;
+  }
+  .gp__hero-layer .hero__model {
+    display: none;
+  }
+  .gp__hero-layer .hero__cta {
+    margin-top: 0.9rem;
+    gap: 0.6rem;
+  }
+  .gp__hero-layer .hero__cta .btn {
+    padding: 0.55rem 1.1rem;
+    font-size: 0.8125rem;
+  }
 }
-.gp[data-gp-motion="on"][data-gp-entered="true"] .gp__hero .hero__top,
-.gp[data-gp-motion="on"][data-gp-entered="true"] .gp__hero .hero__title,
-.gp[data-gp-motion="on"][data-gp-entered="true"] .gp__hero .hero__sub,
-.gp[data-gp-motion="on"][data-gp-entered="true"] .gp__hero .hero__model,
-.gp[data-gp-motion="on"][data-gp-entered="true"] .gp__hero .hero__cta,
-.gp[data-gp-motion="on"][data-gp-entered="true"] .gp__hero .hero__model-steps li,
-.gp[data-gp-motion="on"][data-gp-entered="true"] .gp__hero .hero__proof {
+.gp[data-gp-entered="true"] .gp__hero-layer {
+  pointer-events: auto;
+}
+
+/* Layer 3: Foreground Building Cutout — sits in front of the text */
+.gp__foreground {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  opacity: var(--gp-reveal, 0);
+  will-change: opacity;
+  transition: opacity .4s cubic-bezier(.16,1,.3,1);
+}
+.gp__foreground-inner {
+  position: absolute;
+  inset: 0;
+  transform: scale(var(--gp-field-scale, 1));
+  will-change: transform;
+}
+.gp__foreground-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Layer 4: SVG Zoom Letter Mask */
+.gp [data-gp-art] {
+  z-index: 6;
+}
+
+/* Stagger animation for copy elements */
+.gp[data-gp-motion="on"] .gp__hero-layer .hero__top,
+.gp[data-gp-motion="on"] .gp__hero-layer .hero__title,
+.gp[data-gp-motion="on"] .gp__hero-layer .hero__sub,
+.gp[data-gp-motion="on"] .gp__hero-layer .hero__model,
+.gp[data-gp-motion="on"] .gp__hero-layer .hero__cta,
+.gp[data-gp-motion="on"] .gp__hero-layer .hero__model-steps li {
+  opacity: 0; transform: translateY(30px);
+  transition: opacity .6s cubic-bezier(.16,1,.3,1), transform .6s cubic-bezier(.16,1,.3,1);
+}
+.gp[data-gp-motion="on"][data-gp-entered="true"] .gp__hero-layer .hero__top,
+.gp[data-gp-motion="on"][data-gp-entered="true"] .gp__hero-layer .hero__title,
+.gp[data-gp-motion="on"][data-gp-entered="true"] .gp__hero-layer .hero__sub,
+.gp[data-gp-motion="on"][data-gp-entered="true"] .gp__hero-layer .hero__model,
+.gp[data-gp-motion="on"][data-gp-entered="true"] .gp__hero-layer .hero__cta,
+.gp[data-gp-motion="on"][data-gp-entered="true"] .gp__hero-layer .hero__model-steps li {
   opacity: 1; transform: none;
 }
-.gp__hero .hero__title { transition-delay: .04s; }
-.gp__hero .hero__sub { transition-delay: .10s; }
-.gp__hero .hero__model { transition-delay: .16s; }
-.gp__hero .hero__cta { transition-delay: .22s; }
-.gp__hero .hero__model-steps li:nth-child(1) { transition-delay: .28s; }
-.gp__hero .hero__model-steps li:nth-child(2) { transition-delay: .34s; }
-.gp__hero .hero__model-steps li:nth-child(3) { transition-delay: .40s; }
-.gp__hero .hero__model-steps li:nth-child(4) { transition-delay: .46s; }
-.gp__hero .hero__proof { transition-delay: .54s; }
-/* safety: if portal motion is off (reduced motion / no-JS / touch fallback),
-   the global `html.anim … opacity:0` rule must not strand the copy hidden */
-.gp[data-gp-motion="off"] .gp__hero :is(.hero__top,.hero__title,.hero__sub,.hero__model,.hero__cta,.hero__proof,.hero__model-steps li) {
+.gp__hero-layer .hero__title { transition-delay: .04s; }
+.gp__hero-layer .hero__sub { transition-delay: .10s; }
+.gp__hero-layer .hero__model { transition-delay: .16s; }
+.gp__hero-layer .hero__cta { transition-delay: .22s; }
+.gp__hero-layer .hero__model-steps li:nth-child(1) { transition-delay: .28s; }
+.gp__hero-layer .hero__model-steps li:nth-child(2) { transition-delay: .34s; }
+.gp__hero-layer .hero__model-steps li:nth-child(3) { transition-delay: .40s; }
+.gp__hero-layer .hero__model-steps li:nth-child(4) { transition-delay: .46s; }
+
+/* Motion off / fallback */
+.gp[data-gp-motion="off"] .gp__hero-layer {
+  position: relative; inset: auto; opacity: 1 !important; pointer-events: auto;
+  background: #0A0C10; padding: calc(var(--header-h, 64px) + 2rem) 0 4rem;
+}
+.gp[data-gp-motion="off"] .gp__hero-layer :is(.hero__top,.hero__title,.hero__sub,.hero__model,.hero__cta,.hero__model-steps li) {
   opacity: 1 !important; transform: none !important;
 }
-/* motion off (video stalled / no scrub): render the hero on a clean opaque panel
-   rather than the show-through gradient, and drop the extra sticky-travel height */
-.gp[data-gp-motion="off"] [data-gp-content].gp__hero {
-  background: #0A0C10; min-height: auto; align-content: center;
-  padding: calc(var(--header-h, 64px) + 3rem) 0 clamp(3rem, 8vh, 6rem);
-}
-
-.gp[data-gp-motion="on"][data-gp-entered="true"] [data-gp-content] { pointer-events: auto; }
-.gp[data-gp-motion="on"]:has([data-gp-content]:focus-within) [data-gp-field] { clip-path: none !important; }
-.gp[data-gp-motion="on"] [data-gp-content]:focus-within { opacity: 1; pointer-events: auto; }
-.gp:has([data-gp-content]:focus-within) [data-gp-caption],
-.gp:has([data-gp-content]:focus-within) [data-gp-marks] { opacity: 0; }
+.gp[data-gp-motion="off"] .gp__foreground { display: none; }
 .gp__sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
 
 /* Netso front + content dressing */
