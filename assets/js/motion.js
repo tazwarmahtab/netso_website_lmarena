@@ -11,7 +11,8 @@ import {
 } from "https://cdn.jsdelivr.net/npm/motion@13.5.0/+esm";
 
 const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-if (reduce) {
+const canAnimate = !reduce && !navigator.connection?.saveData;
+if (reduce || !canAnimate) {
   document.documentElement.dataset.motion = "reduced";
 } else {
   document.documentElement.dataset.motion = "motion";
