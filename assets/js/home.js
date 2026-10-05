@@ -116,12 +116,6 @@
       card.addEventListener('pointerenter', () => gsap.to(card, { y: -5, duration: .35, ease: 'power3.out', overwrite: true }));
       card.addEventListener('pointerleave', () => gsap.to(card, { y: 0, duration: .5, ease: 'power3.out', overwrite: true }));
     });
-    qa('.btn').forEach((button) => {
-      button.addEventListener('pointerdown', () => gsap.to(button, { scale: .97, duration: .12, ease: 'power2.out', overwrite: true }));
-      button.addEventListener('pointerup', () => gsap.to(button, { scale: 1, duration: .35, ease: 'back.out(2)', overwrite: true }));
-      button.addEventListener('pointerleave', () => gsap.to(button, { scale: 1, duration: .35, ease: 'power2.out', overwrite: true }));
-    });
-
     // Keep the active section readable in the dark/light header treatment.
     qa('[data-header="dark"]').forEach((section) => ScrollTrigger.create({
       trigger: section, start: 'top 40px', end: 'bottom 40px',
