@@ -140,7 +140,7 @@
     const sync = () => {
       if (!ready || !Number.isFinite(media.duration) || media.duration <= 0) return;
       const rect = hero.getBoundingClientRect();
-      const total = Math.max(1, hero.offsetHeight - window.innerHeight);
+      const total = Math.max(1, hero.offsetHeight);
       const progress = Math.min(1, Math.max(0, -rect.top / total));
       const target = progress * Math.max(0, media.duration - 0.05);
       if (Math.abs(target - lastTime) < 0.018) return;
