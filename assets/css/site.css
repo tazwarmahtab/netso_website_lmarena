@@ -52,6 +52,11 @@
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-inout: cubic-bezier(0.76, 0, 0.24, 1);
   --ease-quart: cubic-bezier(0.23, 1, 0.32, 1);
+  --motion-fast: 120ms;
+  --motion-default: 200ms;
+  --motion-slow: 320ms;
+  --motion-distance-sm: 4px;
+  --motion-distance-md: 8px;
 
   /* header */
   --header-h: 4.5rem;
@@ -182,10 +187,10 @@ input, select, textarea { font: inherit; color: inherit; }
   border-radius: var(--radius);
   font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 500;
   letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap;
-  transition: background-color 0.4s var(--ease-out), color 0.4s var(--ease-out), transform 0.4s var(--ease-out);
+  transition: background-color var(--motion-fast) var(--ease-out), color var(--motion-fast) var(--ease-out), transform var(--motion-fast) var(--ease-out);
   overflow: hidden;
 }
-.btn svg { flex: none; transition: transform 0.5s var(--ease-out); }
+.btn svg { flex: none; transition: transform var(--motion-fast) var(--ease-out); }
 .btn:hover { --btn-bg: var(--solar-deep); }
 .btn:hover svg { transform: translateX(4px); }
 .btn--ghost { --btn-bg: transparent; --btn-fg: var(--ink); border: 1px solid var(--line-strong); }
@@ -2680,4 +2685,26 @@ html.wipe-cover .pagewipe { opacity: 1; visibility: visible; }
   .v2-economics__grid { grid-template-columns: .9fr 1.1fr; }
   .v2-economics__controls, .v2-economics__output { padding: clamp(2rem, 4vw, 4rem); }
   .v2-economics__metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+
+/* --------------------------------------------------------------------------
+   Motion system
+   Motion has a bounded role here: feedback, continuity and hierarchy.
+   GSAP owns the cinematic hero timeline. Motion owns tactile UI.
+   -------------------------------------------------------------------------- */
+[data-motion="reduced"] .btn,
+[data-motion="reduced"] .btn svg,
+[data-motion="reduced"] .link-arrow,
+[data-motion="reduced"] .link-arrow svg {
+  transition-duration: 0ms !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn,
+  .btn svg,
+  .link-arrow,
+  .link-arrow svg {
+    transition-duration: 0ms !important;
+  }
 }
