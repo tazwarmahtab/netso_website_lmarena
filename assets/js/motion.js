@@ -39,21 +39,15 @@ if (reduce) {
     });
   };
 
-  // Motion owns the commercial narrative cards. These are intentionally
-  // separate from the existing GSAP reveal selectors.
-  reveal(".v2-flow > div", { stagger: 0.07 });
-  reveal(".v2-underwrite > div", { stagger: 0.055 });
-  reveal(".v2-lifecycle__grid li", { stagger: 0.045 });
-  reveal(".v2-architecture > div", { stagger: 0.07 });
+  // Keep Motion's in-view ownership on elements that GSAP does not already
+  // animate. This avoids competing transform writers.
+  reveal(".v2-economics__metrics > div", { stagger: 0.07, amount: 0.35 });
 
   // Tactile industrial UI. Springs make the interaction feel physical without
   // introducing a large visual effect or layout shift.
   const cardSelectors = [
-    ".v2-flow > div",
-    ".v2-underwrite > div",
-    ".v2-lifecycle__grid li",
-    ".v2-architecture > div",
-    ".v2-cards .card"
+    ".v2-economics__metrics > div",
+    ".v2-architecture__core"
   ];
 
   cardSelectors.forEach((selector) => {
@@ -86,26 +80,17 @@ if (reduce) {
     }, { passive: true });
   });
 
-  // Scroll-linked hero grid drift. Motion's scroll pipeline handles the value
-  // without forcing React-style renders because this is a static site.
-  const heroGrid = document.querySelector(".v2-hero__grid");
-  if (heroGrid) {
-    scroll(
-      animate(
-        heroGrid,
-        { y: ["0%", "12%"] },
-        { ease: "linear" }
-      ),
-      { target: document.querySelector(".v2-hero") }
-    );
-  }
-
-  // Scroll progress is deliberately separate from the existing GSAP rail so
-  // there is a single visible indicator, not two competing UI treatments.
-  const progress = document.querySelector(".scroll-progress span");
-  if (progress) {
-    scroll(animate(progress, { scaleX: [0, 1] }, { ease: "linear" }));
-  }
+  // Header links get a restrained spring nudge on desktop pointers.
+  document.querySelectorAll(".header__nav a").forEach((link) => {
+    hover(link, (element) => {
+      const controls = animate(
+        element,
+        { x: 3 },
+        { type: "spring", stiffness: 500, damping: 30, mass: 0.45 }
+      );
+      return () => controls.stop();
+    });
+  });
 
   // Smoothly interpolate the screening output headline when the calculator
   // changes, instead of snapping between capacity values.
