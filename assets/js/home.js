@@ -152,10 +152,13 @@
       const annualGeneration = capacity * 1350;
       const annualConsumption = (monthlySpend * 12) / gridRate;
       const daytimeLoadShare = Math.min(1, operatingHours / 12);
-      const solarShare = annualConsumption > 0 ? Math.min(1, annualGeneration / annualConsumption * daytimeLoadShare) : 0;
+      // Conservative screening: only count energy that can be matched to the facility's
+      // daytime consumption. This avoids overstating PPA value when the roof is oversized.
+      const contractableEnergy = Math.min(annualGeneration, annualConsumption * daytimeLoadShare);
+      const solarShare = annualConsumption > 0 ? Math.min(1, contractableEnergy / annualConsumption) : 0;
       const ppaRate = 12;
-      const energyValue = annualGeneration * ppaRate;
-      const indicativeGap = annualGeneration * Math.max(0, gridRate - ppaRate);
+      const energyValue = contractableEnergy * ppaRate;
+      const indicativeGap = contractableEnergy * Math.max(0, gridRate - ppaRate);
       out.capacity.textContent = `${fmt(capacity)} kWp`;
       out.generation.textContent = `${fmt(annualGeneration / 1000, 1)} MWh`;
       out.share.textContent = `${fmt(solarShare * 100)}%`;
