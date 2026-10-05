@@ -69,13 +69,19 @@ if (reduce) {
       return () => controls.stop();
     });
 
-    button.addEventListener("pointerdown", () => {
-      animate(
-        button,
-        { scale: 0.965 },
-        { type: "spring", stiffness: 700, damping: 26, mass: 0.35 }
-      );
-    }, { passive: true });
+    const press = () => animate(
+      button,
+      { scale: 0.965 },
+      { type: "spring", stiffness: 700, damping: 26, mass: 0.35 }
+    );
+    const release = () => animate(
+      button,
+      { scale: 1 },
+      { type: "spring", stiffness: 520, damping: 28, mass: 0.5 }
+    );
+    button.addEventListener("pointerdown", press, { passive: true });
+    button.addEventListener("pointerup", release, { passive: true });
+    button.addEventListener("pointercancel", release, { passive: true });
   });
 
   // Header links get a restrained spring nudge on desktop pointers.
@@ -93,7 +99,7 @@ if (reduce) {
   // High-value CTA affordance: the arrow travels independently, so the label
   // stays optically stable while the interaction communicates direction.
   document.querySelectorAll(".btn").forEach((button) => {
-    const arrow = button.querySelector(".arrow, [aria-hidden='true']");
+    const arrow = button.querySelector(".arrow");
     if (!arrow) return;
     hover(button, () => {
       const controls = animate(
