@@ -1,0 +1,8 @@
+{
+  "redirects": [
+    { "source": "/how-it-works", "destination": "/our-model", "permanent": true },
+    { "source": "/start-a-project", "destination": "/assess-a-facility", "permanent": true },
+    { "source": "/estimate", "destination": "/assess-a-facility", "permanent": true },
+    { "source": "/projects", "destination": "/capital-partners", "permanent": true }
+  ]
+}
