@@ -530,7 +530,12 @@
       // primary path: hand off to WhatsApp with the enquiry prefilled
       if (whatsapp) {
         const handoff = whatsappSubmit(data);
-        showMsg(handoff ? 'WhatsApp is ready with your enquiry prefilled. Review it, then press Send to reach Netso.' : 'Your browser blocked the WhatsApp window. Open WhatsApp directly or email ' + (contact || 'hello@netso.energy') + ' to send the enquiry.', !handoff);
+        if (handoff) {
+          showMsg('WhatsApp is ready with your enquiry prefilled. Review it, then press Send to reach Netso.');
+        } else {
+          mailtoFallback(data);
+          showMsg('WhatsApp was blocked, so we opened your email client with the enquiry prefilled. Press send to reach Netso.', false);
+        }
         return;
       }
 

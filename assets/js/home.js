@@ -128,12 +128,23 @@
       onToggle: (self) => document.querySelector('.header')?.classList.toggle('is-dark', self.isActive),
     }));
 
-  // Cinematic hero: progressively upgrades the loop into a scroll-scrubbed sequence.
-  // Poster playback remains the fallback if seeking or motion support is unavailable.
+  // Cinematic hero: motion is opt-in. Reduced-motion users get the poster,
+  // while browsers without GSAP/ScrollTrigger get ordinary video playback.
+  // Only the full-motion path takes ownership of the playhead for scroll scrubbing.
   function initCinematicHero() {
     const hero = document.querySelector('.v2-hero');
     const media = hero?.querySelector('[data-cinematic-scrub]');
-    if (!hero || !media || !realMotion) return null;
+    if (!hero || !media) return null;
+
+    if (DL.reduceMotion) {
+      try { media.pause(); } catch (e) {}
+      return null;
+    }
+
+    if (!realMotion) {
+      try { media.play().catch(() => {}); } catch (e) {}
+      return null;
+    }
 
     let ready = false;
     let lastTime = -1;
