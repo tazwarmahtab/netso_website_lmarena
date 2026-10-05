@@ -1,0 +1,15 @@
+name: Netso launch QA
+
+on:
+  pull_request:
+    branches: [master]
+  push:
+    branches: [master, "qa/**"]
+
+jobs:
+  site-qa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run static site QA
+        run: python3 tests/site_qa.py
