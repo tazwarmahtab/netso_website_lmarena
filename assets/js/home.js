@@ -37,6 +37,12 @@
     qa('[data-count]').forEach((el) => DL.countUp(el, { suffix: '' }));
     qa('[data-dither]').forEach((el) => DL.dither(el));
 
+    // Functional UI must initialize independently of optional motion dependencies.
+    // This keeps the screening calculator usable with reduced motion, slow networks,
+    // or a failed GSAP load.
+    initEconomics();
+    const cleanupCinematicHero = initCinematicHero();
+
     if (!realMotion) return;
     document.body.classList.add('motion-ready');
 
@@ -121,6 +127,117 @@
       trigger: section, start: 'top 40px', end: 'bottom 40px',
       onToggle: (self) => document.querySelector('.header')?.classList.toggle('is-dark', self.isActive),
     }));
-    ScrollTrigger.refresh();
+
+  // Cinematic hero: progressively upgrades the loop into a scroll-scrubbed sequence.
+  // Poster playback remains the fallback if seeking or motion support is unavailable.
+  function initCinematicHero() {
+    const hero = document.querySelector('.v2-hero');
+    const media = hero?.querySelector('[data-cinematic-scrub]');
+    if (!hero || !media || !realMotion) return null;
+
+    let ready = false;
+    let lastTime = -1;
+    const sync = () => {
+      if (!ready || !Number.isFinite(media.duration) || media.duration <= 0) return;
+      const rect = hero.getBoundingClientRect();
+      const total = Math.max(1, hero.offsetHeight);
+      const progress = Math.min(1, Math.max(0, -rect.top / total));
+      const target = progress * Math.max(0, media.duration - 0.05);
+      if (Math.abs(target - lastTime) < 0.018) return;
+      lastTime = target;
+      try { media.currentTime = target; } catch (e) {}
+    };
+
+    const onReady = () => {
+      ready = true;
+      try { media.pause(); } catch (e) {}
+      sync();
+    };
+    if (media.readyState >= 1) onReady();
+    else media.addEventListener('loadedmetadata', onReady, { once: true });
+
+    const trigger = ScrollTrigger.create({
+      trigger: hero,
+      start: 'top top',
+      end: 'bottom bottom',
+      onUpdate: sync
+    });
+    window.addEventListener('resize', sync, { passive: true });
+    return () => {
+      trigger.kill();
+      window.removeEventListener('resize', sync);
+    };
+  }
+
+  // Commercial v2: interactive rooftop screening model.
+  function initEconomics() {
+    const form = document.querySelector('[data-economics-form]');
+    if (!form) return;
+    const spend = form.querySelector('[name="spend"]');
+    const roof = form.querySelector('[name="roof"]');
+    const hours = form.querySelector('[name="hours"]');
+    const tariff = form.querySelector('[name="tariff"]');
+    const out = {
+      capacity: document.querySelector('[data-econ-capacity]'),
+      generation: document.querySelector('[data-econ-generation]'),
+      share: document.querySelector('[data-econ-share]'),
+      value: document.querySelector('[data-econ-value]'),
+      gap: document.querySelector('[data-econ-gap]')
+    };
+    const fmt = (n, digits = 0) => new Intl.NumberFormat('en-BD', { maximumFractionDigits: digits, minimumFractionDigits: digits }).format(n);
+    const update = () => {
+      const monthlySpend = Math.max(0, Number(spend.value) || 0);
+      const roofSqft = Math.max(0, Number(roof.value) || 0);
+      const operatingHours = Math.min(16, Math.max(1, Number(hours.value) || 1));
+      const gridRate = Math.max(1, Number(tariff.value) || 1);
+      const capacity = Math.min(5000, roofSqft / 75);
+      const annualGeneration = capacity * 1350;
+      const annualConsumption = (monthlySpend * 12) / gridRate;
+      const daytimeLoadShare = Math.min(1, operatingHours / 12);
+      // Conservative screening: only count energy that can be matched to the facility's
+      // daytime consumption. This avoids overstating PPA value when the roof is oversized.
+      const contractableEnergy = Math.min(annualGeneration, annualConsumption * daytimeLoadShare);
+      const solarShare = annualConsumption > 0 ? Math.min(1, contractableEnergy / annualConsumption) : 0;
+      const ppaRate = 12;
+      const energyValue = contractableEnergy * ppaRate;
+      const indicativeGap = contractableEnergy * Math.max(0, gridRate - ppaRate);
+      out.capacity.textContent = `${fmt(capacity)} kWp`;
+      out.generation.textContent = `${fmt(annualGeneration / 1000, 1)} MWh`;
+      out.share.textContent = `${fmt(solarShare * 100)}%`;
+      out.value.textContent = `৳${fmt(energyValue / 1000000, 1)}M`;
+      out.gap.textContent = `৳${fmt(indicativeGap / 1000000, 1)}M / yr`;
+    };
+    [spend, roof, hours, tariff].forEach((input) => input.addEventListener('input', update));
+    const assessmentLink = document.querySelector('.v2-economics__output a[href="/assess-a-facility"]');
+    const syncAssessmentLink = () => {
+      if (!assessmentLink) return;
+      const params = new URLSearchParams({
+        monthly_spend: spend.value,
+        roof_area: roof.value,
+        operating_hours: hours.value,
+        tariff: tariff.value
+      });
+      assessmentLink.href = '/assess-a-facility?' + params.toString();
+    };
+    [spend, roof, hours, tariff].forEach((input) => input.addEventListener('input', syncAssessmentLink));
+    syncAssessmentLink();
+    update();
+  }
+  // v2 motion hooks. The page remains usable without GSAP.
+  if (realMotion) {
+    reveal('.v2-hero__content > *, .v2-hero__eyebrow > *, .v2-hero__rail > *', { y: 24, stagger: .08, columns: 1, start: 'top 94%' });
+    reveal('.v2-split > *, .v2-cards > *, .v2-lifecycle__grid li, .v2-economics__controls, .v2-economics__output', { y: 28, stagger: .08, columns: 1 });
+    reveal('.v2-flow > div, .v2-underwrite > div', { y: 18, stagger: .07, columns: 1 });
+    reveal('.v2-callout, .v2-architecture, .v2-final .cta__inner > *', { y: 26, columns: 1 });
+    const hero = document.querySelector('.v2-hero');
+    if (hero) {
+      const media = hero.querySelector('video');
+      if (media) gsap.fromTo(media, { scale: 1.04 }, { scale: 1, duration: 2.2, ease: 'power3.out' });
+      gsap.to(hero.querySelector('.v2-hero__grid'), { yPercent: 12, ease: 'none', scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: 1 } });
+    }
+  }
+
+    if (realMotion) ScrollTrigger.refresh();
+    window.addEventListener('pagehide', () => cleanupCinematicHero?.(), { once: true });
   });
 })();
