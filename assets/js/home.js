@@ -158,7 +158,7 @@
       out.gap.textContent = `৳${fmt(indicativeGap / 1000000, 1)}M / yr`;
     };
     [spend, roof, hours, tariff].forEach((input) => input.addEventListener('input', update));
-    const assessmentLink = document.querySelector('.v2-economics__output a[href="/start-a-project"]');
+    const assessmentLink = document.querySelector('.v2-economics__output a[href="/assess-a-facility"]');
     const syncAssessmentLink = () => {
       if (!assessmentLink) return;
       const params = new URLSearchParams({
@@ -167,7 +167,7 @@
         operating_hours: hours.value,
         tariff: tariff.value
       });
-      assessmentLink.href = '/start-a-project?' + params.toString();
+      assessmentLink.href = '/assess-a-facility?' + params.toString();
     };
     [spend, roof, hours, tariff].forEach((input) => input.addEventListener('input', syncAssessmentLink));
     syncAssessmentLink();
