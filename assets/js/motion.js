@@ -92,6 +92,32 @@ if (reduce) {
     });
   });
 
+  // High-value CTA affordance: the arrow travels independently, so the label
+  // stays optically stable while the interaction communicates direction.
+  document.querySelectorAll(".btn").forEach((button) => {
+    const arrow = button.querySelector(".arrow, [aria-hidden='true']");
+    if (!arrow) return;
+    hover(button, () => {
+      const controls = animate(
+        arrow,
+        { x: 5 },
+        { type: "spring", stiffness: 520, damping: 24, mass: 0.4 }
+      );
+      return () => controls.stop();
+    });
+  });
+
+  // Horizontal story rail. Motion owns the progress indicator only, while the
+  // content remains native scroll for touch and accessibility.
+  document.querySelectorAll("[data-motion-rail]").forEach((rail) => {
+    const bar = rail.querySelector("[data-motion-rail-progress]");
+    if (!bar) return;
+    scroll(
+      animate(bar, { scaleX: [0, 1] }, { ease: "linear" }),
+      { target: rail }
+    );
+  });
+
   // Smoothly interpolate the screening output headline when the calculator
   // changes, instead of snapping between capacity values.
   const capacity = document.querySelector("[data-econ-capacity]");
