@@ -27,8 +27,20 @@ window.DL.ready(function () {
     window.dispatchEvent(new CustomEvent('netso:lead-confirmed', { detail: { hasCompany: !!data.company } }));
   });
 
+  // Carry screening assumptions from the homepage calculator into the assessment form.
+  const prefill = (id, param) => {
+    const value = params.get(param);
+    const el = document.getElementById(id);
+    if (value && el) el.value = value;
+  };
+
   // prefill facility type from ?type=… links elsewhere on the site
   const params = new URLSearchParams(window.location.search);
+  prefill('f-spend', 'monthly_spend');
+  prefill('f-area', 'roof_area');
+  prefill('f-hours', 'operating_hours');
+  prefill('f-tariff', 'tariff');
+
   const type = params.get('type');
   if (type) {
     const sel = DL.q('#f-type');
