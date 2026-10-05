@@ -7,9 +7,7 @@ import {
   animate,
   inView,
   hover,
-  scroll,
-  spring,
-  transform
+  scroll
 } from "https://cdn.jsdelivr.net/npm/motion@13.5.0/+esm";
 
 const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
