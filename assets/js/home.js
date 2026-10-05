@@ -41,6 +41,7 @@
     // This keeps the screening calculator usable with reduced motion, slow networks,
     // or a failed GSAP load.
     initEconomics();
+    const cleanupCinematicHero = initCinematicHero();
 
     if (!realMotion) return;
     document.body.classList.add('motion-ready');
@@ -127,6 +128,47 @@
       onToggle: (self) => document.querySelector('.header')?.classList.toggle('is-dark', self.isActive),
     }));
 
+  // Cinematic hero: progressively upgrades the loop into a scroll-scrubbed sequence.
+  // Poster playback remains the fallback if seeking or motion support is unavailable.
+  function initCinematicHero() {
+    const hero = document.querySelector('.v2-hero');
+    const media = hero?.querySelector('[data-cinematic-scrub]');
+    if (!hero || !media || !realMotion) return null;
+
+    let ready = false;
+    let lastTime = -1;
+    const sync = () => {
+      if (!ready || !Number.isFinite(media.duration) || media.duration <= 0) return;
+      const rect = hero.getBoundingClientRect();
+      const total = Math.max(1, hero.offsetHeight - window.innerHeight);
+      const progress = Math.min(1, Math.max(0, -rect.top / total));
+      const target = progress * Math.max(0, media.duration - 0.05);
+      if (Math.abs(target - lastTime) < 0.018) return;
+      lastTime = target;
+      try { media.currentTime = target; } catch (e) {}
+    };
+
+    const onReady = () => {
+      ready = true;
+      try { media.pause(); } catch (e) {}
+      sync();
+    };
+    if (media.readyState >= 1) onReady();
+    else media.addEventListener('loadedmetadata', onReady, { once: true });
+
+    const trigger = ScrollTrigger.create({
+      trigger: hero,
+      start: 'top top',
+      end: 'bottom bottom',
+      onUpdate: sync
+    });
+    window.addEventListener('resize', sync, { passive: true });
+    return () => {
+      trigger.kill();
+      window.removeEventListener('resize', sync);
+    };
+  }
+
   // Commercial v2: interactive rooftop screening model.
   function initEconomics() {
     const form = document.querySelector('[data-economics-form]');
@@ -196,5 +238,6 @@
   }
 
     if (realMotion) ScrollTrigger.refresh();
+    window.addEventListener('pagehide', () => cleanupCinematicHero?.(), { once: true });
   });
 })();
