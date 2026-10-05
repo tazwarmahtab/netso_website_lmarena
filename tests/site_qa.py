@@ -111,6 +111,9 @@ def main():
             if href.startswith("/") and not href.startswith("//"):
                 target = href.split("#", 1)[0].split("?", 1)[0]
                 if target and target not in LEGACY and target not in CANONICAL:
+                    # Static assets and browser resources are internal URLs but not page routes.
+                    if target.startswith("/assets/") or target in {"/favicon.svg", "/manifest.webmanifest"}:
+                        continue
                     errors.append(f"{route}: internal href has no canonical/legacy target: {href}")
 
     if errors:
