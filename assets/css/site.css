@@ -2708,3 +2708,99 @@ html.wipe-cover .pagewipe { opacity: 1; visibility: visible; }
     transition-duration: 0ms !important;
   }
 }
+
+
+/* v2 responsive refinement: preserve hierarchy on narrow industrial screens. */
+@media (max-width: 40rem) {
+  .v2-hero {
+    min-height: 100svh;
+    min-height: 100dvh;
+    padding-top: max(var(--header-h-lg), env(safe-area-inset-top));
+  }
+  .v2-hero__inner {
+    min-height: calc(100dvh - var(--header-h-lg));
+    padding-block: clamp(4.5rem, 14vh, 7rem) max(1.25rem, env(safe-area-inset-bottom));
+  }
+  .v2-hero__title {
+    max-width: 8ch;
+    font-size: clamp(3.35rem, 16.5vw, 5.4rem);
+    line-height: .84;
+    letter-spacing: -.055em;
+    text-wrap: balance;
+  }
+  .v2-hero__lede {
+    max-width: 31rem;
+    margin-top: 1.5rem;
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+  .v2-hero__content .cluster {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: .65rem;
+  }
+  .v2-hero__content .cluster .btn {
+    width: 100%;
+    justify-content: space-between;
+    min-height: 3.25rem;
+  }
+  .v2-hero__note {
+    font-size: .58rem;
+    line-height: 1.5;
+  }
+  .v2-hero__rail {
+    margin-top: 2.5rem;
+    padding-top: .8rem;
+    font-size: .58rem;
+  }
+  .v2-photo {
+    min-height: 18rem;
+  }
+  .v2-flow>div {
+    min-height: 8.5rem;
+    padding: 1rem;
+  }
+  .v2-lifecycle__grid {
+    grid-template-columns: 1fr;
+  }
+  .v2-lifecycle__grid li {
+    min-height: 9rem;
+  }
+  .v2-economics__controls,
+  .v2-economics__output {
+    padding: 1.25rem;
+  }
+  .v2-economics__headline strong {
+    font-size: clamp(2.7rem, 14vw, 4.2rem);
+  }
+  .v2-economics__metrics {
+    grid-template-columns: 1fr;
+  }
+  .v2-economics__metrics > div {
+    min-height: 4.5rem;
+  }
+  .v2-architecture>div {
+    padding: 1.25rem;
+  }
+}
+
+/* Touch devices should never depend on hover to communicate affordance. */
+@media (hover: none) {
+  .v2-cards .card:hover,
+  .v2-architecture__core:hover {
+    background: inherit;
+  }
+}
+
+/* Keep interactive targets comfortable without making the desktop system bulky. */
+@media (max-width: 48rem) {
+  .btn,
+  .link-arrow,
+  .solar-point {
+    min-height: 2.75rem;
+  }
+  .solar-point {
+    padding: .5rem;
+  }
+}
