@@ -158,6 +158,19 @@
       out.gap.textContent = `৳${fmt(indicativeGap / 1000000, 1)}M / yr`;
     };
     [spend, roof, hours, tariff].forEach((input) => input.addEventListener('input', update));
+    const assessmentLink = document.querySelector('.v2-economics__output a[href="/start-a-project"]');
+    const syncAssessmentLink = () => {
+      if (!assessmentLink) return;
+      const params = new URLSearchParams({
+        monthly_spend: spend.value,
+        roof_area: roof.value,
+        operating_hours: hours.value,
+        tariff: tariff.value
+      });
+      assessmentLink.href = '/start-a-project?' + params.toString();
+    };
+    [spend, roof, hours, tariff].forEach((input) => input.addEventListener('input', syncAssessmentLink));
+    syncAssessmentLink();
     update();
   }
   initEconomics();
