@@ -37,6 +37,11 @@
     qa('[data-count]').forEach((el) => DL.countUp(el, { suffix: '' }));
     qa('[data-dither]').forEach((el) => DL.dither(el));
 
+    // Functional UI must initialize independently of optional motion dependencies.
+    // This keeps the screening calculator usable with reduced motion, slow networks,
+    // or a failed GSAP load.
+    initEconomics();
+
     if (!realMotion) return;
     document.body.classList.add('motion-ready');
 
@@ -173,8 +178,6 @@
     syncAssessmentLink();
     update();
   }
-  initEconomics();
-
   // v2 motion hooks. The page remains usable without GSAP.
   if (realMotion) {
     reveal('.v2-hero__content > *, .v2-hero__eyebrow > *, .v2-hero__rail > *', { y: 24, stagger: .08, columns: 1, start: 'top 94%' });
@@ -189,6 +192,6 @@
     }
   }
 
-    ScrollTrigger.refresh();
+    if (realMotion) ScrollTrigger.refresh();
   });
 })();
