@@ -246,3 +246,50 @@
     window.addEventListener('pagehide', () => cleanupCinematicHero?.(), { once: true });
   });
 })();
+
+/* Muse-inspired roof narrative: one persistent object, four meaningful states. */
+function initRoofStory() {
+  const story = document.querySelector('.roof-story');
+  if (!story) return;
+  const beats = Array.from(story.querySelectorAll('[data-roof-beat]'));
+  const jumps = Array.from(story.querySelectorAll('[data-roof-jump]'));
+  const readout = story.querySelector('[data-roof-readout]');
+  const label = story.querySelector('[data-roof-readout-label]');
+  const states = [
+    ['Surface','ROOFTOP / IDLE'],
+    ['Measured','ROOFTOP / QUALIFIED'],
+    ['Generating','ENERGY / ONLINE'],
+    ['Cash flow','ASSET / OPERATING']
+  ];
+  const setStep = (index) => {
+    const i = Math.max(0, Math.min(states.length - 1, index));
+    story.dataset.step = String(i);
+    beats.forEach((b) => b.classList.toggle('is-active', Number(b.dataset.roofBeat) === i));
+    jumps.forEach((a) => a.classList.toggle('is-active', Number(a.dataset.roofJump) === i));
+    if (readout) readout.textContent = states[i][0];
+    if (label) label.textContent = states[i][1];
+    const progress = story.querySelector('.roof-story__progress span');
+    if (progress) progress.style.transform = 'scaleY(' + ((i + 1) / states.length) + ')';
+  };
+  setStep(0);
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (!('IntersectionObserver' in window)) return;
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => { if (entry.isIntersecting) setStep(Number(entry.target.dataset.roofBeat)); });
+  }, { rootMargin: '-42% 0px -42% 0px', threshold: 0 });
+  beats.forEach((beat) => io.observe(beat));
+  jumps.forEach((jump) => jump.addEventListener('click', (e) => {
+    e.preventDefault();
+    const target = beats[Number(jump.dataset.roofJump)];
+    if (!target) return;
+    const storyTop = story.getBoundingClientRect().top + window.scrollY;
+    const travel = Math.max(1, story.offsetHeight - window.innerHeight);
+    const fraction = Number(jump.dataset.roofJump) / (beats.length - 1);
+    window.scrollTo({ top: storyTop + travel * fraction, behavior: 'smooth' });
+  }));
+}
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initRoofStory, { once: true });
+} else {
+  initRoofStory();
+}
